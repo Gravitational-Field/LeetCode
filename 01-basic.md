@@ -582,7 +582,14 @@ public static boolean isValid(String s) {
 }
 ```
 
-### [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
+#### [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
+
+![image-20210301204447202](img/01-basic/image-20210301204447202.png)
+
+> 两种思路：
+>
+> 1. stack中存入entry<key, value>，key为值，value为当前min，始终保证stack.peek().getValue() 最小；  **PS：需要实现Entry接口**
+> 2. 利用辅助栈，保持miniStack中栈顶为最小；  PS：要注意push进miniStack的边界值，以及pop，这两一定需统一来保持数据的一致
 
 - stack中存储entry<key, value>，key为值，value为当前min
 
@@ -710,7 +717,46 @@ class MinStack {
 
 ## 实战题目
 
-· https://leetcode-cn.com/problems/largest-rectangle-in-histogram
+#### [84. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
+
+>
+>
+>
+
+- 暴力解法超出了时间限制（遍历高）
+
+```
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        if (heights == null || heights.length == 0) return 0;
+
+        int maxArea = 0;
+        //遍历高，左右找比其小的，看面积
+        for (int i = 0; i < heights.length; i++) {
+            //以一个高位基,因为要左右摇摆，所以不能用forj遍历
+            //先左
+            int left = i;
+            int currentHeight = heights[i];
+            while (left>0 && heights[left-1] >= currentHeight) {
+                left--;
+            }
+
+            //后右
+            int right = i;
+            while (right<heights.length-1 && heights[right+1] >= currentHeight) {
+                right++;
+            }
+
+            int width = right-left+1;
+            maxArea = Math.max(maxArea, width * currentHeight);
+        }
+
+        return maxArea;
+    }
+}
+```
+
+
 
 · https://leetcode-cn.com/problems/sliding-window-maximum
 
