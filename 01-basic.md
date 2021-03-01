@@ -1,78 +1,10 @@
-# 1. 数据结构
+# 0. 数据结构
 
 [数组与字符串](https://leetcode-cn.com/leetbook/detail/array-and-string/)—>[队列和栈](https://leetcode-cn.com/leetbook/detail/queue-stack/)—>[链表](https://leetcode-cn.com/leetbook/detail/linked-list/) —> [二叉树](https://leetcode-cn.com/leetbook/detail/data-structure-binary-tree/)
 
+# 1. Array 
 
-
-**参考完成：**
-
-- [labuladong的算法小抄 第二章数据结构系列](https://labuladong.gitbook.io/algo/)    [专栏地址](https://labuladong.gitbook.io/algo/)
-- [CyC2018题解目录](https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode 题解 - 目录.md)
-
-
-
-outliers：异类，不一样的成功启示录
-
-chunk it up:
-
-<img src="https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200803163250.png"/>
-
-![image-20200803163228595](img/01-basic/20200803163228.png)
-
-
-
-![image-20200803180538350 ](img/01-basic/20200803180538.png)
-
-
-
-![image-20200803180757106](C:%5CUsers%5CKeen%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200803180757106.png)
-
-![image-20200803195314737](img/01-basic/20200803195314.png)
-
-![image-20200803195341109](img/01-basic/20200803195341.png)
-
-![image-20200803195749849](img/01-basic/20200803195749.png)
-
- 递归求时间复杂度：主定理法
-
-![image-20200803200945933](img/01-basic/20200803200946.png)
-
-![image-20200803201109401](img/01-basic/20200803201109.png)
-
-o(n)
-
-Array：
-
-![image-20200804111008506](img/01-basic/20200804111008.png)
-
-List：
-
-![image-20200804110947626](img/01-basic/20200804110947.png)
-
-Skip List: 在redis中应用， 对链表进行加速
-
-链表加速：升维，空间换时间。
-
-![image-20200804111048552](img/01-basic/20200804111048.png)
-
-![image-20200804111102276](img/01-basic/20200804111102.png)
-
-时间复杂度：O(logn)
-
-空间复杂度：O（n）
-
-
-
-- [Java 源码分析（ArrayList）](http://developer.classpath.org/doc/java/util/ArrayList-source.html)
-- [Linked List 的标准实现代码](http://www.geeksforgeeks.org/implementing-a-linked-list-in-java-using-class/)
-- [Linked List 示例代码](http://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked Lists/code/LinkedList.java)
-- [Java 源码分析（LinkedList）](http://developer.classpath.org/doc/java/util/LinkedList-source.html)
-- LRU Cache - Linked list：[ LRU 缓存机制](http://leetcode-cn.com/problems/lru-cache)   [LRU缓存算法-简书](https://www.jianshu.com/p/b1ab4a170c3c)
-- Redis - Skip List：[跳跃表](http://redisbook.readthedocs.io/en/latest/internal-datastruct/skiplist.html)、[为啥 Redis 使用跳表（Skip List）而不是使用 Red-Black？](http://www.zhihu.com/question/20202931)
-
-
-
-# 2. Array 实战题目
+## 实战题目
 
 -  https://leetcode-cn.com/problems/container-with-most-water/   （最大水面积）
 
@@ -104,56 +36,7 @@ class Solution { //java实现
 }
 ```
 
-```python
-//python
-class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        s1_index, s2_index, res = 0, len(height) - 1, 0
-        while s1_index < s2_index:
-            if height[s1_index] < height[s2_index]:
-                res = max(res, height[s1_index] * (s2_index - s1_index))
-                s1_index += 1
-            else:
-                res = max(res, height[s2_index] * (s2_index - s1_index))
-                s2_index -= 1
-        return res
-```
 
-```go
-// go
-func maxArea(height []int) int {
-	if len(height) == 0{
-		return 0
-	}
-	i := 0
-	j := len(height) - 1
-	ans := 0
-	for i < j{
-		area := min(height[i], height[j]) * (j - i)
-		ans = max(ans, area)
-		if height[i] <= height[j]{
-			i += 1
-		}else{
-			j -= 1
-		}
-	}
-	return ans
-}
-
-func min(a, b int) int{
-	if a < b{
-		return a
-	}
-	return b
-}
-
-func max(a, b int) int{
-	if a > b{
-		return a
-	}
-	return b
-}
-```
 
 
 -  https://leetcode-cn.com/problems/move-zeroes/
@@ -181,67 +64,6 @@ class Solution {
 }
 ```
 
-```python
-// python 列表操作
-class Solution:
-    def moveZeroes(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        a1 = [] #   记录非0元素
-        a2 = [] #   记录为0的元素
-        for i in nums:  #   遍历list
-            if i == 0:
-                a2.append(i)    #   将为0的元素添加到a2
-            else:
-                a1.append(i)    #   将非0元素添加到a1
-        nums.clear()    #   清空原列表
-        nums.extend(a1 + a2)    #   将两个列表合并到nums中
-// 双指针法
-    def moveZeroes_1(self, nums):
-            """
-            :type nums: List[int]
-            :rtype: None Do not return anything, modify nums in-place instead.
-            """
-            if not nums:
-                return 0
-            # 第一次遍历的时候，j指针记录非0的个数，只要是非0的统统都赋给nums[j]
-            j = 0
-            for i in range(len(nums)):
-                if nums[i]:
-                    nums[j] = nums[i]
-                    j += 1
-            # 非0元素统计完了，剩下的都是0了
-            # 所以第二次遍历把末尾的元素都赋为0即可
-            for i in range(j,len(nums)):
-                nums[i] = 0
-
-```
-
-```go
-// go
-func moveZeroes(nums []int)  {
-	if len(nums) < 2 {
-		return
-	}
-
-	last := -1
-	for i, n := range nums {
-		if n == 0 && last == -1 {
-			last = i
-		}
-		if n != 0 && last != -1 {
-			nums[last], nums[i] = nums[i], nums[last]
-			last++
-		}
-	}
-}
-```
-
-```javascript
-//JavaScript
-```
-
 -  https://leetcode.com/problems/climbing-stairs/
 
 ```java
@@ -267,38 +89,7 @@ class Solution {  //斐波那契数列
 }
 ```
 
-```python
-class Solution:
-    def climbStairs(self, n: int) -> int:
-        reslut =  list(range(n+1))
-        for i in range(1,n+1):
-            if i == 1:
-                reslut[i] = 1
-            elif i == 2:
-                reslut[i] = 2
-            else: reslut[i] = reslut[i-1] + reslut[i-2]
-        return reslut[-1]
-# python
-```
 
-```go
-// go
-func climbStairs(n int) int {
-    p := 0
-	q := 0
-	r := 1
-	for i := 1; i <= n; i++ {
-		p = q
-		q = r
-		r = p + q
-	}
-	return r
-}
-```
-
-```javascript
-//JavaScript
-```
 
 -  [https://leetcode-cn.com/problems/two-sum/](https://leetcode-cn.com/problems/two-sum/)  (两数之和)
 
@@ -346,37 +137,9 @@ class Solution3 { //66ms 39.9M
 }
 ```
 
-```python
-# python
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        hashmap = {}
-        for ind, num in enumerate(nums):    # 生成字典
-            hashmap[num] = ind
 
-        for i, num in enumerate(nums):
-            j = hashmap.get(target - num)  # 获取指定键值
-            if j is not None and i != j and i < j:  # 如果j不为空且i和j不相等且i小于j
-                return [i, j]   # 返回和为target的索引
-```
 
-```go
-// go
-func twoSum(nums []int, target int) []int {
-	m := make(map[int]int)
-	for i, v := range nums {
-		if j, ok := m[target - v]; ok && i != j {
-			return []int{i, j}
-		}
-		m[v] = i
-	}
-	return []int{}
-}
-```
 
-```javascript
-//JavaScript
-```
 
 -  [https://leetcode-cn.com/problems/3sum/ ](https://leetcode-cn.com/problems/3sum/)(高频老题） 
 
@@ -446,113 +209,9 @@ class Solution4 {
 }
 ```
 
-```python
-# python
-class Solution:
-    '''
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        
-        # 基于两数之和改编的方法，会超出限制。
-        # :param nums:
-        # :return:
-        
-        nums.sort()  # 排序
-        hashmap = {}
-        for ind, num in enumerate(nums):  # 生成字典
-            hashmap[num] = ind
-        result = []
-        for i, num in enumerate(nums):
-            for j, num1 in enumerate(nums):
-                k = hashmap.get(0 - num - num1)  # 获取指定键值
-                if k is not None and i != j and i < j and i != k and j != k and j < k:  # 如果j不为空且i和j不相等且i小于j
-                    cur_res = [num, num1, nums[k]]
-                    if cur_res not in result:
-                        result.append(cur_res)  # 返回和为target的索引
-                    else:
-                        pass
-        return result
-        '''
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        if len(nums) < 3:   #   当nums中元素小于3时，直接返回空值。
-            return []
-        '''先对数组排序, 遍历数组遇到与前一个元素相同的情况可直接跳过'''
-        nums.sort()
-        curr_hash = {-x: i for i, x in enumerate(nums)}
-        res = []
-        res_hash = {}
-        for i, first in enumerate(nums):
-            '''当前元素与前一个元素相同时, 可直接跳过以优化性能'''
-            if i > 0 and first == nums[i - 1]:
-                continue
-            for j, second in enumerate(nums[i + 1:]):
-                '''检查两数之和是否存在于哈希表中'''
-                if first + second in curr_hash:
-                    curr_index = curr_hash[first + second]
-                    if curr_index == i or curr_index == i + j + 1:
-                        continue
-                    '''将找到的结果存入另一个哈希表中, 避免包含重复结果'''
-                    row = sorted([first, second, nums[curr_index]])
-                    key = ",".join([str(x) for x in row])
-                    if key not in res_hash:
-                        res.append(row)
-                        res_hash[key] = True
-        return res
+# 2. Linked List 
 
-```
-
-```go
-// go
-import "sort"
-
-func threeSum(nums []int) [][]int {
-	length := len(nums)
-	if length < 3 {
-		return nil
-	}
-	sort.Ints(nums)
-
-	result := [][]int{}
-	for i := 0; i < length-2; i++ {
-		for i != 0 && nums[i] == nums[i-1] && i < length-2 {
-			i++
-		}
-		target := 0 - nums[i]
-		l := i + 1
-		r := length - 1
-		for l < r {
-			if nums[l]+nums[r] == target {
-				result = append(result, []int{nums[i], nums[l], nums[r]})
-				l++
-				r--
-				for nums[l] == nums[l-1] && nums[r] == nums[r+1] && l < r {
-					l++
-					r--
-				}
-			} else if nums[l]+nums[r] < target {
-				l++
-				for nums[l] == nums[l-1] && l < r {
-					l++
-				}
-			} else {
-				r--
-				for nums[r] == nums[r+1] && l < r {
-					r--
-				}
-			}
-		}
-	}
-	return result
-}
-
-```
-
-```javascript
-//JavaScript
-```
-
-
-
-# 3. Linked List 实战题目
+## 实战题目
 
 · https://leetcode.com/problems/reverse-linked-list/
 
@@ -573,47 +232,6 @@ class Solution {//画个图就出来了
 }
 
 //递归的方式
-```
-
-```python
-#python
-
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def reverseList(self, head: ListNode) -> ListNode:
-        pre = None
-        cur = head
-        while cur:
-            temp = cur.next   # 先把原来cur.next位置存起来
-            cur.next = pre
-            pre = cur
-            cur = temp
-        return pre
-```
-
-
-```go
-//go
-func reverseList(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
-		return head
-	}
-	slow, fast := head, head.Next
-	for fast != nil {
-		tmp := fast.Next
-		fast.Next = slow
-		slow = fast
-		fast = tmp
-	}
-	head.Next = nil
-	return slow
-}
-
 ```
 
 · https://leetcode.com/problems/swap-nodes-in-pairs
@@ -637,47 +255,7 @@ class Solution {
 }
 ```
 
-```python
-#python
-class Solution:
-    def swapPairs(self, head: ListNode) -> ListNode:
-        pre = ListNode(-1)
-        pre.next = head
-        c = pre
-        while c.next and c.next.next:
-            a, b = c.next, c.next.next
-            c.next, a.next = b, b.next
-            b.next = a
-            c = c.next.next
-        return pre.next
-```
 
-
-```go
-//go
-func swapPairs(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil{
-		return head
-	}
-	newHead := &ListNode{}
-	newHead.Next = head
-	h := newHead
-	p := head
-	q := head.Next
-	for q != nil{
-		p.Next = q.Next
-		q.Next = p
-		h.Next = q
-		h = p
-		p = p.Next
-		if p == nil{
-			break
-		}
-		q = p.Next
-	}
-	return newHead.Next
-}
-```
 
 · https://leetcode.com/problems/linked-list-cycle  
 
@@ -701,56 +279,7 @@ public class Solution {
 }
 ```
 
-```python
-#   python
-class Solution:
-    def hasCycle(self, head):
-        '''
-        使用set
-        '''
-        # 定义一个set，然后不断遍历链表
-        s = set()
-        while head:
-            # 如果某个节点在set中，说明遍历到重复元素了，也就是有环
-            if head in s:
-                return True
-            s.add(head)
-            head = head.next
-        return False
-    
-    def hasCycle(self, head):
-            """
-            快慢指针方法
-            :type head: ListNode
-            :rtype: bool
-            """
-            i1 = i2 = head
-            while i1 and i1.next:
-                i1 = i1.next.next
-                i2 = i2.next
-                if i2 == i1:
-                    return True
-            return False    
-```
 
-```go
-//go
-func hasCycle(head *ListNode) bool {
-	if head == nil{
-		return false
-	}
-	slow := head
-	fast := head.Next
-	for fast != nil && fast.Next != nil{
-		if slow == fast{
-			return true
-		}
-		slow = slow.Next
-		fast = fast.Next.Next
-	}
-	return false
-}
-```
 
 · https://leetcode.com/problems/linked-list-cycle-ii
 
@@ -774,67 +303,7 @@ class Solution2 {
 }
 ```
 
-```python
-#python
-class Solution(object):
-    def detectCycle(self, head):
-        """
-        :type head: ListNode
-        :rtype: bool
-        """
-        node1 = head  # 走一步
-        node2 = head  # 走两步
-        p = head
 
-        while node1 and node2 and node1.next and node2.next and node2.next.next:    #   将为空的情况全部列举出来
-            node1 = node1.next
-            node2 = node2.next.next
-            if node1 == node2:
-                p = head    #   p指向链表头，这里用node2也可以，此处便于分清
-                while node1 is not p:   #   当 快指针走到f = af=a 步时，慢指针走到步s = a+nbs=a+nb，此时 两指针重合，并同时指向链表环入口 。
-                    p = p.next  #   p指向下一个节点 
-                    node1 = node1.next  #   node1向下走一个
-                return p
-        return None
-
-    def detectCycle(self, head):
-        # 定义一个set，然后不断遍历链表
-        s = set()
-        while head:
-            # 如果某个节点在set中，说明遍历到重复元素了，也就是有环
-            if head in s:
-                return head
-            s.add(head)
-            head = head.next
-        return None
-```
-
-```go
-//go
-func detectCycle(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
-		return nil
-	}
-	slow, fast := head, head
-
-	for fast != nil && fast.Next != nil {
-		slow = slow.Next
-		fast = fast.Next.Next
-		if slow == fast {
-			break
-		}
-	}
-	if fast == nil || fast.Next == nil {
-		return nil
-	}
-	tmp := head
-	for tmp != slow {
-		tmp = tmp.Next
-		slow = slow.Next
-	}
-	return slow
-}
-```
 
 · https://leetcode.com/problems/reverse-nodes-in-k-group/
 
@@ -881,86 +350,9 @@ class Solution21 {
 }
 ```
 
-```python
-class Solution(object):
-    def reverseList(self, head: ListNode) -> ListNode:
-        pre = None
-        cur = head
-        while cur:
-            temp = cur.next  # 先把原来cur.next位置存起来
-            cur.next = pre
-            pre = cur
-            cur = temp
-        return pre
 
-    def reverseKGroup(self, head, k):
-        """
-        :type head: ListNode
-        :type k: int
-        :rtype: ListNode
-        """
-        tep = ListNode(0)
-        tep.next = head
 
-        pre1 = tep
-        end1 = tep
-        while end1.next is not None:    #   循环条件下一个不为空
-            start = pre1.next
-            i = 0
-            while i < k and end1 is not None:   #   根据k的大小设定每次反转个数
-                end1 = end1.next
-                i += 1
-            if end1 is None:    #   当end1不为None时继续，否则退出
-                break
-            endNext = end1.next
-            end1.next = None
-            pre1.next = self.reverseList(start) #   进行反转
-
-            start.next = endNext
-            pre1 = start
-            end1 = start
-
-        return tep.next
-```
-
-```go
-//go
-func reverseKGroup(head *ListNode, k int) *ListNode {
-	hair := &ListNode{Next: head}
-	pre := hair
-
-	for head != nil {
-		tail := pre
-		for i := 0; i < k; i++ {
-			tail = tail.Next
-			if tail == nil {
-				return hair.Next
-			}
-		}
-		nex := tail.Next
-		head, tail = myReverse(head, tail)
-		pre.Next = head
-		tail.Next = nex
-		pre = tail
-		head = tail.Next
-	}
-	return hair.Next
-}
-
-func myReverse(head, tail *ListNode) (*ListNode, *ListNode) {
-	prev := tail.Next
-	p := head
-	for prev != tail {
-		nex := p.Next
-		p.Next = prev
-		prev = p
-		p = nex
-	}
-	return tail, head
-}
-```
-
-# 4. 课后作业
+## 课后作业
 
 · https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
 
@@ -1002,28 +394,6 @@ class Solution11 {
 }
 ```
 
-
-
-```python
-#python
-```
-
-
-
-```go
-//go
-location := 1
-    ll := len(nums)
-    for i := 1;i < ll; i++ {
-        if nums[i] == nums[i - 1]{
-            continue
-        } 
-        nums[location] = nums[i]
-        location++
-    }
-    return location
-```
-
 · https://leetcode-cn.com/problems/rotate-array/
 
 ```java
@@ -1053,29 +423,6 @@ class Solution20 {
 ```
 
 
-
-```go
-//go
-func rotate(nums []int, k int)  {
-	if nums == nil || len(nums) == 0{
-		return
-	}
-	length := len(nums)
-	k %= k % length
-	reverse(nums, 0, length - k - 1)
-	
-	reverse(nums, length - k - 1, length - 1)
-	reverse(nums, 0 , length - 1)
-}
-
-func reverse(nums []int, i, j int){
-	for i < j{
-		nums[i], nums[j] = nums[j], nums[i]
-		i++
-		j--
-	}
-}
-```
 
 · https://leetcode-cn.com/problems/merge-two-sorted-lists/    合并两个有序链表   【递归】
 
@@ -1131,32 +478,6 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         l2.next = mergeTwoLists(l1, l2.next);
         return l2;
     }
-}
-```
-
-
-```go
-//go
-func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-    head := &ListNode{}
-	
-	p := head
-	for l1 != nil && l2 != nil{
-		if l1.Val <= l2.Val{
-			p.Next = l1
-			l1 = l1.Next
-		}else{
-			p.Next = l2
-			l2 = l2.Next
-		}
-		p = p.Next
-	}
-	if l1 == nil{
-		p.Next = l2
-	}else{
-		p.Next = l1
-	}
-	return head.Next
 }
 ```
 
@@ -1217,25 +538,6 @@ public static void merge3(int[] nums1, int m, int[] nums2, int n) {
 
 
 
-```go
-//go
-func merge(nums1 []int, m int, nums2 []int, n int) {
-	k := m + n
-	for i := k - 1; i >= 0; i-- {
-		if n == 0 {
-			break
-		}
-		if m > 0 && nums1[m-1] > nums2[n-1] {
-			nums1[i] = nums1[m-1]
-			m--
-		} else {
-			nums1[i] = nums2[n-1]
-			n--
-		}
-	}
-}
-```
-
 · https://leetcode-cn.com/problems/plus-one/
 
 ```java
@@ -1253,32 +555,9 @@ public int[] plusOne(int[] digits) {
 }
 ```
 
-```go
-//go
-func plusOne(digits []int) []int {
-	if digits == nil {
-		return digits
-	}
-	i := len(digits) - 1
-	digits[i] += 1
-	i--
-	for ; i >= 0; i-- {
-		if digits[i + 1] > 9 {
-			digits[i + 1] %= 10
-			digits[i] += 1
-		} else {
-			break
-		}
-	}
-	if digits[0] > 9{
-		digits[0] %= 10
-		digits = append([]int{1}, digits...)
-	}
-	return digits
-}
-```
 
-# 5. 栈、队列、优先队列、双端队列预习题目
+
+# 3. 栈、队列、优先队列、双端队列
 
 · https://leetcode-cn.com/problems/valid-parentheses/
 
@@ -1303,78 +582,139 @@ public static boolean isValid(String s) {
 }
 ```
 
-```go
-//go
-func isValid(s string) bool {
-	hash := map[byte]byte{')':'(', ']':'[', '}':'{'}
-	stack := make([]byte, 0)
-	if s == "" {
-		return true
-	}
+### [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
 
-	for i := 0; i < len(s); i++ {
-		if s[i] == '(' || s[i] == '[' || s[i] == '{' {
-			stack = append(stack, s[i])
-		} else if len(stack) > 0 && stack[len(stack)-1] == hash[s[i]] {
-			stack = stack[:len(stack)-1]
-		} else {
-			return false
-		}
-	}
-	return len(stack) == 0
+- stack中存储entry<key, value>，key为值，value为当前min
+
+```java
+class MinStack {
+
+    private Deque<SEntry<Integer, Integer>> deque = new LinkedList<>();
+
+    /** initialize your data structure here. */
+    public MinStack() {
+    }
+    
+   public class SEntry<K,V> implements Map.Entry<K,V> {  //实现Entry
+        private K key;
+        private V value;
+
+        public SEntry(K k, V v) {
+            key = k;
+            value = v;
+        }
+
+        @Override
+        public K getKey() {
+            return key;
+        }
+
+        @Override
+        public V getValue() {
+            return value;
+        }
+
+        @Override
+        public V setValue(V value) {
+            this.value = value;
+            return this.value;
+        }
+    }
+
+    public void push(int x) {
+        SEntry<Integer, Integer> entry = null;
+        if (deque.isEmpty()) {
+            entry = new SEntry<>(x,x);
+        }else {
+            //deque不空
+            int min = deque.peek().getValue();
+            if (x < min) {
+                min = x;
+            }
+            entry = new SEntry<>(x,min);
+        }
+        deque.push(entry);
+    }
+
+    public void pop() {
+        //从栈顶pop出，并要求最小值也在栈顶
+        if (deque.isEmpty()) {
+            return;
+        }
+        //不为空，直接pop
+        deque.pop();   //保证栈顶的getValue始终是栈中的最小
+    }
+
+    public int top() {
+        return deque.peek().getKey();
+    }
+
+    public int getMin() {
+        //遍历一遍，再进行
+        return deque.peek().getValue();
+    }
 }
 ```
 
-· https://leetcode-cn.com/problems/min-stack/
+- 辅助栈法
 
-```go
-type MinStack struct {
-	stack []int
-	minStack []int
-}
+```java
+class MinStack {
 
-/** initialize your data structure here. */
-func ConstructorStack() MinStack {
-	return MinStack{
-		stack: []int{},
-		minStack: []int{math.MaxInt64},
-	}
-}
+    private Stack<Integer> stack;
+    private Stack<Integer> minStack;
 
-func (this *MinStack) Push(x int)  {
-	this.stack = append(this.stack, x)
-	top := this.minStack[len(this.minStack)-1]
-	this.minStack = append(this.minStack, min(x, top))
-}
+    /** initialize your data structure here. */
+    public MinStack() {
+        stack = new Stack<>();
+        minStack = new Stack<>();
+    }
 
-func (this *MinStack) Pop()  {
-	this.stack = this.stack[:len(this.stack)-1]
-	this.minStack = this.minStack[:len(this.minStack)-1]
-}
+    public void push(int x) {
+        stack.push(x);
+        /*if (!minStack.isEmpty()) {
+                if (x <= minStack.peek()) {
+                    minStack.push(x);
+                }
+            }else {
+                minStack.push(x);
+            }*/
+        if (minStack.isEmpty()) {
+            minStack.push(x);
+        }else {
+            //不为空
+            if (x <= minStack.peek()) {  //注意这里是相等，为了保证pop时一致性
+                minStack.push(x);
+            }
+        }
+    }
 
-func (this *MinStack) Top() int {
-	return this.stack[len(this.stack)-1]
-}
+    public void pop() {
+        int pop = stack.pop();
+        if (pop == minStack.peek()) {
+            minStack.pop();
+        }
+    }
 
-func (this *MinStack) GetMin() int {
-	return this.minStack[len(this.minStack)-1]
-}
+    public int top() {
+        return stack.peek();
+    }
 
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
+    public int getMin() {
+        return minStack.peek();
+    }
 }
 ```
 
-# 6. 实战题目
+
+
+## 实战题目
 
 · https://leetcode-cn.com/problems/largest-rectangle-in-histogram
 
 · https://leetcode-cn.com/problems/sliding-window-maximum
 
-# 7. 课后作业
+## 课后作业
 
 · 用 add first 或 add last 这套新的 API 改写 Deque 的代码
 
@@ -1382,126 +722,15 @@ func min(x, y int) int {
 
 · https://leetcode.com/problems/design-circular-deque
 
-```go
-type MyCircularDeque struct {
-	capacity   int
-	data       []int
-	head, tail int
-}
-
-/** Initialize your data structure here. Set the size of the deque to be k. */
-func Constructor(k int) MyCircularDeque {
-	return MyCircularDeque{
-		capacity: k + 1,
-		data:     make([]int, k+1),
-		head:     0,
-		tail:     0,
-	}
-}
-
-/** Adds an item at the front of Deque. Return true if the operation is successful. */
-func (this *MyCircularDeque) InsertFront(value int) bool {
-	if this.IsFull() {
-		return false
-	}
-	this.head = (this.head - 1 + this.capacity) % this.capacity
-	this.data[this.head] = value
-
-	return true
-}
-
-/** Adds an item at the rear of Deque. Return true if the operation is successful. */
-func (this *MyCircularDeque) InsertLast(value int) bool {
-	if this.IsFull() {
-		return false
-	}
-	this.data[this.tail] = value
-	this.tail = (this.tail + 1) % this.capacity
-	return true
-}
-
-/** Deletes an item from the front of Deque. Return true if the operation is successful. */
-func (this *MyCircularDeque) DeleteFront() bool {
-	if this.IsEmpty() {
-		return false
-	}
-	this.head = (this.head + 1) % this.capacity
-	return true
-}
-
-/** Deletes an item from the rear of Deque. Return true if the operation is successful. */
-func (this *MyCircularDeque) DeleteLast() bool {
-	if this.IsEmpty() {
-		return false
-	}
-	this.tail = (this.tail - 1 + this.capacity) % this.capacity
-	return true
-}
-
-/** Get the front item from the deque. */
-func (this *MyCircularDeque) GetFront() int {
-	if this.IsEmpty() {
-		return -1
-	}
-	return this.data[this.head]
-}
-
-/** Get the last item from the deque. */
-func (this *MyCircularDeque) GetRear() int {
-	if this.IsEmpty() {
-		return -1
-	}
-	return this.data[(this.tail-1+this.capacity)%this.capacity]
-}
-
-/** Checks whether the circular deque is empty or not. */
-func (this *MyCircularDeque) IsEmpty() bool {
-	return this.head == this.tail
-}
-
-/** Checks whether the circular deque is full or not. */
-func (this *MyCircularDeque) IsFull() bool {
-	return (this.tail+1)%this.capacity == this.head
-}
-```
-
 · https://leetcode.com/problems/trapping-rain-water/
 
 
 
-# 8. 哈希表、映射、集合
+# 4. 哈希表、映射、集合
 
 •	https://leetcode-cn.com/problems/valid-anagram/description/
 
-```go
-func isAnagram(s string, t string) bool {
-	if len(s) != len(t){
-		return false
-	}
-	var wg sync.WaitGroup
-	var wordstable_s =  [26]int{}
-	var wordstable_t =  [26]int{}
-	wg.Add(2)
-	go func(){
-		makewordtable(&wordstable_s,s)
-		wg.Done()
-	}()
-	go func(){
-		makewordtable(&wordstable_t,t)
-		wg.Done()
-	}()
-	wg.Wait()
-	return wordstable_s == wordstable_t
 
-}
-
-func makewordtable(wordtable *[26]int, s string) {
-	for i:=0;i<len(s);i++{
-		index := s[i] - 'a'
-		wordtable[index] ++
-	}
-}
-```
 
 •	https://leetcode-cn.com/problems/group-anagrams/
 
@@ -1511,327 +740,69 @@ func makewordtable(wordtable *[26]int, s string) {
 
 
 
-# 第06课丨树、二叉树、二叉搜索树
+# 5. 树、二叉树、二叉搜索树
 
 · https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
 
-```go
-func inorderTraversal(root *TreeNode) []int {
-	result := make([]int, 0)
-	result = recursive(root, result)
-	return result
-}
 
-func recursive(root *TreeNode, result []int) []int{
-	if root != nil{
-		result = recursive(root.Left, result)
-		result = append(result, root.Val)
-		result = recursive(root.Right, result)
-	}
-	return result
-}
-```
 
 · https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
 
-```go
-func preorderTraversal(root *TreeNode) []int {
-    result := make([]int, 0)
-	result = recursive(root, result)
-	return result
-}
 
-func recursive(root *TreeNode, result []int) []int{
-	if root != nil{
-        result = append(result, root.Val)
-		result = recursive(root.Left, result)
-		result = recursive(root.Right, result)
-	}
-	return result
-}
-```
 
 · https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
 
-```go
-func postorder(root *Node) []int {
-	result := make([]int, 0)
-	result = recursive(root, result)
-	return result
-}
 
-func recursive(root *Node, result []int) []int{
-	if root != nil{
-		for i := 0; i<len(root.Children); i++{
-			result = recursive(root.Children[i], result)
-		}
-        result = append(result, root.Val)
-	}
-	return result
-}
-```
 
 · [https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/](https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/description)
 
-```go
-func preorder(root *Node) []int {
-	result := make([]int, 0)
-	result = recursive(root, result)
-	return result
-}
 
-func recursive(root *Node, result []int) []int{
-	if root != nil{
-		result = append(result, root.Val)
-		for i := 0; i<len(root.Children); i++{
-			result = recursive(root.Children[i], result)
-		}
-	}
-	return result
-}
-```
 
 · https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
 
-```go
-func levelOrder(root *Node) [][]int {
-	if root == nil {
-		return nil
-	} else if root.Children == nil {
-		return [][]int{{root.Val}}
-	}
-	result := make([][]int, 0)
-	firstLevel := make([]*Node, 0)
-	secondLevel := make([]*Node, 0)
-	firstLevel = append(firstLevel, root)
-	value := make([]int, 0)
-	for len(firstLevel) != 0{
-		temp := firstLevel[0]
-		firstLevel = firstLevel[1:]
-		value = append(value, temp.Val)
-		if temp.Children != nil{
-			secondLevel = append(secondLevel, temp.Children...)
-		}
-		if len(firstLevel) == 0{
-			result = append(result, value)
-			value = make([]int, 0)
-			firstLevel = secondLevel
-			secondLevel = make([]*Node, 0)
-		}
-	}
-	return result
-}
-```
 
 
 
 
 
-# 第07课丨递归、泛型递归、树的递归
+
+# 6. 递归、泛型递归、树的递归
 
 ## 实战题目
 
 · https://leetcode-cn.com/problems/climbing-stairs/
 
-```go
-func climbStairs(n int) int {
-    p := 0
-	q := 0
-	r := 1
-	for i := 1; i <= n; i++ {
-		p = q
-		q = r
-		r = p + q
-	}
-	return r
-}
-```
+
 
 · https://leetcode-cn.com/problems/generate-parentheses/
 
-```go
-func generateParenthesis(n int) []string {
-	Output := new([]string)
-	_generate(0, 0, n, "", Output)
-	return *Output
-}
 
-func _generate(left int, right int, max int, s string, Output *[]string){
-	// 递归终止条件
-	if left == right && left ==  max{
-		*Output = append(*Output, s)
-		return
-	}
-	// 递归主体
-	if left < max{
-		_generate(left+1, right, max, s + "(", Output)
-	}
-	if right < left{
-		_generate(left, right+1,  max, s + ")", Output)
-	}
-}
-```
 
 · https://leetcode-cn.com/problems/invert-binary-tree/description/
 
-```go
-func invertTree(root *TreeNode) *TreeNode {
-	invert(root)
-	return root
-}
 
-func invert(node *TreeNode){
-	if node == nil || (node.Left == nil && node.Right == nil){
-		return
-	}
-	temp := node.Left
-	node.Left = node.Right
-	node.Right = temp
-	invert(node.Left)
-	invert(node.Right)
-}
-```
 
 · https://leetcode-cn.com/problems/validate-binary-search-tree
 
-```go
-func isValidBST(root *TreeNode) bool {
-	return helper(root, math.MinInt64, math.MaxInt64)
-}
 
-func helper(root *TreeNode, lower, upper int) bool {
-	if root == nil {
-		return true
-	}
-	if root.Val <= lower || root.Val >= upper {
-		return false
-	}
-	return helper(root.Left, lower, root.Val) && helper(root.Right, root.Val, upper)
-}
-```
 
 · https://leetcode-cn.com/problems/maximum-depth-of-binary-tree
 
-```go
-func maxDepth(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
-}
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-```
 
 · https://leetcode-cn.com/problems/minimum-depth-of-binary-tree
 
-```go
-func minDepth(root *TreeNode) int {
-    if root == nil {
-        return 0
-    }
-    if root.Left == nil && root.Right == nil {
-        return 1
-    }
-    minD := math.MaxInt32
-    if root.Left != nil {
-        minD = min(minDepth(root.Left), minD)
-    }
-    if root.Right != nil {
-        minD = min(minDepth(root.Right), minD)
-    }
-    return minD + 1
-}
 
-func min(x, y int) int {
-    if x < y {
-        return x
-    }
-    return y
-}
-```
 
 · https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/
 
-```go
-type Codec struct {
-    l []string
-}
 
-func Constructor() Codec {
-    return Codec{}    
-}
-
-func rserialize(root *TreeNode, str string) string {
-    if root == nil {
-        str += "null,"
-    } else {
-        str += strconv.Itoa(root.Val) + ","
-        str = rserialize(root.Left, str)
-        str = rserialize(root.Right, str)
-    }
-    return str
-}
-
-// Serializes a tree to a single string.
-func (this *Codec) serialize(root *TreeNode) string {
-    return rserialize(root, "")
-}
-
-// Deserializes your encoded data to tree.
-func (this *Codec) deserialize(data string) *TreeNode {
-    l := strings.Split(data, ",")
-    for i := 0; i < len(l); i++ {
-        if l[i] != "" {
-            this.l = append(this.l, l[i])
-        }
-    }
-    return this.rdeserialize()
-}
-
-func (this *Codec) rdeserialize() *TreeNode {
-    if this.l[0] == "null" {
-        this.l = this.l[1:]
-        return nil
-    }
-
-    val, _ := strconv.Atoi(this.l[0])
-    root := &TreeNode{Val: val}
-    this.l = this.l[1:]
-    root.Left = this.rdeserialize()
-    root.Right = this.rdeserialize()
-    return root
-}
-```
 
 
 
 ## 课后作业
 
 · https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
-
-```go
-//go语言
-func lowestCommonAncestor(root, p, q *model.TreeNode) *model.TreeNode {
-	if root == nil || root == p || root == q {
-		return root
-	}
-	left := lowestCommonAncestor(root.Left, p, q)
-	right := lowestCommonAncestor(root.Right, p, q)
-	if left == nil {
-		return right
-	}
-	if right == nil {
-		return left
-	}
-	return root
-}
-```
 
 · https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal
 
@@ -1845,50 +816,17 @@ func lowestCommonAncestor(root, p, q *model.TreeNode) *model.TreeNode {
 
 
 
-# 第08课丨 分治、回溯
+# 7. 分治、回溯
 
 ## 预习题目
 
 · https://leetcode-cn.com/problems/powx-n/
 
-```go
-//go语言，快速幂
-func myPow(x float64, n int) float64 {
-	if n >= 0 {
-		return quickMul(x, n)
-	}
-	return 1.0 / quickMul(x, -n)
-}
 
-func quickMul(x float64, n int) float64 {
-	if n == 0 {
-		return 1
-	}
-	y := quickMul(x, n/2)
-	if n%2 == 0 {
-		return y * y
-	}
-	return y * y * x
-}
-```
 
 · https://leetcode-cn.com/problems/subsets/
 
-```go
-func subsets(nums []int) (ans [][]int) {
-    n := len(nums)
-    for mask := 0; mask < 1<<n; mask++ {
-        set := []int{}
-        for i, v := range nums {
-            if mask>>i&1 > 0 {
-                set = append(set, v)
-            }
-        }
-        ans = append(ans, append([]int(nil), set...))
-    }
-    return
-}
-```
+
 
 · [括号生成问题](https://leetcode-cn.com/problems/generate-parentheses/)
 
@@ -1896,44 +834,7 @@ func subsets(nums []int) (ans [][]int) {
 
 · [https://leetcode-cn.com/problems/majority-element/description/ ](https://leetcode-cn.com/problems/majority-element/description/)（简单、但是高频）
 
-```go
-//go
-func majorityElement(nums []int) int {
-	count := 0
-	candidate := 0
 
-	for _, num := range nums {
-		if count == 0 {
-			candidate = num
-		}
-		if num == candidate {
-			count += 1
-		} else {
-			count += -1
-		}
-	}
-	return candidate
-}
-
-func majorityElement(nums []int) int {
-	result := 0
-	times := 0
-	data := make(map[int]int)
-	for _, num := range nums {
-		if _, ok := data[num]; ok {
-			v := data[num]
-			data[num] = v + 1
-		} else {
-			data[num] = 1
-		}
-		if data[num]>times{
-			times = data[num]
-			result = num
-		}
-	}
-	return result
-}
-```
 
 · https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/
 
@@ -1943,7 +844,7 @@ func majorityElement(nums []int) int {
 
 
 
-# 第09课丨深度优先搜索、广度优先搜索
+# 8. 深度优先搜索、广度优先搜索
 
 ## 实战题目
 
@@ -1964,3 +865,4 @@ func majorityElement(nums []int) int {
 · https://leetcode-cn.com/problems/number-of-islands/
 
 · https://leetcode-cn.com/problems/minesweeper/description/
+
