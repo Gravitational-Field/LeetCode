@@ -719,13 +719,15 @@ class MinStack {
 
 #### [84. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
 
->
->
->
+![image-20210302154233626](img/01-basic/image-20210302154233626.png)
+
+>以高为准，进行求解，暴力解法是依次遍历当前高，再左找、右找确定当前高所能获得的最大的宽，遍历下去即可获得最大的面积。  PS:但是容易超时。
+
+题解：[暴力解法、单调栈+哨兵技巧](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/solution/bao-li-jie-fa-zhan-by-liweiwei1419/)
 
 - 暴力解法超出了时间限制（遍历高）
 
-```
+```java
 class Solution {
     public int largestRectangleArea(int[] heights) {
         if (heights == null || heights.length == 0) return 0;
@@ -756,9 +758,86 @@ class Solution {
 }
 ```
 
+- 单调栈+哨兵技巧
+
+> 单调栈：我们在缓存数据的时候，是从左向右缓存的，我们计算出一个结果的顺序是从右向左的，并且计算完成以后我们就不再需要了，符合后进先出的特点。因此，我们需要的这个作为缓存的数据结构就是栈。
+>
+> 哨兵体现在 左右各安排一个最小值，可排除特殊情况，保持一致的处理。
+>
+> ​		左边的柱形（第 1 个柱形）由于它一定比输入数组里任何一个元素小，它肯定不会出栈，因此栈一定不会为空；
+>
+> ​		右边的柱形（第 2 个柱形）也正是因为它一定比输入数组里任何一个元素小，它会让所有输入数组里的元素出栈（第 1 个哨兵元素除外）。
+>
+
+> **参照题解的个人理解：**
+>
+> 什么时候可以确定依赖于当前高能够得到的最大宽？
+>
+> 答： 当遍历时，找到右侧第一个小于栈顶高的，此时即可确定栈顶高的面积。
+>
+> 右侧已经无法延展，左侧紧邻的栈中元素一定比栈顶的元素小，但只要比栈顶右侧的值大，则可确定新的面积。
+>
+> 先前压入栈中的值，应当比当前栈顶的值小。
+>
+> for循环往前走，while循环向后退。
+
+```java
+public int largestRectangleArea(int[] heights) {
+    int len = heights.length;
+    if (len == 0) {
+        return 0;
+    }
+
+    if (len == 1) {
+        return heights[0];
+    }
+
+    int res = 0;
+
+    int[] newHeights = new int[len + 2];
+    newHeights[0] = 0;
+    System.arraycopy(heights, 0, newHeights, 1, len);
+    newHeights[len + 1] = 0;
+    len += 2;
+    heights = newHeights;
+
+    Deque<Integer> stack = new ArrayDeque<>(len);
+    // 先放入哨兵，在循环里就不用做非空判断
+    stack.addLast(0);
+
+    for (int i = 1; i < len; i++) {
+        while (heights[i] < heights[stack.peekLast()]) {
+            int curHeight = heights[stack.pollLast()];
+            int curWidth = i - stack.peekLast() - 1;
+            res = Math.max(res, curHeight * curWidth);
+        }
+        stack.addLast(i);
+    }
+    return res;
+}
+```
+
+以下列出了单调栈的问题，供大家参考。
+
+| 序号 | 题目                          | 题解                                      |
+| ---- | ----------------------------- | ----------------------------------------- |
+| 1    | 42. 接雨水（困难）            | 暴力解法、优化、双指针、单调栈            |
+| 2    | 739. 每日温度（中等)          | 暴力解法 + 单调栈                         |
+| 3    | 496. 下一个更大元素 I（简单） | 暴力解法、单调栈                          |
+| 4    | 316. 去除重复字母（困难）     | 栈 + 哨兵技巧（Java、C++、Python）        |
+| 5    | 901. 股票价格跨度（中等）     | 「力扣」第 901 题：股票价格跨度（单调栈） |
+| 6    | 402. 移掉K位数字              |                                           |
+| 7    | 581. 最短无序连续子数组       |                                           |
+
+#### [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+
+[「单调队列」数据结构解决滑动窗口问题  题解](https://mp.weixin.qq.com/s?__biz=MzAxODQxMDM0Mw==&mid=2247488087&idx=1&sn=673aa4e8deb942b951948650928c336e&chksm=9bd7ec5faca06549ba6176540fef04f93c1c9f55b303106688b894a2029e00b8cce1a9ba57a4&scene=21#wechat_redirect)
 
 
-· https://leetcode-cn.com/problems/sliding-window-maximum
+
+
+
+
 
 ## 课后作业
 
