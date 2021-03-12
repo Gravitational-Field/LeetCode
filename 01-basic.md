@@ -833,33 +833,495 @@ public int largestRectangleArea(int[] heights) {
 
 [「单调队列」数据结构解决滑动窗口问题  题解](https://mp.weixin.qq.com/s?__biz=MzAxODQxMDM0Mw==&mid=2247488087&idx=1&sn=673aa4e8deb942b951948650928c336e&chksm=9bd7ec5faca06549ba6176540fef04f93c1c9f55b303106688b894a2029e00b8cce1a9ba57a4&scene=21#wechat_redirect)
 
+```java
+public class L239_2 {
 
+    //构建单调栈
+    public class MonotonicQueue {
+        LinkedList<Integer> q = new LinkedList<>();
 
+        public void push(int n) { //当一个较大值过来，形成对前边小的值的压制，从而再后续无法发挥作用
+            while (!q.isEmpty() && q.getLast()<n) {
+                //比n小的都被踢出
+                q.pollLast();
+            }
+            q.offerLast(n); //尾插
+        }
 
+        public Integer max() {  //队列的第一个为最大值
+            return q.getFirst();
+        }
+
+        public void pop(int n) { //可能n已经被压制的踢出了
+            if (n == q.getFirst()) {
+                q.pollFirst();
+            }
+        }
+    }
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k==0) return nums;
+        MonotonicQueue mq = new MonotonicQueue();
+
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            //整个数组过一遍
+            if(i < k-1) {
+                //填满前两个
+                mq.push(nums[i]);
+            }else {
+                mq.push(nums[i]);
+                list.add(mq.max());
+                mq.pop(nums[i-k+1]);
+            }
+        }
+
+        int[] result = new int[nums.length-k+1];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1,3,-1,-3,5,3,6,7};
+        int k = 3;
+        System.out.println(Arrays.toString(new L239_2().maxSlidingWindow(nums, k)));
+    }
+}
+```
 
 
 
 ## 课后作业
 
-· 用 add first 或 add last 这套新的 API 改写 Deque 的代码
+#### 用 add first 或 add last 这套新的 API 改写 Deque 的代码
 
-· 分析 Queue 和 Priority Queue 的源码
 
-· https://leetcode.com/problems/design-circular-deque
 
-· https://leetcode.com/problems/trapping-rain-water/
+#### 分析 Queue 和 Priority Queue 的源码
+
+#### [622. 设计循环队列](https://leetcode-cn.com/problems/design-circular-queue/)
+
+> 循环队列，头删尾插，这里的容量限定；
+
+- 数组实现
+
+```java
+public class L622_shejixunhuanduilie {
+
+    private int[] queue;
+    private int headIndex;
+    private int count;
+    private int capacity;
+
+    public L622_shejixunhuanduilie(int k) {
+        this.queue = new int[k];
+        this.headIndex = 0;
+        this.count = 0;
+        this.capacity = k;
+    }
+
+    //插入一个元素到循环队列
+    public boolean enQueue(int value) {
+        if (this.count == this.capacity) {
+            return false;
+        }else {
+            queue[(this.headIndex+this.count)%this.capacity] = value;
+            count++;
+            return true;
+        }
+    }
+
+    public boolean deQueue() {
+        if (this.isEmpty()) return false;
+        //不为空时,出队
+        this.headIndex = (this.headIndex+1) % this.capacity;
+        count--;
+        return true;
+    }
+
+    public int Front() {
+        if (this.count == 0) return -1;
+        return this.queue[this.headIndex];
+    }
+
+    public int Rear() {
+        if (this.count == 0) return -1;
+        return this.queue[(this.headIndex+this.count-1)%this.capacity];
+    }
+
+    public boolean isEmpty() {
+        if (this.count == 0) return true;
+        return false;
+    }
+
+    public boolean isFull() {
+        if (this.capacity == this.count) return true;
+        return false;
+    }
+}
+```
+
+- 链表实现
+
+```java
+class Node{
+    public int value;
+    public Node nextNode;
+    public Node(int value){
+        this.value = value;
+        this.nextNode = null;
+    }
+}
+
+/**
+ * @ClassName L622_shejixunhuanduilie
+ * @Description
+ */
+public class L622_shejixunhuanduilie_list {
+    //尾插头删
+    private Node head,tail;
+    private int count;
+    private int capacity;
+
+    public L622_shejixunhuanduilie_list(int k) {
+        this.capacity = k;
+    }
+
+    //插入一个元素到循环队列
+    public boolean enQueue(int value) {
+        if (this.count == this.capacity) return false;
+        Node node = new Node(value);
+        if (this.count == 0) {
+            head = tail = node;
+        } else {
+            tail.nextNode = node;
+            tail = node;
+        }
+        this.count++;
+        return true;
+    }
+
+    public boolean deQueue() {
+        if (this.isEmpty()) return false;
+        //不为空时,头删
+        head = head.nextNode;
+        this.count--;
+        return true;
+    }
+
+    public int Front() {
+        if (this.count == 0) return -1;
+        return head.value;
+    }
+
+    public int Rear() {
+        if (this.count == 0) return -1;
+        return tail.value;
+    }
+
+    public boolean isEmpty() {
+       return this.count == 0;
+    }
+
+    public boolean isFull() {
+        return this.count == this.capacity;
+    }
+}
+```
+
+
+
+#### [641. 设计循环双端队列](https://leetcode-cn.com/problems/design-circular-deque/)
+
+```java
+public class L641 {
+
+    //用数组比较好
+    private int[] deque;
+    private int headIndex;
+    private int count;
+    private int capacity;
+
+//    * Initialize your data structure here. Set the size of the deque to be k.
+    public L641(int k) {
+        this.capacity = k;
+        this.deque = new int[k];
+        this.headIndex = 0;
+        this.count = 0;
+    }
+
+//    * Adds an item at the front of Deque. Return true if the operation is successful.
+    public boolean insertFront(int value) {
+        if (this.capacity == this.count) return false;
+        //能头插
+        //头像前移
+        headIndex = (headIndex+capacity-1) % capacity;
+        deque[headIndex] = value;
+        count++;
+        return true;
+    }
+
+//    * Adds an item at the rear of Deque. Return true if the operation is successful.
+    public boolean insertLast(int value) {
+        if (this.capacity == this.count) return false;
+        //能尾插，先找尾
+        int tailIndex = (headIndex+count) % capacity;
+        deque[tailIndex] = value;
+        count++;
+        return true;
+    }
+
+//    * Deletes an item from the front of Deque. Return true if the operation is successful.
+    public boolean deleteFront() {
+        if (this.count == 0) return false;
+        //不为空，能头删
+        headIndex = (headIndex+1) % capacity;
+        count--;
+        return true;
+    }
+
+//    * Deletes an item from the rear of Deque. Return true if the operation is successful.
+    public boolean deleteLast() {
+        if (this.count == 0) return false;
+        //尾删
+        count--;  //注意这里
+        return true;
+    }
+
+//    * Get the front item from the deque.
+    public int getFront() {
+        if (this.count == 0) return -1;
+        return deque[headIndex];
+    }
+
+//    * Get the last item from the deque.
+    public int getRear() {
+        if (this.count == 0) return -1;
+        int tailIndex = (headIndex+count-1) % capacity;  //注意这里
+        return deque[tailIndex];
+    }
+
+//    * Checks whether the circular deque is empty or not.
+    public boolean isEmpty() {
+        return this.count == 0;
+    }
+
+//    * Checks whether the circular deque is full or not.
+    public boolean isFull() {
+        return this.count == this.capacity;
+    }
+
+}
+```
+
+- 链表实现
+
+[链表实现题解](https://leetcode-cn.com/problems/design-circular-deque/solution/java-lian-biao-shi-xian-by-zanyjoker/)
+
+```java
+
+```
+
+
+
+#### [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
+
+![image-20210307124431222](img/01-basic/image-20210307124431222.png)
+
+> 单调栈的方式可以继续进行探究
+
+
 
 
 
 # 4. 哈希表、映射、集合
 
-•	https://leetcode-cn.com/problems/valid-anagram/description/
+#### [242. 有效的字母异位词](https://leetcode-cn.com/problems/valid-anagram/)
+
+![image-20210309131236131](img/01-basic/image-20210309131236131.png)
+
+>异位词：指字母相同，但排列不同的字符串。
+>
+>考虑长度、统计每个字符出现的次数。采用数组、hashmap的方式统计。也可以采用排序后的字符数组进行比对。
+
+```java
+public class L242_valid_anagram {
+
+    // 该方法是最通常的解法
+    public boolean isAnagram1(String s, String t) {
+
+        char[] sarray = s.toCharArray();
+        char[] tarray = t.toCharArray();
+        Arrays.sort(sarray);
+        Arrays.sort(tarray);
+//        return Arrays.equals(sarray, tarray);
+        return String.valueOf(sarray).equals(String.valueOf(tarray));  //更快
+    }
+    
+    //使用hash表的思想：以数据方式
+    public boolean isAnagram2(String s, String t) {
+        if (s.length() != t.length()) return false;
+
+        int[] array = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            array[s.charAt(i)-'a']++;
+        }
+        for (int i = 0; i < t.length(); i++) {
+            array[s.charAt(i)-'a']--;
+            if (array[s.charAt(i)-'a'] < 0) return false;
+        }
+
+        return true;
+    }
+
+    //使用hashmap的方式
+    public boolean isAnagram3(String s, String t) {
+        if (s.length() != t.length()) return false;
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
+
+        for (int i = 0; i < t.length(); i++) {
+            char ch = t.charAt(i);
+            map.put(ch,map.getOrDefault(ch,0)-1);
+
+            if (map.get(ch) < 0) return false;
+        }
+
+        return true;
+    }
+}
+```
 
 
 
-•	https://leetcode-cn.com/problems/group-anagrams/
+#### [49. 字母异位词分组](https://leetcode-cn.com/problems/group-anagrams/)
+
+>分析题：要将异位词进行分组，
+>
+>暴力解法：通过双重遍历，外层负责覆盖所有的，内层负责判断是否异位以及进行存入。
+>
+>map的方式：要解决key是什么？value是什么？
+>
+>在这里key取排序后的字符串，value为list，list中存储每一个字符串。
+
+- 暴力解法
+
+```java
+public List<List<String>> groupAnagrams(String[] strs) {
+    if (strs == null || strs.length == 0) return null;
+
+    List<List<String>> resultList = new LinkedList<>();
+    for (int i = 0; i < strs.length; i++) {
+        if (strs[i] == null) continue;
+        //从头往后判断，如果异位，则添加进去
+        List<String> itemList = new LinkedList<>();
+        for (int j = strs.length-1; j > i; j--) {
+            if (strs[j]!=null && isYiWei(strs[i],strs[j])) {
+                //是异位词
+                itemList.add(strs[j]);
+                strs[j] = null;
+            }
+        }
+        itemList.add(strs[i]);
+        resultList.add(itemList);
+    }
+    return resultList;
+}
+
+private boolean isYiWei(String str1, String str2) {
+    if (str1.length() != str2.length()) return false;
+    char[] chars1 = str1.toCharArray();
+    char[] chars2 = str2.toCharArray();
+    Arrays.sort(chars1);
+    Arrays.sort(chars2);
+    return String.valueOf(chars1).equals(String.valueOf(chars2));
+}
+```
+
+- 使用hash的思想进行存储与输出
+
+```java
+public List<List<String>> groupAnagrams(String[] strs) {
+        if (strs == null || strs.length == 0) return null;
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (int i = 0; i < strs.length; i++) {
+            //存
+            char[] chars = strs[i].toCharArray();
+            Arrays.sort(chars);
+            String str = Arrays.toString(chars);
+            List<String> list = map.getOrDefault(str, new ArrayList<>());
+            list.add(strs[i]);
+            map.put(str, list); 
+        }
+        return new ArrayList<>(map.values());
+}
+```
 
 
+
+#### [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+
+> 使用到了Set数据结构，滑动窗口
+
+![image-20210310144904124](img/01-basic/image-20210310144904124.png)
+
+> 采用滑动窗口的方式，左右双指针，右指针探索，并始终保持Set集合中的字符不重复;
+>
+> 当出现重复时,左侧的字符从set中移除,**右侧仍旧可以继续探索.**
+
+- 滑动窗口法，使用set
+
+```java
+public int lengthOfLongestSubstring(String s) {
+        if (s == null) return 0;
+        char[] chars = s.toCharArray();
+        
+        int maxLength = 0;
+        Set<Character> set = new HashSet<>();
+        int rightIndex = 0;
+        for (int i = 0; i < s.length(); i++) {
+            //右下标后移
+            while (rightIndex < s.length() && !set.contains(chars[rightIndex])) {
+                set.add(chars[rightIndex]);
+                rightIndex++;
+            }
+            //右下边移到了重复的
+            maxLength = Math.max(maxLength, set.size());  //rightIndex-i+1
+
+            //左下标+1，并且移除chars[i]
+            set.remove(chars[i]);
+        }
+        return maxLength;
+}
+```
+
+- 滑动窗口法，使用map
+
+```java
+public int lengthOfLongestSubstring(String s) {
+        if (s.length()==0) return 0;
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        int max = 0;
+        int left = 0;
+        for(int i = 0; i < s.length(); i ++){
+            if(map.containsKey(s.charAt(i))){
+                left = Math.max(left,map.get(s.charAt(i)) + 1);
+            }
+            map.put(s.charAt(i),i);
+            max = Math.max(max,i-left+1);
+        }
+        return max;
+        
+}
+```
 
 
 
@@ -867,25 +1329,207 @@ public int largestRectangleArea(int[] heights) {
 
 # 5. 树、二叉树、二叉搜索树
 
-· https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
+#### [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+
+> 中序遍历：左根右
+
+- 递归方式 （省略，太简单）
+
+- 迭代方式: 显示的维护一个栈
+
+```java
+//采用维护一个显示栈的方式来中序遍历
+    public List<Integer> inorderTraversal1(TreeNode root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null) return resultList;
+
+        Deque<TreeNode> stack = new ArrayDeque<>();
+
+        //构建循环   左 根 右  =》  压栈顺序   根 读左， 读根  再到右侧
+        while (root != null || !stack.isEmpty()) {
+            //要一直走到最后
+            while(root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            //此时root必定为空，则root.right也为空，如此即可保证
+            root = stack.pop();
+            //走到的最左边的子节点
+            resultList.add(root.val);
+            root = root.right;
+
+        }
+        return resultList;
+}
+```
+
+- Morris中序遍历：时间复杂度O(n),空间复杂度O(1）
+
+> 左根右，核心思想是先找到当前根节点的左子树的最右侧的节点，让该节点连接到其后驱即根节点。
+
+```java
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        TreeNode predecessor = null;
+
+        while (root != null) {
+            if (root.left != null) {
+                // predecessor 节点就是当前 root 节点向左走一步，然后一直向右走至无法走为止
+                predecessor = root.left;
+                while (predecessor.right != null && predecessor.right != root) {
+                    predecessor = predecessor.right;
+                }
+                
+                // 让 predecessor 的右指针指向 root，继续遍历左子树
+                if (predecessor.right == null) {
+                    predecessor.right = root;
+                    root = root.left;
+                }
+                // 说明左子树已经访问完了，我们需要断开链接
+                else {
+                    res.add(root.val);
+                    predecessor.right = null;
+                    root = root.right;
+                }
+            }
+            // 如果没有左孩子，则直接访问右孩子
+            else {
+                res.add(root.val);
+                root = root.right;
+            }
+        }
+        return res;
+    }
+}
+```
 
 
 
-· https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
+#### [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+
+- 递归版的前序遍历（省略，太简单）
+
+- 使用显示栈的方式进行遍历
+
+```java
+public List<Integer> preorderTraversal1(TreeNode root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null) return resultList;
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        //根左右
+        while (!stack.isEmpty()) {
+
+            TreeNode treeNode = stack.pop();
+            if (treeNode.val != null) {
+                resultList.add(treeNode.val);
+            }
+
+            if (treeNode.right != null) {
+                stack.push(treeNode.right);
+            }
+
+            if (treeNode.left != null) {
+                stack.push(treeNode.left);
+            }
+        }
+        return resultList;
+}
+```
 
 
 
-· https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
+#### [145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
+
+- 迭代方式
+
+> 特别注意 如果要是想输出上一层的，一定是通过栈pop出去的，但要防止重复入左或者入右，防止入左可以通过将root置0，防止入右可以通过记录先前已经访问过的右节点，来避免。
+
+```java
+//迭代的方式： 左 右  根
+    public List<Integer> postorderTraversal1(TreeNode root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null) return resultList;
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode prev = null;
+        while (root != null || !stack.isEmpty()) {
+            //根  右   左进行压栈
+            while(root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            // root此时为空
+            root = stack.pop();  //此时只知其左没有，不知其右
+            //resultList.add(root.val);
+
+            if (root.right == null || root.right == prev) {
+                //右节点没有了
+                resultList.add(root.val);
+                prev = root;
+                root = null;
+            } else {
+                //右节点有
+                stack.push(root);
+                root = root.right;  //但要防止之后再回到该右分支，使用prev记录分离点
+            }
+        }
+        
+        return resultList;
+}
+```
+
+- 使用两个栈进行(很好理解)
+
+```java
+public List<Integer> postorderTraversal2(TreeNode root) {
+        //非递归方式
+        //定义两个栈s1,s2，将root压入s1
+        //从s1出栈，并将该节点压入s2，接着将节点的左右节点压入s1
+        //重复上一步操作，直到s1为空，依此从s2中出栈即可
+        List<Integer> list = new ArrayList<>();
+        if(root == null) {
+            return list;
+        }
+        Stack<TreeNode> s1 = new Stack<>();
+        Stack<TreeNode> s2 = new Stack<>();
+        s1.push(root);
+        TreeNode cur = root;
+        while(!s1.empty()) {
+            TreeNode node = s1.pop();
+            if(node.left != null) {
+                s1.push(node.left);
+            }
+            if(node.right != null) {
+                s1.push(node.right);
+            }
+            s2.push(node);
+        }
+        while(!s2.empty()) {
+            TreeNode tmp = s2.pop();
+            list.add(tmp.val);
+        }
+        return list;
+}
+```
 
 
 
-· [https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/](https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/description)
 
 
 
-· https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
 
 
+
+#### [589. N 叉树的前序遍历](https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/)
+
+
+
+#### [590. N 叉树的后序遍历](https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/)
+
+
+
+#### [429. N 叉树的层序遍历](https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/)
 
 
 
@@ -990,4 +1634,40 @@ public int largestRectangleArea(int[] heights) {
 · https://leetcode-cn.com/problems/number-of-islands/
 
 · https://leetcode-cn.com/problems/minesweeper/description/
+
+
+
+
+
+# 9. 滑动窗口
+
+https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/solution/hua-dong-chuang-kou-by-powcai/
+
+
+
+[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+
+
+
+[30. 串联所有单词的子串](https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words/)
+
+
+
+[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
+
+[159. 至多包含两个不同字符的最长子串](https://leetcode-cn.com/problems/longest-substring-with-at-most-two-distinct-characters/)
+
+[209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
+
+[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+
+[567. 字符串的排列](https://leetcode-cn.com/problems/permutation-in-string/)
+
+[632. 最小区间](https://leetcode-cn.com/problems/smallest-range/)
+
+[727. 最小窗口子序列](https://leetcode-cn.com/problems/minimum-window-subsequence/)
+
+
+
+
 
