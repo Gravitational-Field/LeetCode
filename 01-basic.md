@@ -6,7 +6,7 @@
 
 ## 实战题目
 
--  https://leetcode-cn.com/problems/container-with-most-water/   （最大水面积）
+#### [11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)（最大水面积）
 
 
 ```java
@@ -38,8 +38,7 @@ class Solution { //java实现
 
 
 
-
--  https://leetcode-cn.com/problems/move-zeroes/
+#### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
 
 ```java
 //java
@@ -64,12 +63,14 @@ class Solution {
 }
 ```
 
--  https://leetcode.com/problems/climbing-stairs/
+
+
+#### [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+
+- 自底向上
 
 ```java
-//java
-class Solution {  //斐波那契数列
-    protected int climbStairs(int n) {
+protected int climbStairs(int n) {
         int f1 = 1;
         int f2 = 2;
         int f3 = 0;
@@ -83,15 +84,92 @@ class Solution {  //斐波那契数列
             f1 = f2;
             f2 = f3;
         }
-
         return f2;
-    }
 }
 ```
 
 
 
--  [https://leetcode-cn.com/problems/two-sum/](https://leetcode-cn.com/problems/two-sum/)  (两数之和)
+#### [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+
+- 纯递归，会超出时间限制
+
+```java
+
+    public int fib(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+
+        return fib(n-1)+fib(n-2);
+}
+```
+
+- 带备忘录的递归
+
+```java
+public int fib1(int n) {
+        //备忘录数组
+        Integer[] array = new Integer[n+1];
+        Arrays.fill(array,-1);
+
+        return process(n,array);
+    }
+
+    private int process(int n, Integer[] array) {
+        if (n==0) return 0;
+        if (n==1) return 1;
+        if (array[n] != -1) {  //巧妙之处
+            return array[n];
+        }
+        array[n] = (process(n-1,array) + process(n-2,array))%1000000007;
+
+        return array[n];
+}
+```
+
+- dp数组迭代解法
+
+```java
+//dp数组迭代解法
+public int fib2(int n) {
+        if (n==0) return 0;
+        if (n==1) return 1;
+        //备忘录数组
+        Integer[] array = new Integer[n+1];
+        Arrays.fill(array,-1);
+
+        array[0] = 0;
+        array[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            array[i] = (array[i-1] + array[i-2])%1000000007;
+        }
+        return array[n];
+}
+```
+
+- 
+
+```java
+//dp解法，压缩空间
+    public int fib3(int n) {
+        if (n==0) return 0;
+        if (n==1) return 1;
+        //备忘录数组
+        int a = 0;
+        int b = 1;
+        int fib = 0;
+        for (int i = 2; i <= n; i++) {
+            fib = (a+b)%1000000007;
+            a = b;
+            b = fib;
+        }
+        return b;
+}
+```
+
+
+
+#### [1. 两数之和](https://leetcode-cn.com/problems/two-sum/) (两数之和)
 
 ```java
 //java
@@ -141,7 +219,7 @@ class Solution3 { //66ms 39.9M
 
 
 
--  [https://leetcode-cn.com/problems/3sum/ ](https://leetcode-cn.com/problems/3sum/)(高频老题） 
+#### [15. 三数之和](https://leetcode-cn.com/problems/3sum/)  (高频老题） 
 
 ```java
 //java
@@ -213,7 +291,7 @@ class Solution4 {
 
 ## 实战题目
 
-· https://leetcode.com/problems/reverse-linked-list/
+#### [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)
 
 
 ```java
@@ -234,7 +312,9 @@ class Solution {//画个图就出来了
 //递归的方式
 ```
 
-· https://leetcode.com/problems/swap-nodes-in-pairs
+
+
+#### [24. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
 
 ```java
 class Solution {
@@ -257,7 +337,7 @@ class Solution {
 
 
 
-· https://leetcode.com/problems/linked-list-cycle  
+#### [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
 ```java
 public class Solution {
@@ -281,7 +361,7 @@ public class Solution {
 
 
 
-· https://leetcode.com/problems/linked-list-cycle-ii
+#### [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
 ```java
 class Solution2 {
@@ -305,7 +385,7 @@ class Solution2 {
 
 
 
-· https://leetcode.com/problems/reverse-nodes-in-k-group/
+#### [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
 ```java
 class Solution21 {
@@ -354,7 +434,7 @@ class Solution21 {
 
 ## 课后作业
 
-· https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
+#### [26. 删除排序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
 ```java
 class Solution {
@@ -394,7 +474,7 @@ class Solution11 {
 }
 ```
 
-· https://leetcode-cn.com/problems/rotate-array/
+#### [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
 
 ```java
 class Solution20 {
@@ -424,7 +504,9 @@ class Solution20 {
 
 
 
-· https://leetcode-cn.com/problems/merge-two-sorted-lists/    合并两个有序链表   【递归】
+#### [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+
+- 合并两个有序链表   【递归】
 
 ```java
 //java
@@ -481,7 +563,7 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 }
 ```
 
-· https://leetcode-cn.com/problems/merge-sorted-array/
+#### [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
 
 ```java
 // 1.调用官方api
@@ -538,7 +620,7 @@ public static void merge3(int[] nums1, int m, int[] nums2, int n) {
 
 
 
-· https://leetcode-cn.com/problems/plus-one/
+#### [66. 加一](https://leetcode-cn.com/problems/plus-one/)
 
 ```java
 //java
@@ -559,7 +641,7 @@ public int[] plusOne(int[] digits) {
 
 # 3. 栈、队列、优先队列、双端队列
 
-· https://leetcode-cn.com/problems/valid-parentheses/
+#### [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
 ```java
 public static boolean isValid(String s) {
@@ -901,6 +983,8 @@ public class L239_2 {
 
 
 #### 分析 Queue 和 Priority Queue 的源码
+
+
 
 #### [622. 设计循环队列](https://leetcode-cn.com/problems/design-circular-queue/)
 
@@ -1479,7 +1563,7 @@ public List<Integer> preorderTraversal1(TreeNode root) {
 }
 ```
 
-- 使用两个栈进行(很好理解)
+- 使用两个栈进行(很好理解)  也可用于先序遍历
 
 ```java
 public List<Integer> postorderTraversal2(TreeNode root) {
@@ -1515,9 +1599,81 @@ public List<Integer> postorderTraversal2(TreeNode root) {
 
 
 
+#### [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+> 注意控制好何时进行出队，以及什么时候添加到itemList中去，考虑怎么限定循环次数
+
+- **广度优先进行迭代**
+
+```java
+public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> resultList = new LinkedList<List<Integer>>();
+        if (root == null) return resultList;
+
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            List<Integer> itemList = new LinkedList<>();
+
+            int currentLength = queue.size(); //限定每次循环循环次数
+            
+            for (int i = 1; i <= currentLength; i++) {
+                //出根，添加到itemList中
+                TreeNode node = queue.poll();  //
+                itemList.add(node.val);
+                //进左
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+
+                //进右
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+            resultList.add(itemList);
+
+        }
+        return resultList;
+}
+```
+
+- 深度优先搜索采用递归的方式
+
+```java
+public List<List<Integer>> levelOrder1(TreeNode root) {
+        if(root==null) {
+            return new ArrayList<List<Integer>>();
+        }
+        //用来存放最终结果
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        dfs(1,root,res);
+        return res;
+    }
+
+    void dfs(int index,TreeNode root, List<List<Integer>> res) {
+        //假设res是[ [1],[2,3] ]， index是3，就再插入一个空list放到res中
+        if(res.size()<index) {
+            res.add(new ArrayList<Integer>());
+        }
+        //将当前节点的值加入到res中，index代表当前层，假设index是3，节点值是99
+        //res是[ [1],[2,3] [4] ]，加入后res就变为 [ [1],[2,3] [4,99] ]
+        res.get(index-1).add(root.val);
+        //递归的处理左子树，右子树，同时将层数index+1
+        if(root.left!=null) {
+            dfs(index+1, root.left, res);
+        }
+        if(root.right!=null) {
+            dfs(index+1, root.right, res);
+        }
+}
+```
 
 
 
+
+
+#### [107. 二叉树的层序遍历 II](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
 
 
 
@@ -1525,11 +1681,106 @@ public List<Integer> postorderTraversal2(TreeNode root) {
 
 
 
+- 递归
+
+```java
+public List<Integer> preorder(Node root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null) return resultList;
+
+        preTraverse(root, resultList);
+        return resultList;
+
+    }
+
+    private void preTraverse(Node root, List<Integer> resultList) {
+        if (root == null) return;
+        //根
+        resultList.add(root.val);
+        //下一层
+        for(Node node: root.children) {
+            preTraverse(node, resultList);
+        }
+}
+```
+
+- 迭代（在List遍历时，最好使用foreach来进行遍历，不会产生越界问题）
+
+```java
+public List<Integer> preorder(Node root) {
+        List<Integer> resultList = new ArrayList<>();
+        if(root == null) return resultList;
+
+        Deque<Node> stack = new LinkedList<>();
+        stack.push(root);
+        while(!stack.isEmpty()) {
+            int curLength = stack.size();
+            Node node = stack.pop();
+            resultList.add(node.val);
+            //将其child反序入栈
+            Collections.reverse(node.children);
+            // for(int i=0; i < curLength; i++) {  //这种方式会越界
+            //     stack.push(node.children.get(i));
+            // }
+            for(Node child : node.children) {
+                stack.push(child);
+            }
+        }
+        return resultList;
+}
+```
+
+
+
 #### [590. N 叉树的后序遍历](https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/)
+
+```java
+public List<Integer> postorder(Node root) {
+        LinkedList<Integer> resultList = new LinkedList<>();  //只有LinkedList才可以,才实现了addFirst
+        if(root == null) return resultList;
+
+        Deque<Node> stack = new LinkedList<>();
+        stack.push(root);
+
+        //
+        while(!stack.isEmpty()) {
+            Node node = stack.pop();
+            //头插
+            resultList.addFirst(node.val);
+
+            for(Node child: node.children) {
+                //从左到右入栈，则出栈顺序为从右到左
+                stack.push(child);
+            }
+        }
+        return resultList;
+}
+```
 
 
 
 #### [429. N 叉树的层序遍历](https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/)
+
+```java
+public List<Integer> preorder(Node root) {
+        List<Integer> resultList = new ArrayList<>();
+        if(root == null) return resultList;
+
+        Deque<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()) {
+            int currentSize = queue.size();
+            for(int i=0; i<currentSize; i++) {
+                Node node = queue.poll();
+                resultList.add(node.val);
+                for(Node child: node.children) {
+                    queue.offer(child);
+                }
+            }
+        }
+        return resultList;
+}
+```
 
 
 
@@ -1539,7 +1790,7 @@ public List<Integer> postorderTraversal2(TreeNode root) {
 
 ## 实战题目
 
-· https://leetcode-cn.com/problems/climbing-stairs/
+
 
 
 
