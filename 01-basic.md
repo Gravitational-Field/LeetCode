@@ -1792,9 +1792,50 @@ public List<Integer> preorder(Node root) {
 
 
 
+#### [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+
+![image-20210315143220336](img/01-basic/image-20210315143220336.png)
+
+> 解析题：
+>
+> 生成所有有效额度括号组合，首先想到的方式是暴力穷举，怎么能够穷举出所有组合呢？
+>
+> 该问题可以转化为对二叉树的遍历问题，采用深度优先搜索，来获得每一条路径，存储在string中，在一棵完全二叉树进行遍历。并对不满足条件的进行剪枝。
+
+- **DFS方式**
+
+[题解](https://leetcode-cn.com/problems/generate-parentheses/solution/pei-yang-chou-xiang-si-wei-hui-su-jie-fa-7dwu/)
+
+```java
+public List<String> generateParenthesis(int n) {
+        List<String> list = new ArrayList<>();
+        String path = "";
+        //穷举DFS
+        dfs(n,list, path, 0, 0);
+        return list;
+    }
+
+    private void dfs(int n, List<String> list, String path, Integer open, Integer close) {
+//        if (open > n || close > open) return;   //进行剪枝，还有另一种方式
+        //根  左   右
+        if(path.length() == 2*n) {
+            list.add(path);
+            return;
+        }
+        //左
+        if (open < n) { //才会向左访问
+            dfs(n, list, path + "(", open + 1, close);
+        }
+        //右
+        if(close < open) { //才会向右访问
+            dfs(n, list, path + ")", open, close + 1);
+        }
+}
+```
 
 
-· https://leetcode-cn.com/problems/generate-parentheses/
+
+
 
 
 
