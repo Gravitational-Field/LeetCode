@@ -1835,27 +1835,241 @@ public List<String> generateParenthesis(int n) {
 
 
 
+#### [494. 目标和](https://leetcode-cn.com/problems/target-sum/)
+
+![image-20210316123833309](../../../../AppData/Roaming/Typora/typora-user-images/image-20210316123833309.png)
+
+- DFS方式
+
+```java
+	int count = 0;
+    public int findTargetSumWays(int[] nums, int S) {
+        calculate(nums, 0, 0, S);
+        return count;
+    }
+    public void calculate(int[] nums, int i, int sum, int S) {
+        if (i == nums.length) { // i为遍历的层数
+            if (sum == S)
+                count++;
+        } else {
+            calculate(nums, i + 1, sum + nums[i], S);
+            calculate(nums, i + 1, sum - nums[i], S);
+        }
+	}
+```
+
+- 动态规划方式
+
+  
+
+
+
+#### [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+![image-20210316131949201](01-basic.assets/image-20210316131949201.png)
+
+- 先序遍历   根左右
+
+```java
+public TreeNode invertTree(TreeNode root) {
+        if(root == null) {
+            return null;
+        }
+
+        //根左右
+        TreeNode tmp = root.right;
+        root.right = root.left;
+        root.left = tmp;
+        //在这里 root的left已经被改变，为先前的右子树
+        invertTree(root.left);
+        //在这里 root的left已经被改变，为先前的左子树
+        invertTree(root.right);
+        return root;
+    }
+```
+
+
+
+#### [98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
+![image-20210316132309393](01-basic.assets/image-20210316132309393.png)
+
+> 思路： 利用二叉搜索树中序遍历的有序性，来判断二叉搜索树是否是有效
+
+- 中序遍历
+
+```java
+ List<Integer> list = new ArrayList<>();
+    //根 左 右
+    public boolean isValidBST(TreeNode root) {
+        if(root == null) {
+            return false;
+        }
+
+
+        MidTraverse(root);
+
+        for (int i = 0; i < list.size()-1; i++) {
+            if(list.get(i) >= list.get(i+1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //中序遍历
+    private void MidTraverse(TreeNode root) {
+        if(root == null) {
+            return;
+        }
+
+        //左  根  右
+        MidTraverse(root.left);
+
+        list.add(root.val);
+
+        MidTraverse(root.right);
+    }
+```
+
+
+
+#### [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+
+![image-20210316185229117](01-basic.assets/image-20210316185229117.png)
+
+> 想法：
+>
+> 可以采用深度优先遍历（根左右）来进行，最终记录其深度;不需使用count进行计数，使用BFS才需要进行计数，深度优先一定要遵循递归的思想。
+
+- DFS ：使用了返回值来获得最大深度
+
+```java
+public int maxDepth(TreeNode root) {
+        if(root == null) {
+            return 0;
+        } else {
+            int left = maxDepth(root.left);
+            int right = maxDepth(root.right);
+            return Math.max(left, right)+1;
+        }
+}
+```
+
+- 如果不使用返回值，而使用普通属性呢？
+
+```java
+//使用公共的变量时
+    int max = Integer.MIN_VALUE;
+    public int maxDepth1(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+        traverse(root,1);
+        return max;
+    }
+
+    private void traverse(TreeNode root, int level) {
+        if(root == null) {
+            return;
+        }
+        if(root.left == null && root.right == null) { //发现子节点时，更新max值
+            max = Math.max(max, level);
+        }
+        traverse(root.left, level+1);
+        traverse(root.right,level+1);
+}
+```
 
 
 
 
-· https://leetcode-cn.com/problems/invert-binary-tree/description/
+
+#### [111. 二叉树的最小深度](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/)
+
+![image-20210316192030158](01-basic.assets/image-20210316192030158.png)
+
+> 想法：~~该题与上一题相对应，求二叉树的最小深度~~ （有坑）
+
+[题解](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/solution/111-er-cha-shu-de-zui-xiao-shen-du-di-gu-ztum/)
+
+```java
+int leftDepth = getDepth(node->left);
+int rightDepth = getDepth(node->right);
+int result = 1 + min(leftDepth, rightDepth);
+return result;
+```
+
+如果递归函数中这么写，会出现这种错误
+
+![image-20210316200600195](01-basic.assets/image-20210316200600195.png)
+
+这样求，则最小深度为1，故我们要排除这种情况。
+
+**需要注意的是，只有当左右孩子都为空的时候，才说明遍历的最低点了。如果其中一个孩子为空则不是最低点**
+
+- root == null 时， return 0
+- root != null && root.right == null && root.left == null时， return 1
+- root != null && root.left != null && root.right == null时， return 左子树的最小值+1
+- root != null && root.left == null && root.right != null时，return 右子树的最小值+1
+- root != null && root.left != null && root.right != null时， return min(左子树的最小值, 右子树的最小值)+1
+
+```java
+public int minDepth(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+        if(root.left == null && root.right == null) {
+            return 1;
+        }
+
+        //左  右  根
+        int left = minDepth(root.left);
+        int right = minDepth(root.right);
+
+        if(root.left != null && root.right == null) {
+            return left+1;
+        }
+        
+        if(root.left == null && root.right != null) {
+            return right+1;
+        }
+        //左右都不为空
+        return Math.min(left, right)+1;
+}
+```
 
 
 
-· https://leetcode-cn.com/problems/validate-binary-search-tree
+- 另一种更好理解的思路：
+
+> 直接使用成员变量来记录，问题的关键是在遇到子节点时，更新min值
+
+```java
+class Solution {
+    int min = Integer.MAX_VALUE;
+    public int minDepth(TreeNode root) {
+        if (root == null) return 0;
+        minDepth(root, 1);
+        return min;
+    }
+
+    public void minDepth(TreeNode root, int level) {
+        if (root == null) return;
+        // 如果是叶子节点，保存最小值
+        if (root.left == null && root.right == null) min = Math.min(min, level);
+        // 继续找叶子节点
+        minDepth(root.left, level + 1);
+        minDepth(root.right, level + 1);
+    }
+}
+```
 
 
 
-· https://leetcode-cn.com/problems/maximum-depth-of-binary-tree
 
 
-
-· https://leetcode-cn.com/problems/minimum-depth-of-binary-tree
-
-
-
-· https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/
+#### [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
 
 
 
