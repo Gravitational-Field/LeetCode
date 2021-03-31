@@ -63,7 +63,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../IdeaProjects/Code" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.importing" />
   </component>
   <component name="RunManager">
@@ -104,6 +104,7 @@
       <workItem from="1609720678173" duration="2517000" />
       <workItem from="1609766364625" duration="2754000" />
       <workItem from="1615816793130" duration="799000" />
+      <workItem from="1615824468189" duration="465000" />
     </task>
     <servers />
   </component>
