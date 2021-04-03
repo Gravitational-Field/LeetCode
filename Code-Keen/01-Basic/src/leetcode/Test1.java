@@ -198,6 +198,18 @@ public class Test1 {
     }
 
 
+    @Test
+    public void testInt() {
+        int num = 1000000*1000000;
+        System.out.println(num); //-727379968
+
+        short s = (short) Math.pow(5,20);
+        System.out.println(s);
+    }
 
 
+    @Test
+    public void testCompareAble() {
+        System.out.println(1<<2);
+    }
 }

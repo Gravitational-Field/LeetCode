@@ -12,7 +12,7 @@ public class BinaryTree {
 		TreeNode tn = null;
 		if (index < array.length) {
 			Integer value = array[index];
-//			if (value == null) return null;  //为null也需要构建进去
+			if (value == null) return null;  //为null也需要构建进去
 			tn = new TreeNode(value);
 			tn.left = createBinaryTreeByArray(array, 2 * index + 1);
 			tn.right = createBinaryTreeByArray(array, 2 * index + 2);

@@ -287,7 +287,17 @@ class Solution4 {
 }
 ```
 
-# 2. Linked List 
+#### [633. 平方数之和](https://leetcode-cn.com/problems/sum-of-square-numbers/)
+
+
+
+
+
+
+
+
+
+# 2. Linked List
 
 ## 实战题目
 
@@ -1870,6 +1880,8 @@ public List<String> generateParenthesis(int n) {
 
 - 先序遍历   根左右
 
+自顶向下的思路，进行递归调整
+
 ```java
 public TreeNode invertTree(TreeNode root) {
         if(root == null) {
@@ -2041,7 +2053,7 @@ public int minDepth(TreeNode root) {
 
 
 
-- 另一种更好理解的思路：
+- 另一种更好理解的思路： **<font color='red'>这种方式更好</font>**
 
 > 直接使用成员变量来记录，问题的关键是在遇到子节点时，更新min值
 
@@ -2069,23 +2081,795 @@ class Solution {
 
 
 
+**思考：何时使用公共的值？何时必须通过方法传参来进行？**
+
+- 当该值需要在每个方法中的递归时，有不同的值时，则一定要传参，如上例； 
+
+- 当需要保证最终只返回一个变量，或者一个统一的结果时，可将变量作用域扩大，避免传参中发生混乱； 
+
+- 要时刻关注递归的思想；
+
+
+
 #### [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
 
+题目描述：
+
+​       设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个**二叉树可以被序列化为一个字符串**并且将**这个字符串反序列化为原始的树结构**。
+
+[二叉树序列化与反序列化思路解析](https://mp.weixin.qq.com/s?__biz=MzAxODQxMDM0Mw==&mid=2247485871&idx=1&sn=bcb24ea8927995b585629a8b9caeed01&chksm=9bd7f7a7aca07eb1b4c330382a4e0b916ef5a82ca48db28908ab16563e28a376b5ca6805bec2&scene=21#wechat_redirect)
+
+- 示例1
+
+![image-20210318215746651](img/image-20210318215746651.png)
+
+```python
+# 示例1
+输入：root = [1,2,3,null,null,4,5]
+输出：[1,2,3,null,null,4,5]
+# 示例2
+输入：root = []
+输出：[]
+# 示例3
+输入：root = [1]
+输出：[1]
+# 示例4
+输入：root = [1,2]
+输出：[1,2]
+```
+
+- 函数签名
+
+```java
+public class Codec {
+    // 把一棵二叉树序列化成字符串
+    public String serialize(TreeNode root);
+
+    // 把字符串反序列化成二叉树
+    public TreeNode deserialize(String data);
+}
+```
+思考：**<font color='red'>关键问题是将二叉树组织为哪种格式。</font>**
+
+![image-20210318220147113](img/image-20210318220147113.png)
+
+使用 # 号作为null，并使用逗号`,`进行间隔两个节点。故考虑二叉树的遍历方式；
+
+- 迭代方式： 层级遍历 （2,1,3,#,6,#,#）
+- 递归遍历： 前序遍历（2,1,#,6,3,#,#）、中序遍历（#,1,6,2,#,#,3）、后续遍历（#,6,1,#,#,3,2）。
+
+
+
+- 前序遍历
+
+```java
+//编码
+String NULL = "#";
+String SEG = ",";
+
+// Encodes a tree to a single string.
+public String serialize(TreeNode root) {
+    StringBuilder sb = new StringBuilder();
+    encoder(root, sb);
+    return sb.toString();
+}
+
+public void encoder(TreeNode root, StringBuilder sb) {
+    //编码为字符串，#号为null节点，逗号作为分隔符
+
+    if (root == null) {
+        sb.append(NULL).append(SEG);
+        return;
+    }
+
+    //使用前序遍历   根左右
+    sb.append(root.val).append(SEG);
+    //左右
+    encoder(root.left, sb);
+    encoder(root.right, sb);
+
+}
+```
+
+```java
+//解码
+// Decodes your encoded data to tree.
+public TreeNode deserialize(String data) {
+    String[] dataArr = data.split(SEG);
+    LinkedList<String> list = new LinkedList<>();
+
+    for(String str: dataArr) {
+        list.addLast(str);
+    }
+    return decoder(list);
+}
+
+public TreeNode decoder(LinkedList<String> list) {
+    //主要任务是构建节点;采用  前序遍历的方式   根左右
+    if(list == null || list.isEmpty()){
+        return null;
+    }
+
+    //列表不为空
+    String first = list.removeFirst();
+    if(NULL.equals(first)){
+        return null;
+    }
+
+    int val = Integer.parseInt(first);
+    //根   左右
+    TreeNode root = new TreeNode(val);
+    root.left = decoder(list);
+    root.right = decoder(list);
+    return root;
+}
+```
+
+- 后续遍历
+
+```java
+// Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        encoder(root, sb);
+        return sb.toString();
+    }
+
+    public void encoder(TreeNode root, StringBuilder sb) {
+        //编码为字符串，#号为null节点，逗号作为分隔符
+        
+        if (root == null) {
+            sb.append(NULL).append(SEG);
+            return;
+        }
+        
+        //使用后序遍历   左右根
+        //左右
+        encoder(root.left, sb);
+        encoder(root.right, sb);
+        //根
+        sb.append(root.val).append(SEG);
+
+    }
+```
+
+
+
+```java
+ // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        String[] dataArr = data.split(SEG);
+        LinkedList<String> list = new LinkedList<>();
+
+        for(String str: dataArr) {
+            list.addLast(str);
+        }
+        return decoder(list);
+    }
+
+    public TreeNode decoder(LinkedList<String> list) {
+        //主要任务是构建节点;采用  前序遍历的方式   根左右
+        if(list == null || list.isEmpty()){
+            return null;
+        }
+
+        //列表不为空
+        String last = list.removeLast();
+        if(NULL.equals(last)){
+            return null;
+        }
+
+        int val = Integer.parseInt(last);
+        //根   右  左
+        TreeNode root = new TreeNode(val);
+        //右
+        root.right = decoder(list);
+        //左
+        root.left = decoder(list);
+        return root;
+    }
+```
+
+- 中序遍历
+
+  无法实现二叉树的序列化和反序列化，编码比较方便，但是在反构建二叉树时，无法确定根节点的确切位置在哪里。
+
+- 层级遍历
+
+```java
+String NULL = "#";
+String SEP = ",";
+
+// Encodes a tree to a single string.
+public String serialize(TreeNode root) {
+    //编码为字符串，#号为null节点，逗号作为分隔符
+    //使用层序遍历
+    if(root == null) {
+        return null;
+    }
+
+    StringBuilder sb = new StringBuilder();
+    //并将根节点插入到队列中
+    Deque<TreeNode> deque = new LinkedList<>();
+    deque.addLast(root); //尾插
+
+    while(!deque.isEmpty()) {
+        TreeNode cur = deque.removeFirst();
+        //当前未null
+        if(cur == null) {
+            sb.append(NULL).append(SEP);
+            continue;
+        }
+        sb.append(cur.val).append(SEP);
+
+        //处理左节点
+        deque.addLast(cur.left);
+
+        //处理右节点
+        deque.addLast(cur.right);
+    }
+    return sb.toString();
+}
+```
+
+
+
+```java
+// Decodes your encoded data to tree.
+public TreeNode deserialize(String data) {
+    if(data == null) {
+        return null;
+    }
+    //主要任务是构建节点;采用  层序遍历的方式
+    String[] dataArr = data.split(SEP);
+    TreeNode root = new TreeNode(Integer.parseInt(dataArr[0]));
+
+    Deque<TreeNode> deque = new LinkedList<>();
+    deque.addLast(root);
+
+    for(int i = 1; i < dataArr.length;) {
+        //deque中存的均为父节点
+        TreeNode parent = deque.removeFirst();
+
+        //父节点的左侧子节点
+        String leftStr = dataArr[i++];
+        if(!NULL.equals(leftStr)) {
+            parent.left = new TreeNode(Integer.parseInt(leftStr));
+            deque.addLast(parent.left);
+        } else {
+            parent.left = null;
+        }
+        //父节点的右侧子节点
+        String rightStr = dataArr[i++];
+        if(!NULL.equals(rightStr)) {
+            parent.right = new TreeNode(Integer.parseInt(rightStr));
+            deque.addLast(parent.right);
+        } else{
+            parent.right = null;
+        }
+        //如果为NULL,直接continue就行，因为构建的parent其左右节点默认为空，故不用考虑
+    }
+    return root;
+}
+```
+
+
+
+##  课后作业
+
+#### [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+题目描述：
+
+给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。一个节点也可以是它自己的祖先。
+
+![image-20210319163928284](img/image-20210319163928284.png)
+
+函数签名：
+
+```java
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        
+    }
+}
+```
+
+想法思路：使用后序遍历，找到目标节点返回节点，单侧不是目标节点返回另一侧，判断为最近公共祖先即为左不空且右也不空。
+
+```java
+//左  右  根
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        //判断根
+        if(left == null) { //左为空
+            return right;
+        }
+        if(right == null) { //右为空
+            return left;
+        }
+
+        //左右均不为空返回，root，即为最终结果
+        return root;
+}
+```
 
 
 
 
-## 课后作业
 
-· https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
-· https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal
 
-· https://leetcode-cn.com/problems/combinations/
+#### [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
-· https://leetcode-cn.com/problems/permutations/
+思路： 
 
-· https://leetcode-cn.com/problems/permutations-ii/
+>采用递归方式，根左右 先序的方式进行构建，可以考虑使用HashMap来获得index，要注意坐标。
+
+PS：太多的小细节要注意；结束条件、左右节点的位置、中序使用中序的index、先序使用先序的index
+
+```java
+public TreeNode buildTree(Integer[] preorder, Integer[] inorder) {
+
+        if(preorder.length == 0 || inorder.length == 0) {
+            return null;
+        }
+        return buildTree(preorder, 0, preorder.length-1, inorder, 0, inorder.length-1);
+    }
+
+    private TreeNode buildTree(Integer[] preorder, int p_start, int p_end, Integer[] inorder, int i_start, int i_emd) {
+        //结束条件
+        if(p_start > p_end) { //由于是按照索引来进行，所以相等的时候，必须也构建了；
+            return null;
+        }
+
+        //构建根节点
+        TreeNode root = new TreeNode(preorder[p_start]);
+
+        //寻找在中序中的索引
+        int i_root_index = 0;
+        for (int i = p_start; i <= i_emd; i++) {
+            if(inorder[i] == root.val) {
+                i_root_index = i;
+                break;
+            }
+        }
+
+        int leftNum = i_root_index-i_start;
+        //int rightNum = i_emd-i_root_index;
+        //左
+        root.left = buildTree(preorder, p_start+1, p_start+leftNum, inorder, i_start, i_root_index-1);
+        //右
+        root.right = buildTree(preorder, p_start+leftNum+1, p_end, inorder, i_root_index+1, i_emd);
+
+        return root;
+}
+```
+
+
+
+
+
+#### [106. 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+题目：
+
+根据一棵树的中序遍历与后序遍历构造二叉树。
+
+**注意:**
+你可以假设树中没有重复的元素。
+
+例如，给出
+
+```bash
+中序遍历 inorder = [9,3,15,20,7]
+后序遍历 postorder = [9,15,7,20,3]
+```
+
+返回如下的二叉树：
+
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+
+
+
+
+
+思路：
+
+> 
+
+```java
+public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if(inorder.length == 0 || postorder.length == 0) {
+            return null;
+        }
+        return buildTreeHelper(inorder, 0, inorder.length-1, postorder,0, postorder.length-1);
+    }
+
+    private TreeNode buildTreeHelper(int[] inorder, int i_start, int i_stop, int[] postorder, int p_start, int p_stop) {
+        //结束条件
+        if(p_start > p_stop || i_start > i_stop) {
+            return null;
+        }
+
+        //根  左  右
+        TreeNode root = new TreeNode(postorder[p_stop]);
+
+        int i_root_index = 0;
+        for (int i = i_start; i <= i_stop; i++) {  //小细节
+            if(inorder[i] == root.val) {
+                i_root_index = i;
+                break;
+            }
+        }
+
+        int leftNum = i_root_index-i_start;
+        int rightNum = i_stop-i_root_index;
+
+        root.left = buildTreeHelper(inorder, i_start, i_root_index-1, postorder,  p_start,p_start+leftNum-1);  //小细节
+        root.right = buildTreeHelper(inorder, i_root_index+1, i_stop, postorder, p_start+leftNum, p_stop-1);  //小细节
+
+        return root;
+}
+```
+
+
+
+#### [77. 组合](https://leetcode-cn.com/problems/combinations/)
+
+tag:
+
+​	 **dfs** 、回溯法、
+
+题目：
+
+给定两个整数 *n* 和 *k*，返回 1 ... *n* 中所有可能的 *k* 个数的组合。
+
+```
+输入: n = 4, k = 2
+输出:
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+```
+
+**思路：**
+
+> 使用回溯法进行穷举，本质是使用dfs对树的遍历。但也要注意回溯法的小细节，即在dfs完成后，要移除一位。
+
+```java
+List<List<Integer>> res = new ArrayList<>();
+    Deque<Integer> deque = new ArrayDeque<>();
+
+    public List<List<Integer>> combine(int n, int k) {
+        if(n < k || k <= 0) {
+            return res;
+        }
+
+        dfs(n, k, 1);
+
+        return res;
+    }
+
+    private void dfs(int n, int k, int start) { //每次获得一位
+        if(deque.size() == k) {
+            res.add(new ArrayList<>(deque));  //这步不错
+            return;
+        }
+
+        //  多叉树遍历的感觉
+        for (int i = start; i <= n; i++) { //start为开始添加的位置
+            deque.push(i);
+            dfs(n, k, i+1);//这里因为已经构建完一个值了
+            deque.pop(); //所以,这里pop一位，来进行回溯
+        }
+}
+```
+
+- 补充另一种方法  dfs，不使用回溯的思想，直接用递归方式
+
+```java
+List<List<Integer>> res = new ArrayList<>();
+    Deque<Integer> deque = new ArrayDeque<>();
+
+    public List<List<Integer>> combine(int n, int k) {
+        if(n < k || k <= 0) {
+            return res;
+        }
+        build(n, k, 1);
+        return res;
+    }
+
+    //递归
+    private void build(int n, int k, int start) { //每次获得一位
+        if(k == 0) {
+            res.add(new ArrayList<>(deque));  //这步不错
+            return;
+        }
+        //结束条件
+        if(start > n-k+1) {  //一轮遍历，不成功即返回
+            return;
+        }
+
+        //不选这位,直接递归到后续
+        build(n, k, start+1);
+
+        //选择这位
+        deque.push(start);
+        build(n, k-1, start+1);
+        deque.pop();
+
+}
+```
+
+
+
+#### [46. 全排列](https://leetcode-cn.com/problems/permutations/)
+
+题目：
+
+给定一个 没有重复 数字的序列，返回其所有可能的全排列。
+
+示例:
+
+```
+输入: [1,2,3]
+输出:
+[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+```
+
+
+
+思路：要先画递归树
+
+多叉树深度优先遍历，采用回溯方式进行
+
+```java
+Deque<Integer> deque = new ArrayDeque<>();
+    List<List<Integer>> res = new ArrayList<>();
+    boolean[] used;
+
+    public List<List<Integer>> permute(int[] nums) {
+        if(nums == null || nums.length == 0) {
+            return res;
+        }
+        used = new boolean[nums.length];
+        dfs(nums, 0);
+        return res;
+    }
+
+    private void dfs(int[] nums, int depth) {
+        if(deque.size() == nums.length) {
+            res.add(new ArrayList<>(deque));
+            System.out.println(new ArrayList<>(deque).toString());
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if(used[i]) {
+                continue;
+            }
+            deque.push(nums[i]);
+            used[i] = true;
+            dfs(nums, depth+1);
+            used[i] = false;
+            deque.pop();
+        }
+}
+```
+
+
+
+
+
+#### [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/)
+
+
+
+- 在全排列的基础上，进行判断，如果已经有相同顺序的list被插进去，则不再add到结果列表中（主要参照的46题）
+
+```java
+Deque<Integer> deque = new ArrayDeque<>();
+    List<List<Integer>> res = new ArrayList<>();
+    boolean[] used;
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        if(nums == null || nums.length == 0) {
+            return res;
+        }
+        used = new boolean[nums.length];
+        dfs(nums, 0);
+        return res;
+    }
+
+    private void dfs(int[] nums, int depth) {
+        if(deque.size() == nums.length) {
+            ArrayList<Integer> tmpList = new ArrayList<>(deque);
+            //去重
+            boolean flag = false;
+            for (int i = 0; i < res.size(); i++) {
+                if(Arrays.equals(res.get(i).toArray(),tmpList.toArray())) {
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag) { //没有重复的
+                System.out.println(tmpList);
+                res.add(tmpList);
+            }
+            //System.out.println(new ArrayList<>(deque).toString());
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if(used[i]) {
+                continue;
+            }
+            deque.push(nums[i]);
+            used[i] = true;
+            dfs(nums, depth+1);
+            used[i] = false;
+            deque.pop();
+        }
+}
+```
+
+
+
+- 采用全排列+剪枝的方式，关键是如何限定进行剪枝，对nums排序是剪枝的前提条件
+
+```java
+Deque<Integer> deque = new ArrayDeque<>();
+    List<List<Integer>> res = new ArrayList<>();
+    boolean[] used;
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        if(nums == null || nums.length == 0) {
+            return res;
+        }
+        used = new boolean[nums.length];
+        Arrays.sort(nums);
+        dfs(nums, 0);
+        return res;
+    }
+
+    private void dfs(int[] nums, int depth) {
+        if(deque.size() == nums.length) {
+           res.add(new ArrayList<>(deque));
+            //System.out.println(new ArrayList<>(deque).toString());
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if(used[i]) {
+                continue;
+            }
+
+            if(i>0 && nums[i] == nums[i-1] && used[i-1]==false) { //刚才那个已经被释放，则跳过，应为与前者相同
+                continue;
+            }
+            //used[i-1] 正在被用时，可以不用不用考虑前者，因为顺序不同
+            deque.push(nums[i]);
+            used[i] = true;
+            dfs(nums, depth+1);
+            used[i] = false;
+            deque.pop();
+        }
+}
+```
+
+
+
+
+
+#### [257. 二叉树的所有路径](https://leetcode-cn.com/problems/binary-tree-paths/)
+
+tag： dfs、String的特性
+
+利用好String的特性
+
+>暗含回溯
+>结合上图，这里其实暗含回溯，遍历完左子树，构建出合格的路径，加入解集，遍历右子树之前，路径要撤销最末尾的选择，如果path用的是数组，就会弹出最后一项。
+>这里用的字符串，**pathStr保存了当前节点的路径，递归右子树时，传入它即可，它不包含在递归左子树所拼接的东西。**<font color='red'>但如果是数组则不不可以，因为 </font>
+
+```java
+List<String> res = new ArrayList<>();
+    public List<String> binaryTreePaths(TreeNode root) {
+        if(root == null) {
+            return res;
+        }
+        dfs(root, "");
+        return res;
+    }
+
+    private void dfs(TreeNode root, String str) {
+        if(root == null) {
+            return;
+        }
+        if(root.left == null && root.right == null) {
+            str += root.val;
+            res.add(str);
+            //System.out.println(res.toString());
+            return;
+        }
+        str += root.val+"->";
+
+        dfs(root.right, str);
+        System.out.println(str);
+        dfs(root.left, str);
+}
+```
+
+
+
+**补充：二叉树的全路径  **
+
+**参见代码：L257_yinshen.java**
+
+所有二叉树中的所有节点的路径均保存？
+
+```java
+List<List<Integer>> res = new ArrayList<>();
+    Deque<Integer> deque = new LinkedList<>();
+    public List<List<Integer>> binaryTreePaths(TreeNode root) {
+        if(root == null) {
+            return res;
+        }
+        dfs(root, deque);
+        return res;
+    }
+
+    private void dfs(TreeNode root, Deque<Integer> deque) {
+        if(root == null) {
+            return;
+        }
+
+        deque.push(root.val);
+        List<Integer> list = new ArrayList<>(deque);
+        Collections.reverse(list);
+        res.add(list);
+
+        dfs(root.left, deque);
+        //deque.pop();
+        dfs(root.right, deque);
+        deque.pop();  //神来一笔，获取了所有的节点的所有路径
+    }
+
+    public static void main(String[] args) {
+        Integer[] array = new Integer[]{1,2,3,4,5};
+        BinaryTree binaryTree = new BinaryTree(array);
+        L257_yinshen l257_yinshen = new L257_yinshen();
+
+        l257_yinshen.binaryTreePaths(binaryTree.root);
+        //System.out.println("hahah");
+        //binaryTree.preOrderTraverse(binaryTree.root);
+        System.out.println(l257_yinshen.res.toString());
+        // [[1], [1, 2], [1, 2, 4], [1, 2, 5], [1, 3]]
+}
+```
 
 
 
@@ -2093,27 +2877,189 @@ class Solution {
 
 # 7. 分治、回溯
 
+[回溯算法入门级详解 + 练习（持续更新） - 全排列 - 力扣（LeetCode） (leetcode-cn.com)](https://leetcode-cn.com/problems/permutations/solution/hui-su-suan-fa-python-dai-ma-java-dai-ma-by-liweiw/)
+
 ## 预习题目
 
-· https://leetcode-cn.com/problems/powx-n/
+#### [50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
+
+- 暴力法
+
+暴力法直接一位一位的乘
 
 
 
-· https://leetcode-cn.com/problems/subsets/
+- 二分法
+
+思路：
+
+计算 $$x^n$$ 时，我们可以先递归地计算出$$x^{n/2} * x^{n/2} * x^{n\%2}  $$  
+
+如果n<0，最后结果要用1/res，且n要取反;
+
+递归的边界为 n = 0，任意数的 0 次方均为 1;
+
+需要注意如果Integer.MIN_VALUE 取反后，将会超出Integer的界限，所以在n直接用long类型进行承接，才不会发生越界。
+
+```java
+public double myPow(double x, int n) {
+        long num = n;
+
+        return num<=0?1/build(x,-num):build(x,num);
+
+    }
+
+    private double build(double x, long n) {
+        if (n == 0) return 1;
+        if (n == 1) return x;
+
+        double half = build(x, n/2);
+        double rest = build(x, n%2);
+        return half*half*rest;
+
+}
+```
 
 
 
-· [括号生成问题](https://leetcode-cn.com/problems/generate-parentheses/)
+#### [78. 子集](https://leetcode-cn.com/problems/subsets/)
+
+![image-20210401142518858](img/image-20210401142518858.png)
+
+构建一棵二叉树，每层为选择或者不选，最终其子节点即为所有情况，将子节点的情况直接加到结果中即可，注意这里不用先构建再遍历，而是直接采用深度优先的方式，先构建，后遍历。
+
+```java
+List<List<Integer>> res = new ArrayList<>();
+Deque<Integer> deque = new LinkedList<>();
+
+public List<List<Integer>> subsets(int[] nums) {
+        if (nums == null || nums.length == 0) return res;
+
+        dfs(nums,0);
+        return res;
+    }
+
+    private void dfs(int[] nums, int index) {
+        if(index == nums.length) {
+            res.add(new ArrayList<>(deque));
+            return;
+        }
+        //考虑选择当前位置
+        deque.push(nums[index]);
+        dfs(nums, index+1);
+        deque.pop(); //回退一步，考虑不选择当前位置
+        dfs(nums, index+1);
+}
+```
+
+
+
+- 采用迭代的方式
+
+使用全排列方式，来添加。
+
+mask 取 0—7，对于数组中的n位值，
+
+![image-20210401144826109](img/image-20210401144826109.png)
+
+- 位运算，太巧妙了
+
+以nums=[1,2,3]为案例： mask从0到1<<3即为[0,8) 
+
+```java
+class Solution {
+    List<Integer> t = new ArrayList<Integer>();
+    List<List<Integer>> ans = new ArrayList<List<Integer>>();
+
+    public List<List<Integer>> subsets(int[] nums) {
+        int n = nums.length;
+        for (int mask = 0; mask < (1 << n); ++mask) {
+            t.clear();
+            for (int i = 0; i < n; ++i) {  //构建一个列表，i取值[0,3）
+                if ((mask & (1 << i)) != 0) { //这里有些难理解
+                    t.add(nums[i]);
+                }
+            }
+            ans.add(new ArrayList<Integer>(t));
+        }
+        return ans;
+    }
+}
+```
+
+
+
+
 
 ## 实战题目
 
-· [https://leetcode-cn.com/problems/majority-element/description/ ](https://leetcode-cn.com/problems/majority-element/description/)（简单、但是高频）
+#### [169. 多数元素](https://leetcode-cn.com/problems/majority-element/)（简单、但是高频）
+
+- api方式取巧
+
+```java
+public int majorityElement(int[] nums) {
+    if(nums == null || nums.length == 0) {
+        return -1;
+    }
+    Arrays.sort(nums);
+    return nums[nums.length/2];
+}
+```
+
+- 哈希表遍历统计
+
+```java
+public int majorityElement(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+
+        Map<Integer,Integer> map = new HashMap<>();
+        int maxKey = Integer.MIN_VALUE;
+        int maxCount = Integer.MIN_VALUE;
+
+        //遍历，存储至map中
+        for (int num: nums) {
+            if(!map.containsKey(num)) {
+                map.put(num, 1);
+                if (maxKey == Integer.MIN_VALUE) {
+                    maxKey = num;
+                }
+            } else {
+                map.put(num, map.get(num)+1);
+                maxCount = Math.max(maxCount, map.get(num));
+                if(maxCount == map.get(num)) {
+                    //更新maxKey
+                    maxKey = num;
+                }
+            }
+        }
+        return maxKey;
+}
+```
+
+- 分治方法
 
 
 
-· https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/
 
-· https://leetcode-cn.com/problems/n-queens/
+
+
+
+
+
+
+
+#### [17. 电话号码的字母组合](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)
+
+
+
+#### [51. N 皇后](https://leetcode-cn.com/problems/n-queens/)
+
+![image-20210330151726772](img/image-20210330151726772.png)
+
+![image-20210330151747170](img/image-20210330151747170.png)
 
 
 
@@ -2123,7 +3069,7 @@ class Solution {
 
 ## 实战题目
 
-· [https://leetcode-cn.com/problems/binary-tree-level-order-traversal/#/description](#/description)
+· [https://leetcode-cn.com/problems/binary-tree-level-order-traversal/#/description](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/#/description)
 
 · [https://leetcode-cn.com/problems/minimum-genetic-mutation/#/description](#/description)
 
