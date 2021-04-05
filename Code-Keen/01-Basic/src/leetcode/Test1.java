@@ -211,5 +211,13 @@ public class Test1 {
     @Test
     public void testCompareAble() {
         System.out.println(1<<2);
+        boolean[] b1 = new boolean[3];
+        int[] i1 = new int[3];
+        float[] f1 = new float[3];
+        Integer[] iarray = new Integer[1];
+        System.out.println(Arrays.toString(iarray));
+        System.out.println(Arrays.toString(b1));
+        System.out.println(Arrays.toString(i1));
+        System.out.println(Arrays.toString(f1));
     }
 }

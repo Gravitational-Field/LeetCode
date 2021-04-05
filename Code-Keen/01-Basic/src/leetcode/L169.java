@@ -22,7 +22,8 @@ public class L169 {
         return nums[nums.length/2];
     }*/
 
-    public int majorityElement(int[] nums) {
+    //2. hash存储并计数
+    /*public int majorityElement(int[] nums) {
         if (nums == null || nums.length == 0) {
             return -1;
         }
@@ -48,12 +49,49 @@ public class L169 {
             }
         }
         return maxKey;
+    }*/
+
+
+    //3. 分治思想
+    public int majorityElement(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        return getMajor(nums, 0, nums.length-1);
     }
 
+    private int getMajor(int[] nums, int low, int high) {
+        if(low == high) {
+            return nums[low];
+        }
 
+        int mid = (high-low)/2+low;
+        int leftMajor = getMajor(nums, low, mid);
+        int rightMajor = getMajor(nums, mid+1, high);
+
+        //得到左边众数和右边众数
+        if(leftMajor == rightMajor) {
+            return leftMajor;
+        }
+        //左右众数不同
+        int leftCount = inRangeCount(nums, low, mid, leftMajor);
+        int rightCount = inRangeCount(nums, mid+1, high, rightMajor);
+
+        return leftCount>rightCount?leftMajor:rightMajor;
+    }
+
+    private int inRangeCount(int[] nums, int i1, int i2, int major) {
+        int count = 0;
+        for (int i = i1; i <= i2; i++) {
+            if(nums[i] == major) {
+                count++;
+            }
+        }
+        return count;
+    }
 
     public static void main(String[] args) {
-        int[] array = {1};
+        int[] array = {1,2,2,2,3};
 
         System.out.println(new L169().majorityElement(array));
     }

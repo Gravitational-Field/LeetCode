@@ -2997,6 +2997,8 @@ class Solution {
 
 - api方式取巧
 
+
+
 ```java
 public int majorityElement(int[] nums) {
     if(nums == null || nums.length == 0) {
@@ -3039,19 +3041,107 @@ public int majorityElement(int[] nums) {
 }
 ```
 
-- 分治方法
+- 分治思想
 
+思路：
 
+解决众数，可以折半，分别找到左侧的众数和右侧的众数
 
+- 两者相同，则为整个数组的众数
+- 两者不同，需要分别在相应的范围内寻找左侧众数在左侧出现的次数，右侧众数在右侧出现的次数，两相对比，出现次数多的即为整体的众数。
 
+```java
+//3. 
+    public int majorityElement(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        return getMajor(nums, 0, nums.length-1);
+    }
 
+    private int getMajor(int[] nums, int low, int high) {
+        if(low == high) {
+            return nums[low];
+        }
 
+        int mid = (high-low)/2+low;
+        int leftMajor = getMajor(nums, low, mid);
+        int rightMajor = getMajor(nums, mid+1, high);
 
+        //得到左边众数和右边众数
+        if(leftMajor == rightMajor) {
+            return leftMajor;
+        }
+        //左右众数不同
+        int leftCount = inRangeCount(nums, low, mid, leftMajor);
+        int rightCount = inRangeCount(nums, mid+1, high, rightMajor);
 
+        return leftCount>rightCount?leftMajor:rightMajor;
+    }
+
+    private int inRangeCount(int[] nums, int i1, int i2, int major) {
+        int count = 0;
+        for (int i = i1; i <= i2; i++) {
+            if(nums[i] == major) {
+                count++;
+            }
+        }
+        return count;
+    }
+```
 
 
 
 #### [17. 电话号码的字母组合](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)
+
+![image-20210405211817178](img/image-20210405211817178.png)
+
+思路：
+
+直接使用回溯算法，多叉树遍历
+
+```java
+public Map<Character, String> map = new HashMap<>();
+    public Deque<Character> deque = new LinkedList<>();
+    public List<String> resList = new ArrayList<>();
+
+    public L17() {
+        map.put('2', "abc");
+        map.put('3', "def");
+        map.put('4', "ghi");
+        map.put('5', "jkl");
+        map.put('6', "mno");
+        map.put('7', "pqrs");
+        map.put('8', "tuv");
+        map.put('9', "wxyz");
+    }
+
+    //全排列
+    public List<String> letterCombinations(String digits) {
+        if(digits == null || digits.length() == 0) {
+            return resList;
+        }
+        char[] chars = digits.toCharArray();
+        build(chars,"", 0);
+        return resList;
+    }
+
+    private void build(char[] chars, String tmp, int index) {
+        if(index == chars.length) {
+            //tmp.length() == chars.length
+            resList.add(tmp);
+            //System.out.println(tmp);
+            return;
+        }
+
+        String letters = map.get(chars[index]);
+
+        //每轮取一个
+        for (int i = 0; i < letters.length(); i++) { //控制
+            build(chars, tmp+letters.charAt(i), index+1);
+        }
+}
+```
 
 
 
