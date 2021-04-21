@@ -1650,6 +1650,8 @@ public List<List<Integer>> levelOrder(TreeNode root) {
 
 - 深度优先搜索采用递归的方式
 
+分别将每一层放到其相应的list中
+
 ```java
 public List<List<Integer>> levelOrder1(TreeNode root) {
         if(root==null) {
@@ -3147,9 +3149,90 @@ public Map<Character, String> map = new HashMap<>();
 
 #### [51. N 皇后](https://leetcode-cn.com/problems/n-queens/)
 
-![image-20210330151726772](img/image-20210330151726772.png)
+**n 皇后问题** 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
 
-![image-20210330151747170](img/image-20210330151747170.png)
+给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。
+
+每一种解法包含一个不同的 n 皇后问题 的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
+
+![image-20210407200835547](img/image-20210407200835547.png)
+
+- `1 <= n <= 9`
+- 皇后彼此不能相互攻击，也就是说：**任何两个皇后都不能处于同一条横行、纵行或斜线上。**
+
+思路：
+
+经典的回溯算法，
+
+```java
+class Solution {
+    List<List<String>> resList = new ArrayList<>();
+
+    public List<List<String>> solveNQueens(int n) {
+        if(n<=0) {
+            return resList;
+        }
+
+        build(new ArrayList<>(), 0, n);
+        return resList;
+    }
+
+    //每次构建一个list的item，即一个str
+    private void build(ArrayList<String> list, int row, int n) {
+        if(row == n) {
+            //构建完成
+            resList.add(new ArrayList<>(list));
+            return;
+        }
+
+        //构建一个
+        for (int i = 0; i < n; i++) { //控制column
+            if(isVaild(list, row, i, n)) {
+                //生成该行的字符串
+                list.add(generateString(i, n));
+                build(list, row+1,n);
+                list.remove(list.size()-1);
+            }
+        }
+    }
+
+    //根据行与列判断是否合法                                行    当前列索引  最后的限制处
+    private boolean isVaild(ArrayList<String> list, int row, int index, int n) {
+        //判断当前索引位置是否合规：合法性判断是通过判断当前索引（row, index） 是否和list中已经插入的Q的位置有冲突
+        
+        for (int j = 0; j < list.size(); j++) { //j代表第j个字符串
+            //判断列是否合法
+            if(list.get(j).charAt(index) == 'Q') {  //有冲突
+                return false;
+            }
+
+            //判断右侧合法性
+            if(row - index == j-list.get(j).indexOf('Q')) { //有冲突
+                return false;
+            }
+
+            //判断左侧合法性
+            if(row + index == j+list.get(j).indexOf('Q')) { //有冲突
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //生成每行的字符串
+    private String generateString(int column, int n) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if(i == column) {
+                sb.append('Q');
+            } else {
+                sb.append('.');
+            }
+        }
+        return sb.toString();
+    }
+}
+```
 
 
 
@@ -3159,23 +3242,88 @@ public Map<Character, String> map = new HashMap<>();
 
 ## 实战题目
 
-· [https://leetcode-cn.com/problems/binary-tree-level-order-traversal/#/description](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/#/description)
+#### [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 
-· [https://leetcode-cn.com/problems/minimum-genetic-mutation/#/description](#/description)
+优先推荐使用广度优先算法
 
-· [https://leetcode-cn.com/problems/generate-parentheses/#/description](#/description)
+- DFS方式
 
-· [https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/#/description](#/description)
+```java
+List<List<Integer>> resultList = new ArrayList<>();
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if(root == null) {
+            return resultList;
+        }
+        dfs(root, 0);
+        return resultList;
+    }
+
+    private void dfs(TreeNode root, int level) {
+        if(root == null) {
+            return;
+        }
+
+        /**
+         * 说明了当前层级数 > 结果集的长度
+         * 就需要创建一个新的数组来包含相应的节点元素
+         */
+        if( level > resultList.size()-1){
+            resultList.add(new ArrayList<>());
+        }
+
+        //处理根
+        resultList.get(level).add(root.val);
+
+
+        if(root.left != null) {
+            dfs(root.left, level+1);
+        }
+
+        if(root.right != null) {
+            dfs(root.right, level+1);
+        }
+}
+```
+
+
+
+#### [433. 最小基因变化](https://leetcode-cn.com/problems/minimum-genetic-mutation/)
+
+DFS+回溯
+
+
+
+
+
+
+
+#### [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+
+
+
+
+
+#### [515. 在每个树行中找最大值](https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/)
+
+
+
+
 
 ## 课后作业
 
-· https://leetcode-cn.com/problems/word-ladder/description/
+#### [127. 单词接龙](https://leetcode-cn.com/problems/word-ladder/)
 
-· https://leetcode-cn.com/problems/word-ladder-ii/description/
 
-· https://leetcode-cn.com/problems/number-of-islands/
 
-· https://leetcode-cn.com/problems/minesweeper/description/
+#### [126. 单词接龙 II](https://leetcode-cn.com/problems/word-ladder-ii/)
+
+
+
+#### [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+
+
+
+#### [529. 扫雷游戏](https://leetcode-cn.com/problems/minesweeper/)
 
 
 

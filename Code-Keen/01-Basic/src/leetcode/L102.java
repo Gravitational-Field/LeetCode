@@ -70,6 +70,4 @@ public class L102 {
             dfs(index+1, root.right, res);
         }
     }
-
-
 }

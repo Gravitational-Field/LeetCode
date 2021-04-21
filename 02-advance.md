@@ -1,16 +1,246 @@
 # 10、贪心算法
 
+> 只找当前最优，不再进行回溯，不记录曾经走过的路；可能达不到最优解，但如果可以使用贪心算法得到最优结果，则贪心算法的探索过程一定是最优的，因为其没有额外的内存消耗，且时间方面也是最优的。
 
+问题的关键是什么情况下可以使用贪心算法？
 
-- 
+1、
+
+2、
 
 ## 课后作业
 
-- https://leetcode-cn.com/problems/lemonade-change/description/
-- https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/description/
-- https://leetcode-cn.com/problems/assign-cookies/description/
-- https://leetcode-cn.com/problems/walking-robot-simulation/description/
-- [https://leetcode-cn.com/problems/jump-game/ ](https://leetcode-cn.com/problems/jump-game/)、[ https://leetcode-cn.com/problems/jump-game-ii/](https://leetcode-cn.com/problems/jump-game-ii/)
+#### [860. 柠檬水找零](https://leetcode-cn.com/problems/lemonade-change/)
+
+> 贪心就在于：面对20元找零时，优先用掉10元面额的，逗人呢？
+
+```java
+Map<Integer, Integer> map = new HashMap<>();
+
+    public boolean lemonadeChange(int[] bills) {
+        if(bills == null || bills.length == 0) {
+            return true;
+        }
+        map.put(5, 0);
+        map.put(10, 0);
+        map.put(20, 0);
+
+        //模拟付账
+        for (int i = 0; i < bills.length; i++) {
+            int curPrice = bills[i];
+            int returnCount = 0;
+
+            map.put(curPrice, map.get(curPrice)+1);
+            if(curPrice == 10) {
+                if(map.get(5) == 0) {
+                    return false;
+                }
+                map.put(5, map.get(5)-1);
+            } else { //curPrice == 20
+                if(map.get(10) > 0 && map.get(5) > 0) { // 1.第一种能通过的情况
+                    map.put(10,map.get(10)-1);
+                    map.put(5,map.get(5)-1);
+                } else if(map.get(10) == 0 && map.get(5) >= 3) { //2. 第二种能通过的情况
+                    map.put(5,map.get(5)-3);
+                } else { // 通不过的情况
+                    return false;
+                }
+            }
+        }
+}
+```
+
+
+
+
+
+#### [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+
+思路：
+
+只要后者比前者大，则有利润，
+
+```java
+/最大利润：
+    public int maxProfit(int[] prices) {
+        if (prices == null) return 0;
+        int profit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if(prices[i] > prices[i-1]) {
+                profit += prices[i] - prices[i-1];
+            }
+        }
+        return profit;
+}
+```
+
+
+
+
+
+
+
+#### [455. 分发饼干](https://leetcode-cn.com/problems/assign-cookies/)
+
+思路：1、饼干满足最小需求；2、饼干和需求尽可能相近；
+
+```java
+public int findContentChildren(int[] g, int[] s) {
+    if(g == null || g.length == 0 || s == null || s.length == 0) {
+        return 0;
+    }
+    int gLen = g.length;
+    int sLen = s.length;
+    int i= 0;
+    int j= 0;
+    Arrays.sort(g);
+    Arrays.sort(s);
+    int count = 0;
+
+    while (i < gLen && j < sLen) {
+        if(g[i] <= s[j]) {
+            count++;
+            i++;
+            j++;
+        } else {
+            j++;
+        }
+    }
+    return count;
+}
+```
+
+
+
+#### [874. 模拟行走机器人](https://leetcode-cn.com/problems/walking-robot-simulation/)
+
+```java
+public int robotSim(int[] commands, int[][] obstacles) {
+        if(commands == null || commands.length == 0) {
+            return  0;
+        }
+        int result = 0;
+        int x = 0,y = 0,direction = 0;  //x，y代表当前坐标
+        int[][] xy = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  //北移、东移、西移、南移
+
+        //存储到set中进行判断
+        Set<String> set = new HashSet<>();
+        for (int[] array:obstacles) {
+            set.add(array[0]+","+array[1]);
+        }
+
+        for (int com:commands) {
+            if(com == -2) {
+                // 左转
+                direction = (direction+3)%4; //相当于右转了三次
+            } else if(com == -1) {
+                // 右转
+                direction = (direction+1)%4;
+            } else {
+                //在指定方向前进com步
+                for (int i = 1; i <= com; i++) {
+                    int newX = x+xy[direction][0];
+                    int newY = y+xy[direction][1];
+                    //判断是否是障碍物
+                    if(set.contains(newX+","+newY)) {
+                        break;
+                    }
+                    //没有障碍物
+                    x = newX;
+                    y = newY;
+                    result = Math.max(result,x*x+y*y);
+                }
+            }
+        }
+        return result;
+}
+```
+
+
+
+
+
+#### [55. 跳跃游戏](https://leetcode-cn.com/problems/jump-game/)
+
+思路：如何判断某一个位置可以达到？
+
+在每个节点处最远可到达下标为：当前下标 i + nums[i]
+
+怎么能到达 j 下标？ j <= 最远可到达的位置
+
+```java
+public boolean canJump(int[] nums) {
+        if(nums == null || nums.length == 0) {
+            return false;
+        }
+        int len = nums.length;
+        int maxGet = 0;
+        for (int i = 0; i < len; i++) {
+            if(i <= maxGet) {
+                //能够到达
+                maxGet = Math.max(maxGet, i+nums[i]);
+            } else {
+                return false;
+            }
+        }
+        return true;
+}
+```
+
+#### [45. 跳跃游戏 II](https://leetcode-cn.com/problems/jump-game-ii/)
+
+```java
+//反向查找，查找第一个离终点最近的点
+public int jump(int[] nums) {
+    if(nums == null || nums.length == 0) {
+        return 0;
+    }
+    int end = nums.length-1;
+    int step = 0;
+
+    while (end > 0) {
+        for (int i = 0; i < end; i++) {
+            if (i + nums[i] >= end) {
+                end = i;
+                step++;
+                break;
+            }
+        }
+    }
+    return step;
+}
+```
+
+
+
+
+
+```java
+//正向贪心查找
+public int jump1(int[] nums) {
+    if(nums == null || nums.length == 0) {
+        return 0;
+    }
+    int step = 0;
+    int locMax = 0;
+    int end = 0;  //记录当前边界
+
+
+    //作用：探索当前能够达到的最大
+    for (int i = 0; i < nums.length-1; i++) {
+        locMax = Math.max(locMax, i+nums[i]);
+        if(i == end) { //到达边界
+            step++;
+            end = locMax;  //新边界变为当前能够到达的最远
+        }
+    }
+    return step;
+}
+```
+
+
+
+
 
 
 
@@ -27,16 +257,140 @@
 
 ## 实战题目
 
-- https://leetcode-cn.com/problems/sqrtx/
-- https://leetcode-cn.com/problems/valid-perfect-square/
+#### [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+
+- 暴力求解
+
+```
+public int mySqrt(int x) {
+        int i = x / 2 +1;
+        for (long j = 0; j <= i; j++) {
+            if(j*j == x) {
+                //找到了
+                return (int)j;
+            } else if(j*j > x) {
+                return (int)j-1;
+            }
+        }
+        return -1;
+}
+```
+
+- 二分查找求解
+
+```java
+public int mySqrt1(int x) {
+       if(x==0 || x==1) {
+            return x;
+       }
+       int left = 1;
+       int right = x/2;
+       while (left < right) {
+           int mid = left+(right-left)/2;
+           if(mid*mid > x) {
+                right = mid-1;
+           } else {
+               left = mid+1;
+           }
+       }
+       return right;
+}
+```
+
+- 牛顿迭代法
+
+```java
+int s;
+
+    //牛顿迭代法
+    public int mySqrt3(int x) {
+        s = x;
+        s=x;
+        if(x==0) return 0;
+        return ((int)(sqrts(x)));
+    }
+
+    public double sqrts(double x){
+        double res = (x + s / x) / 2;
+        if (res == x) {
+            return x;
+        } else {
+            return sqrts(res);
+        }
+}
+```
+
+- 牛顿迭代法的优雅实现方式
+
+```java
+public int mySqrt4(int x) {
+        long s = x;
+        while (s*s > x) {
+            s = (s+x/s)/2;
+        }
+        return (int)s;
+}
+```
+
+
+
+#### [367. 有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/)
+
+要注意Integer越界问题：mid*mid可能大于Integer.MAX_VALUE
+
+```java
+public boolean isPerfectSquare(int num) {
+        if(num == 1) {
+            return true;
+        }
+        int left = 1;
+        int right = num/2;
+        while (left <= right) {
+            long mid = left + (right-left)/2;
+            if(mid*mid == num) {
+                return true;
+            } else if(mid*mid > num) {
+                right = (int)mid - 1;
+            } else if(mid*mid < num) {
+                left = (int)mid + 1;
+            }
+        }
+        return false;
+}
+```
+
+- 牛顿迭代法
+
+```java
+ public boolean isPerfectSquare(int num) {
+    if (num < 2) return true;
+
+    long x = num / 2;
+    while (x * x > num) {
+      x = (x + num / x) / 2;
+    }
+    return (x * x == num);
+}
+```
 
 
 
 ## 课后作业
 
-- https://leetcode-cn.com/problems/search-in-rotated-sorted-array/
-- https://leetcode-cn.com/problems/search-a-2d-matrix/
-- https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/
+#### [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+
+
+
+#### [74. 搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)
+
+#### [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+
+
+
+
+
+
+
 - 使用二分查找，寻找一个半有序数组 [4, 5, 6, 7, 0, 1, 2] 中间无序的地方
        说明：同学们可以将自己的思路、代码写在第 3 周的学习总结中
 

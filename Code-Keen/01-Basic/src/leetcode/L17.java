@@ -11,7 +11,6 @@ import java.util.*;
  **/
 public class L17 {
     public Map<Character, String> map = new HashMap<>();
-    public Deque<Character> deque = new LinkedList<>();
     public List<String> resList = new ArrayList<>();
 
     public L17() {
@@ -58,7 +57,3 @@ public class L17 {
     }
 }
 
-
-enum Num {
-
-}
