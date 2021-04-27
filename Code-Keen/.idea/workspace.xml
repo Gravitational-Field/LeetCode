@@ -20,25 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5133b8d4-dd44-4bc7-b375-dc477db46c4a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/interview/ab2bba_360.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L102_1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L122.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L33.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L367.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L45.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L455.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L51.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L55.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L69.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L860.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L874.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../01-basic.md" beforeDir="false" afterPath="$PROJECT_DIR$/../01-basic.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L208.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../02-advance.md" beforeDir="false" afterPath="$PROJECT_DIR$/../02-advance.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/01-Basic/src/leetcode/L102.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L102.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-Basic/src/leetcode/L17.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L17.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Code-Keen/META-INF/Code-Keen.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../总结.md" beforeDir="false" afterPath="$PROJECT_DIR$/../总结.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/01-Basic/src/leetcode/L33.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L33.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,6 +183,7 @@
       <workItem from="1618646782439" duration="1669000" />
       <workItem from="1618810735793" duration="11545000" />
       <workItem from="1618969250581" duration="4170000" />
+      <workItem from="1619435313962" duration="9791000" />
     </task>
     <servers />
   </component>

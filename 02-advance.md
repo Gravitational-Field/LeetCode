@@ -500,13 +500,257 @@ public boolean isPerfectSquare(int num) {
 
 # 13、字典树和并查集
 
-## 字典
+树的定义：
+
+![image-20210426085100253](img/image-20210426085100253.png)
+
+二叉搜索树：
+
+![image-20210426085218935](img/image-20210426085218935.png)
+
+- 二叉搜索树中序遍历是有序的。
+
+现实中的一个实际问题：根据词频进行推荐显示，用什么数据结构？**二叉搜索树便于搜索而不便于插入。**
+
+在这里使用字典树（也称Trie树）
+
+## 字典树（Trie树）
+
+![image-20210426090604328](img/image-20210426090604328.png)
+
+- 多叉树
+- 根节点不存储字符，根节点存储去往每个字符的路径**（图示中的单词只是作示范，并非真正的存储效果）**
+- 空间换时间
+- 叶子节点才存储词频
+- 
+
+### 基本性质
+
+1、节点本身不存储完整单词；
+
+2、从根节点到某一节点，路径上经过的字符串连接起来，为该节点对应的字符串；
+
+3、每个节点的所有子节点路径都不同；
+
+4、节点可以存储额外的信息，如出现的频次，通过频次可以进行推荐信息
+
+![image-20210426091855309](img/image-20210426091855309.png)
+
+查询次数：等于单词有多少个字符
+
+### 核心思想
+
+1、Trie树的核心思想是空间换时间
+
+2、利用字符串的公共前缀来降低查询时候的时间开销以达到提高效率的目的
+
+
+
+
 
 ## 参考链接
 
-- [二叉树的层次遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-- [实现 Trie](https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/)
-- [Tire 树代码模板](https://shimo.im/docs/Pk6vPY3HJ9hKkh33)
+#### [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+
+
+
+
+#### [208. 实现 Trie (前缀树)](https://leetcode-cn.com/problems/implement-trie-prefix-tree/)
+
+- python版
+
+![image-20210426094507521](img/image-20210426094507521.png)
+
+- Java版
+
+采用数组方式存储子Trie，
+
+```java
+class Trie {
+    Trie[] children;
+    Boolean isEnd;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        Integer len = word.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            int index = c-'a';
+            if(node.children[index] == null) {
+                node.children[index] = new Trie();
+            }
+            node = node.children[index];
+        }
+        node.isEnd = true;
+    }
+
+    public Trie searchPrefix(String word) {
+        //返回最终的那个node
+        Trie node = this;
+        Integer len = word.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            int index = c-'a';
+            if(node.children[index] != null) {
+                node = node.children[index];
+            } else {
+                return null;
+            }
+        }
+        return node;
+    }
+
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie node = searchPrefix(word);
+        return  node!= null && node.isEnd;
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        return  searchPrefix(prefix)!= null;
+    }
+}
+```
+
+
+
+- 复杂版
+
+```java
+class Trie {
+
+    Trie[] children;
+    Boolean isEnd;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        Integer len = word.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            int index = c-'a';
+            if(node.children[index] == null) {
+                node.children[index] = new Trie();
+            }
+            node = node.children[index];
+        }
+        node.isEnd = true;
+    }
+
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie node = this;
+        Integer len = word.length();
+
+        int index = -1;
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            index = c-'a';
+            if(node.children[index] != null) {
+                node = node.children[index];
+            } else {
+                return false;
+            }
+        }
+        if(node.isEnd) {
+            return true;
+        }
+        return false;
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        Trie node = this;
+        Integer len = prefix.length();
+
+        int index = -1;
+        for (int i = 0; i < len; i++) {
+            char c = prefix.charAt(i);
+            index = c-'a';
+            if(node.children[index] != null) {
+                node = node.children[index];
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+- 使用map+结束字符
+
+```java
+class Trie {
+
+    Map<Character, Trie> children;
+    char end_of_word;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new HashMap();
+        end_of_word = '#';
+    }
+
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        for (char c: word.toCharArray()) {
+            if(node.children.get(c) == null) {
+                node.children.put(c,new Trie());
+            }
+            node = node.children.get(c);
+        }
+        node.end_of_word = '@';
+
+    }
+
+    public Trie searchPrefix(String word) {
+        Trie node = this;
+        for (char c: word.toCharArray()) {
+            if(node.children.get(c) == null) {
+                return null;
+            } else {
+                node = node.children.get(c);
+            }
+        }
+        return node;
+    }
+
+
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie node = searchPrefix(word);
+        return  node!= null && node.end_of_word == '@';
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        return  searchPrefix(prefix)!= null;
+    }
+}
+```
+
+
 
 ## 实战题目 / 课后作业
 

@@ -27,7 +27,7 @@ public class L33 {
             //在左侧
             if(target > nums[0]) {
                 left = 0;
-                right =
+                //right =
             }
 
             //在右侧
@@ -38,7 +38,7 @@ public class L33 {
 
 
         }
-
+        return 1;
     }
 
     public static void main(String[] args) {

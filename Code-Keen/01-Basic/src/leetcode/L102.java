@@ -13,7 +13,7 @@ public class L102 {
 
     //BFS  迭代的方式
     public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> resultList = new LinkedList<List<Integer>>();
+        List<List<Integer>> resultList = new LinkedList<>();
         if (root == null) return resultList;
 
         Deque<TreeNode> queue = new LinkedList<>();
