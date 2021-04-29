@@ -78,8 +78,6 @@ Map<Integer, Integer> map = new HashMap<>();
 
 
 
-
-
 #### [455. 分发饼干](https://leetcode-cn.com/problems/assign-cookies/)
 
 思路：1、饼干满足最小需求；2、饼干和需求尽可能相近；
@@ -564,7 +562,7 @@ public boolean isPerfectSquare(int num) {
 
 - Java版
 
-采用数组方式存储子Trie，
+​        采用数组方式存储子Trie，每个子节点均为Trie数组，共有0-25个位置，分别代表a-z这25个字符，不为null代表该位置所代表的单词有值，isEnd来标识是否到达一个单词的末尾。
 
 ```java
 class Trie {
@@ -625,7 +623,7 @@ class Trie {
 
 
 
-- 复杂版
+- ~~复杂版~~ （可以不看）
 
 ```java
 class Trie {
@@ -691,13 +689,14 @@ class Trie {
                 return false;
             }
         }
-
         return true;
     }
 }
 ```
 
 - 使用map+结束字符
+
+使用map来存储，<key,value>结构为<char,Trie>，方便查询，而且节省空间
 
 ```java
 class Trie {
@@ -736,7 +735,6 @@ class Trie {
         return node;
     }
 
-
     /** Returns if the word is in the trie. */
     public boolean search(String word) {
         Trie node = searchPrefix(word);
@@ -754,13 +752,195 @@ class Trie {
 
 ## 实战题目 / 课后作业
 
-- https://leetcode-cn.com/problems/implement-trie-prefix-tree/#/description
-- https://leetcode-cn.com/problems/word-search-ii/
+#### [212. 单词搜索 II](https://leetcode-cn.com/problems/word-search-ii/)
+
+> 标签： `四联通` 、 `trie树` 、`字符串搜索`、`字符串匹配`、`DFS`
+
+![image-20210428101326454](img/image-20210428101326454.png)
+
+
+
+- 暴力解法
+
+直接采用回溯+dfs进行四联通查找，发现会超出时间限制。一个word一个word的进行查找，每个word都需要将board遍历一遍，在board遍历过程中还需要进行四联通的DFS查找，故非常耗时间，其时间复杂度为O(单词个数N\*m\*n\*单词的平均长度^4);
+
+![image-20210428184800826](img/image-20210428184800826.png)
+
+```java
+int[] dx = {-1, 0, 1, 0};
+int[] dy = {0, -1, 0, 1};
+Set<String> set = new HashSet<>();
+//暴力方式：暴力查找
+public List<String> findWords(char[][] board, String[] words) {
+    //List<String> resList = new ArrayList<>();
+    if (board.length == 0 || board[0].length == 0 || board == null || words == null) {
+        return new ArrayList<>();
+    }
+
+    int m = board.length, n = board[0].length;
+
+    //遍历查找
+    for (String word : words) {
+        boolean[][] isUsed = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+                dfs(board, word, 0, i, j, isUsed);
+            }
+
+        }
+    }
+    return new ArrayList<>(set);
+}
+
+private void dfs(char[][] board, String word, int curIndex, int i, int j, boolean[][] isUsed) {
+    if (curIndex >= word.length()) {
+        set.add(word);
+        return;
+    }
+
+    int m = board.length, n = board[0].length;
+    if (i < 0 || i >= m || j < 0 || j >= n || isUsed[i][j]) {
+        return;
+    }
+
+    for (int k = 0; k < 4; k++) {
+        if (word.charAt(curIndex) == board[i][j]) {
+            isUsed[i][j] = true;
+            dfs(board, word, curIndex + 1, i + dx[k], j + dy[k], isUsed);
+            isUsed[i][j] = false; //修正回原先状态
+        }
+    }
+    // return;  没有添加return的必要
+}
+```
+
+思考怎么能够加缩减搜索的时间复杂度？
+
+​		可以使用字典树Trie树，来存储words中的每个word，不依赖于word一个一个查找，而是依赖于board中的字符，去字典树中查找是否有到当前的前缀，没有即进行剪枝，查询下一个board的字符。
+
+```java
+int[] dx = {-1, 0, 1, 0};
+int[] dy = {0, -1, 0, 1};
+Set<String> set = new HashSet<>();
+
+//使用dfs进行回溯
+public List<String> findWords(char[][] board, String[] words) {
+    if (board.length == 0 || board[0].length == 0 || board == null || words == null) {
+        return new ArrayList<>();
+    }
+
+    int m = board.length, n = board[0].length;
+    Trie trie = new Trie();
+    //插入words到Trie树中
+    for (String word : words) {
+        trie.insertWord(word);
+    }
+
+    boolean[][] isUsed = new boolean[m][n]; //确保用过的下次不会朝向原先的位置用
+    //遍历查找
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            dfs(board, i, j, trie, isUsed); 
+        }
+    }
+    return new ArrayList<>(set);
+}
+
+//深度有限搜索
+private void dfs(char[][] board, int i, int j, Trie node, boolean[][] isUsed) {
+    int m = board.length, n = board[0].length;
+    if (i < 0 || i >= m || j < 0 || j >= n || isUsed[i][j]) {
+        return;
+    }
+
+    char c = board[i][j];
+    if (node.children[c - 'a'] == null) {
+        return;
+    }
+
+    node = node.children[c - 'a'];
+    if (node.isEnd) {
+        set.add(node.val);
+        node.isEnd = true;  //赋值是为了防止下一次过来，仍旧存储该值
+        // return;  //这里不能用终止，是因为存在 word = ["oa","oaa"] 这种情况，使得前缀是一个单词的后续仍旧可以查询到。
+    }
+
+    for (int k = 0; k < 4; k++) {
+        isUsed[i][j] = true;
+        dfs(board, i + dx[k], j + dy[k], node, isUsed);
+        isUsed[i][j] = false; //修正回原先状态
+    }
+}
+
+// 构建字典树
+class Trie {
+    Trie[] children;
+    boolean isEnd;
+    String val;  //记录到当前位置的值
+
+    Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+
+    void insertWord(String word) {
+        int len = word.length();
+        Trie node = this;
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            int index = c - 'a';
+            if (node.children[index] == null) {
+                node.children[index] = new Trie();
+            }
+            node = node.children[index]; //往下移动一位
+        }
+        node.isEnd = true;
+        node.val = word;  //记录
+    }
+}
+```
+
+
+
+![image-20210428221105062](img/image-20210428221105062.png)
+
+
+
 - 分析单词搜索 2 用 Tire 树方式实现的时间复杂度，请同学们提交在第 6 周的学习总结中。
 
 
 
+
+
 ## 并查集
+
+并查集：一种跳跃式的数据结构
+
+适用场景：判断两两的元素是不是在一个集合中？两个人是不是朋友？这类问题直接使用并查集
+
+​		组团和配对，a和b是不是朋友？
+
+![image-20210429100706834](img/image-20210429100706834.png)
+
+- 初始化：每个元素拥有一个parent数组指向自己。
+
+![image-20210429104318865](img/image-20210429104318865.png)
+
+- 查询：目的是为了找当前元素的带头元素；找其parent、再找其parent，直到其parent[i]==i，则找到了该带头元素
+- 合并：分别找出两个集合的领头元素，将parent[e]指向a或者parent[a]指向e
+
+![image-20210429104634741](img/image-20210429104634741.png)
+
+- 路径压缩：提升查询效率
+
+![image-20210429104915629](img/image-20210429104915629.png)
+
+- 实现方式
+
+![image-20210429111056418](img/image-20210429111056418.png)
+
+
 
 ## 参考链接
 
@@ -770,8 +950,52 @@ class Trie {
 ## 实战题目 / 课后作业
 
 - https://leetcode-cn.com/problems/friend-circles
-- https://leetcode-cn.com/problems/number-of-islands/
-- https://leetcode-cn.com/problems/surrounded-regions/
+
+题目分析：
+
+![image-20210429104117452](img/image-20210429104117452.png)
+
+![image-20210429103240443](img/image-20210429103240443.png)
+
+1、DFS
+
+![image-20210429111851334](img/image-20210429111851334.png)
+
+2、BFS
+
+3、并查集
+
+- python实现
+
+![image-20210429112042422](img/image-20210429112042422.png)
+
+- java实现
+
+![image-20210429113849116](img/image-20210429113849116.png)
+
+
+
+
+
+
+
+
+
+
+
+#### [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+
+
+
+
+
+
+
+
+
+
+
+#### [130. 被围绕的区域](https://leetcode-cn.com/problems/surrounded-regions/)
 
 
 
