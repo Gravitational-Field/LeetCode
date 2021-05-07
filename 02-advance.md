@@ -381,6 +381,10 @@ public boolean isPerfectSquare(int num) {
 
 #### [74. 搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)
 
+
+
+
+
 #### [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
 
 
@@ -520,7 +524,6 @@ public boolean isPerfectSquare(int num) {
 - 根节点不存储字符，根节点存储去往每个字符的路径**（图示中的单词只是作示范，并非真正的存储效果）**
 - 空间换时间
 - 叶子节点才存储词频
-- 
 
 ### 基本性质
 
@@ -549,6 +552,10 @@ public boolean isPerfectSquare(int num) {
 ## 参考链接
 
 #### [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+
+
+
 
 
 
@@ -927,8 +934,8 @@ class Trie {
 
 ![image-20210429104318865](img/image-20210429104318865.png)
 
-- 查询：目的是为了找当前元素的带头元素；找其parent、再找其parent，直到其parent[i]==i，则找到了该带头元素
-- 合并：分别找出两个集合的领头元素，将parent[e]指向a或者parent[a]指向e
+- 查询：目的是为了找当前元素的带头元素（用带头元素来作为整个集合的代表）；找其parent、再找其parent，直到其parent[i]==i，则找到了该带头元素
+- 合并：分别找出两个集合的领头元素，将parent[e]指向a或者parent[a]指向e（这两种指向均可）
 
 ![image-20210429104634741](img/image-20210429104634741.png)
 
@@ -942,6 +949,81 @@ class Trie {
 
 
 
+- 代码模板
+
+```java
+class UnionFind {
+    private int count = 0;
+    private int[] parent;
+
+    public UnionFind(int n) {
+        count = n;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    public int find(int p) {
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]];
+            p = parent[p];
+        }
+        return p;
+    }
+
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) return;
+        parent[rootP] = rootQ;
+        count--;
+    }
+}
+```
+
+- 并查集：路径压缩的
+
+```java
+class UnionFind {
+    public int count = 0;  //记录有几个群组，连通分量的个数
+    public int[] parent;
+
+    public UnionFind(int n) {
+        count = n;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    public int find(int p) {  //找到p元素所在group的代表元素
+        int target = p;
+        while (p != parent[p]) {  // 不断向上找，直到找到了p == parent[p]，即找到了代表元素
+            //parent[p] = parent[parent[p]];
+            p = parent[p];
+        }
+        //路径压缩
+        while (target != parent[target]) {
+            int temp = target;  //从底到 代表元素，
+            target = parent[target];
+            parent[temp] = p;
+        }
+        return p;
+    }
+
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) return;
+        parent[rootP] = rootQ;  //不相等的情况
+        count--;
+    }
+}
+```
+
+
+
 ## 参考链接
 
 - [岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
@@ -949,41 +1031,214 @@ class Trie {
 
 ## 实战题目 / 课后作业
 
-- https://leetcode-cn.com/problems/friend-circles
-
-题目分析：
-
-![image-20210429104117452](img/image-20210429104117452.png)
-
-![image-20210429103240443](img/image-20210429103240443.png)
-
-1、DFS
-
-![image-20210429111851334](img/image-20210429111851334.png)
-
-2、BFS
-
-3、并查集
-
-- python实现
-
-![image-20210429112042422](img/image-20210429112042422.png)
-
-- java实现
-
-![image-20210429113849116](img/image-20210429113849116.png)
-
-
-
-
-
-
-
-
-
-
-
 #### [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+
+
+
+- dfs
+
+```java
+//定义
+int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}}; // 右、下两个方向
+int count = 0;
+boolean[][] visited;
+int row;
+int col;
+
+//1. dfs方式
+public int numIslands(char[][] grid) {
+    //判空
+    if(grid == null) {
+        return 0;
+    }
+    row = grid.length;
+    if(row == 0) {
+        return 0;
+    }
+    col = grid[0].length;
+    visited = new boolean[row][col];
+
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            if(grid[i][j] == '1' && !visited[i][j]) {
+                dfs(grid,i,j);  //进行一次dfs，即代表一座岛屿
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+private void dfs(char[][] grid, int i, int j) {
+    //结束条件
+    if(grid[i][j] == '0' && !visited[i][j]) {
+        visited[i][j] = true;
+        return;
+    }
+
+    //根
+    visited[i][j] = true;
+
+    //多叉
+    for (int[] direction :directions) {
+        int newX = i+direction[0];
+        int newY = j+direction[1];
+        if(newX >= 0 && newX < row && newY >= 0 && newY < col && !visited[newX][newY]) {
+            dfs(grid, newX, newY);
+        }
+    }
+}
+```
+
+
+
+- bfs
+
+```java
+class Solution {
+   //定义
+    int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}}; // 右、下两个方向
+    int count = 0;
+    boolean[][] visited;
+    int row;
+    int col;
+
+    //2. bfs方式
+    public int numIslands(char[][] grid) {
+        //判空
+        if(grid == null) {
+            return 0;
+        }
+        row = grid.length;
+        if(row == 0) {
+            return 0;
+        }
+        col = grid[0].length;
+        visited = new boolean[row][col];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if(grid[i][j] == '1' && !visited[i][j]) {
+                    bfs(grid,i,j);  //进行一次bfs，即代表一座岛屿
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    //迭代的方式
+    private void bfs(char[][] grid, int i, int j) {
+        Deque<Integer> deque = new LinkedList<>();
+        deque.addLast(i*col+j); //该编码必须在队列中唯一
+        visited[i][j] = true;
+
+        while (!deque.isEmpty()) {
+            Integer first = deque.removeFirst(); // deque.poll()
+            int curX = first/col;
+            int curY = first%col;
+
+            //多叉
+            for (int[] direction :directions) {
+                int newX = curX+direction[0];
+                int newY = curY+direction[1];
+                if(newX >= 0 && newX < row && newY >= 0 && newY < col && !visited[newX][newY] && grid[newX][newY] == '1') {
+                    deque.addLast(newX * col + newY);  // deque.offer()
+                    visited[newX][newY] = true;
+                }
+            }
+        }
+    }
+}
+```
+
+- 并查集方式
+
+思路：
+
+并查集中维护连通分量的个数，在遍历的过程中：
+
+- 相邻的陆地（只需要向右看和向下看）合并，只要发生过合并，岛屿的数量就减少 1；
+- 在遍历的过程中，同时记录空地的数量；
+- 岛屿数量 = 并查集中连通分量的个数 - 空地的个数；
+
+```java
+class Solution {
+    //1. 定义一些额外的需要的量
+    int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}}; // 右、下两个方向
+    int row;
+    int col;
+    
+    //2. 定义并查集
+     class UnionFind {
+        public int count = 0;  //记录有几个群组，连通分量的个数
+        public int[] parent;
+
+        public UnionFind(int n) {
+            count = n;
+            parent = new int[n];
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+            }
+        }
+
+        public int find(int p) {  //找到p元素所在group的代表元素
+            int target = p;
+            while (p != parent[p]) {  // 不断向上找，直到找到了p == parent[p]，即找到了代表元素
+                //parent[p] = parent[parent[p]];
+                p = parent[p];
+            }
+            //路径压缩
+            while (target != parent[target]) {
+                int temp = target;  //从底到 代表元素，
+                target = parent[target];
+                parent[temp] = p;
+            }
+            return p;
+        }
+
+        public void union(int p, int q) {
+            int rootP = find(p);
+            int rootQ = find(q);
+            if (rootP == rootQ) return;
+            parent[rootP] = rootQ;  //不相等的情况
+            count--;
+        }
+	}
+
+    //3. 并查集
+    public int numIslands(char[][] grid) {
+        //判空
+        if (grid == null) {
+            return 0;
+        }
+        row = grid.length;
+        if (row == 0) {
+            return 0;
+        }
+        col = grid[0].length;
+        UnionFind unionFind = new UnionFind(row * col);
+        int spaces = 0; //记录0出现的次数，每个0相当于一个单独的连通分量
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == '0') {
+                    spaces++;
+                } else {
+                    for (int[] direction : directions) {
+                        int newX = i + direction[0];
+                        int newY = j + direction[1];
+                        if (newX >= 0 && newX < row && newY >= 0 && newY < col && grid[newX][newY] == '1') {
+                            unionFind.union(i*col+j, newX*col+newY);
+                        }
+                    }
+                }
+            }
+        }
+        return unionFind.count-spaces; //总的连通分量-0的个数(即0所代表的连通分量)
+    }
+}
+```
 
 
 

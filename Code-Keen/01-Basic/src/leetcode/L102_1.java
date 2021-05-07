@@ -12,6 +12,7 @@ import java.util.List;
  **/
 public class L102_1 {
 
+    //DFS方式
     List<List<Integer>> resultList = new ArrayList<>();
     public List<List<Integer>> levelOrder(TreeNode root) {
         if(root == null) {
