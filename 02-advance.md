@@ -78,8 +78,6 @@ Map<Integer, Integer> map = new HashMap<>();
 
 
 
-
-
 #### [455. 分发饼干](https://leetcode-cn.com/problems/assign-cookies/)
 
 思路：1、饼干满足最小需求；2、饼干和需求尽可能相近；
@@ -583,23 +581,527 @@ class Solution {
 
 # 13、字典树和并查集
 
-## 字典
+树的定义：
+
+![image-20210426085100253](img/image-20210426085100253.png)
+
+二叉搜索树：
+
+![image-20210426085218935](img/image-20210426085218935.png)
+
+- 二叉搜索树中序遍历是有序的。
+
+现实中的一个实际问题：根据词频进行推荐显示，用什么数据结构？**二叉搜索树便于搜索而不便于插入。**
+
+在这里使用字典树（也称Trie树）
+
+## 字典树（Trie树）
+
+![image-20210426090604328](img/image-20210426090604328.png)
+
+- 多叉树
+- 根节点不存储字符，根节点存储去往每个字符的路径**（图示中的单词只是作示范，并非真正的存储效果）**
+- 空间换时间
+- 叶子节点才存储词频
+
+### 基本性质
+
+1、节点本身不存储完整单词；
+
+2、从根节点到某一节点，路径上经过的字符串连接起来，为该节点对应的字符串；
+
+3、每个节点的所有子节点路径都不同；
+
+4、节点可以存储额外的信息，如出现的频次，通过频次可以进行推荐信息
+
+![image-20210426091855309](img/image-20210426091855309.png)
+
+查询次数：等于单词有多少个字符
+
+### 核心思想
+
+1、Trie树的核心思想是空间换时间
+
+2、利用字符串的公共前缀来降低查询时候的时间开销以达到提高效率的目的
+
+
+
+
 
 ## 参考链接
 
-- [二叉树的层次遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-- [实现 Trie](https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/)
-- [Tire 树代码模板](https://shimo.im/docs/Pk6vPY3HJ9hKkh33)
+#### [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+
+
+
+
+
+
+
+
+#### [208. 实现 Trie (前缀树)](https://leetcode-cn.com/problems/implement-trie-prefix-tree/)
+
+- python版
+
+![image-20210426094507521](img/image-20210426094507521.png)
+
+- Java版
+
+​        采用数组方式存储子Trie，每个子节点均为Trie数组，共有0-25个位置，分别代表a-z这25个字符，不为null代表该位置所代表的单词有值，isEnd来标识是否到达一个单词的末尾。
+
+```java
+class Trie {
+    Trie[] children;
+    Boolean isEnd;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        Integer len = word.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            int index = c-'a';
+            if(node.children[index] == null) {
+                node.children[index] = new Trie();
+            }
+            node = node.children[index];
+        }
+        node.isEnd = true;
+    }
+
+    public Trie searchPrefix(String word) {
+        //返回最终的那个node
+        Trie node = this;
+        Integer len = word.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            int index = c-'a';
+            if(node.children[index] != null) {
+                node = node.children[index];
+            } else {
+                return null;
+            }
+        }
+        return node;
+    }
+
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie node = searchPrefix(word);
+        return  node!= null && node.isEnd;
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        return  searchPrefix(prefix)!= null;
+    }
+}
+```
+
+
+
+- ~~复杂版~~ （可以不看）
+
+```java
+class Trie {
+
+    Trie[] children;
+    Boolean isEnd;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        Integer len = word.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            int index = c-'a';
+            if(node.children[index] == null) {
+                node.children[index] = new Trie();
+            }
+            node = node.children[index];
+        }
+        node.isEnd = true;
+    }
+
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie node = this;
+        Integer len = word.length();
+
+        int index = -1;
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            index = c-'a';
+            if(node.children[index] != null) {
+                node = node.children[index];
+            } else {
+                return false;
+            }
+        }
+        if(node.isEnd) {
+            return true;
+        }
+        return false;
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        Trie node = this;
+        Integer len = prefix.length();
+
+        int index = -1;
+        for (int i = 0; i < len; i++) {
+            char c = prefix.charAt(i);
+            index = c-'a';
+            if(node.children[index] != null) {
+                node = node.children[index];
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+- 使用map+结束字符
+
+使用map来存储，<key,value>结构为<char,Trie>，方便查询，而且节省空间
+
+```java
+class Trie {
+
+    Map<Character, Trie> children;
+    char end_of_word;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new HashMap();
+        end_of_word = '#';
+    }
+
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        for (char c: word.toCharArray()) {
+            if(node.children.get(c) == null) {
+                node.children.put(c,new Trie());
+            }
+            node = node.children.get(c);
+        }
+        node.end_of_word = '@';
+
+    }
+
+    public Trie searchPrefix(String word) {
+        Trie node = this;
+        for (char c: word.toCharArray()) {
+            if(node.children.get(c) == null) {
+                return null;
+            } else {
+                node = node.children.get(c);
+            }
+        }
+        return node;
+    }
+
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie node = searchPrefix(word);
+        return  node!= null && node.end_of_word == '@';
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        return  searchPrefix(prefix)!= null;
+    }
+}
+```
+
+
 
 ## 实战题目 / 课后作业
 
-- https://leetcode-cn.com/problems/implement-trie-prefix-tree/#/description
-- https://leetcode-cn.com/problems/word-search-ii/
+#### [212. 单词搜索 II](https://leetcode-cn.com/problems/word-search-ii/)
+
+> 标签： `四联通` 、 `trie树` 、`字符串搜索`、`字符串匹配`、`DFS`
+
+![image-20210428101326454](img/image-20210428101326454.png)
+
+
+
+- 暴力解法
+
+直接采用回溯+dfs进行四联通查找，发现会超出时间限制。一个word一个word的进行查找，每个word都需要将board遍历一遍，在board遍历过程中还需要进行四联通的DFS查找，故非常耗时间，其时间复杂度为O(单词个数N\*m\*n\*单词的平均长度^4);
+
+![image-20210428184800826](img/image-20210428184800826.png)
+
+```java
+int[] dx = {-1, 0, 1, 0};
+int[] dy = {0, -1, 0, 1};
+Set<String> set = new HashSet<>();
+//暴力方式：暴力查找
+public List<String> findWords(char[][] board, String[] words) {
+    //List<String> resList = new ArrayList<>();
+    if (board.length == 0 || board[0].length == 0 || board == null || words == null) {
+        return new ArrayList<>();
+    }
+
+    int m = board.length, n = board[0].length;
+
+    //遍历查找
+    for (String word : words) {
+        boolean[][] isUsed = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+                dfs(board, word, 0, i, j, isUsed);
+            }
+
+        }
+    }
+    return new ArrayList<>(set);
+}
+
+private void dfs(char[][] board, String word, int curIndex, int i, int j, boolean[][] isUsed) {
+    if (curIndex >= word.length()) {
+        set.add(word);
+        return;
+    }
+
+    int m = board.length, n = board[0].length;
+    if (i < 0 || i >= m || j < 0 || j >= n || isUsed[i][j]) {
+        return;
+    }
+
+    for (int k = 0; k < 4; k++) {
+        if (word.charAt(curIndex) == board[i][j]) {
+            isUsed[i][j] = true;
+            dfs(board, word, curIndex + 1, i + dx[k], j + dy[k], isUsed);
+            isUsed[i][j] = false; //修正回原先状态
+        }
+    }
+    // return;  没有添加return的必要
+}
+```
+
+思考怎么能够加缩减搜索的时间复杂度？
+
+​		可以使用字典树Trie树，来存储words中的每个word，不依赖于word一个一个查找，而是依赖于board中的字符，去字典树中查找是否有到当前的前缀，没有即进行剪枝，查询下一个board的字符。
+
+```java
+int[] dx = {-1, 0, 1, 0};
+int[] dy = {0, -1, 0, 1};
+Set<String> set = new HashSet<>();
+
+//使用dfs进行回溯
+public List<String> findWords(char[][] board, String[] words) {
+    if (board.length == 0 || board[0].length == 0 || board == null || words == null) {
+        return new ArrayList<>();
+    }
+
+    int m = board.length, n = board[0].length;
+    Trie trie = new Trie();
+    //插入words到Trie树中
+    for (String word : words) {
+        trie.insertWord(word);
+    }
+
+    boolean[][] isUsed = new boolean[m][n]; //确保用过的下次不会朝向原先的位置用
+    //遍历查找
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            dfs(board, i, j, trie, isUsed); 
+        }
+    }
+    return new ArrayList<>(set);
+}
+
+//深度有限搜索
+private void dfs(char[][] board, int i, int j, Trie node, boolean[][] isUsed) {
+    int m = board.length, n = board[0].length;
+    if (i < 0 || i >= m || j < 0 || j >= n || isUsed[i][j]) {
+        return;
+    }
+
+    char c = board[i][j];
+    if (node.children[c - 'a'] == null) {
+        return;
+    }
+
+    node = node.children[c - 'a'];
+    if (node.isEnd) {
+        set.add(node.val);
+        node.isEnd = true;  //赋值是为了防止下一次过来，仍旧存储该值
+        // return;  //这里不能用终止，是因为存在 word = ["oa","oaa"] 这种情况，使得前缀是一个单词的后续仍旧可以查询到。
+    }
+
+    for (int k = 0; k < 4; k++) {
+        isUsed[i][j] = true;
+        dfs(board, i + dx[k], j + dy[k], node, isUsed);
+        isUsed[i][j] = false; //修正回原先状态
+    }
+}
+
+// 构建字典树
+class Trie {
+    Trie[] children;
+    boolean isEnd;
+    String val;  //记录到当前位置的值
+
+    Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+
+    void insertWord(String word) {
+        int len = word.length();
+        Trie node = this;
+        for (int i = 0; i < len; i++) {
+            char c = word.charAt(i);
+            int index = c - 'a';
+            if (node.children[index] == null) {
+                node.children[index] = new Trie();
+            }
+            node = node.children[index]; //往下移动一位
+        }
+        node.isEnd = true;
+        node.val = word;  //记录
+    }
+}
+```
+
+
+
+![image-20210428221105062](img/image-20210428221105062.png)
+
+
+
 - 分析单词搜索 2 用 Tire 树方式实现的时间复杂度，请同学们提交在第 6 周的学习总结中。
 
 
 
+
+
 ## 并查集
+
+并查集：一种跳跃式的数据结构
+
+适用场景：判断两两的元素是不是在一个集合中？两个人是不是朋友？这类问题直接使用并查集
+
+​		组团和配对，a和b是不是朋友？
+
+![image-20210429100706834](img/image-20210429100706834.png)
+
+- 初始化：每个元素拥有一个parent数组指向自己。
+
+![image-20210429104318865](img/image-20210429104318865.png)
+
+- 查询：目的是为了找当前元素的带头元素（用带头元素来作为整个集合的代表）；找其parent、再找其parent，直到其parent[i]==i，则找到了该带头元素
+- 合并：分别找出两个集合的领头元素，将parent[e]指向a或者parent[a]指向e（这两种指向均可）
+
+![image-20210429104634741](img/image-20210429104634741.png)
+
+- 路径压缩：提升查询效率
+
+![image-20210429104915629](img/image-20210429104915629.png)
+
+- 实现方式
+
+![image-20210429111056418](img/image-20210429111056418.png)
+
+
+
+- 代码模板
+
+```java
+class UnionFind {
+    private int count = 0;
+    private int[] parent;
+
+    public UnionFind(int n) {
+        count = n;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    public int find(int p) {
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]];
+            p = parent[p];
+        }
+        return p;
+    }
+
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) return;
+        parent[rootP] = rootQ;
+        count--;
+    }
+}
+```
+
+- 并查集：路径压缩的
+
+```java
+class UnionFind {
+    public int count = 0;  //记录有几个群组，连通分量的个数
+    public int[] parent;
+
+    public UnionFind(int n) {
+        count = n;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    public int find(int p) {  //找到p元素所在group的代表元素
+        int target = p;
+        while (p != parent[p]) {  // 不断向上找，直到找到了p == parent[p]，即找到了代表元素
+            //parent[p] = parent[parent[p]];
+            p = parent[p];
+        }
+        //路径压缩
+        while (target != parent[target]) {
+            int temp = target;  //从底到 代表元素，
+            target = parent[target];
+            parent[temp] = p;
+        }
+        return p;
+    }
+
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) return;
+        parent[rootP] = rootQ;  //不相等的情况
+        count--;
+    }
+}
+```
+
+
 
 ## 参考链接
 
@@ -608,9 +1110,226 @@ class Solution {
 
 ## 实战题目 / 课后作业
 
-- https://leetcode-cn.com/problems/friend-circles
-- https://leetcode-cn.com/problems/number-of-islands/
-- https://leetcode-cn.com/problems/surrounded-regions/
+#### [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+
+
+
+- dfs
+
+```java
+//定义
+int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}}; // 右、下两个方向
+int count = 0;
+boolean[][] visited;
+int row;
+int col;
+
+//1. dfs方式
+public int numIslands(char[][] grid) {
+    //判空
+    if(grid == null) {
+        return 0;
+    }
+    row = grid.length;
+    if(row == 0) {
+        return 0;
+    }
+    col = grid[0].length;
+    visited = new boolean[row][col];
+
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            if(grid[i][j] == '1' && !visited[i][j]) {
+                dfs(grid,i,j);  //进行一次dfs，即代表一座岛屿
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+private void dfs(char[][] grid, int i, int j) {
+    //结束条件
+    if(grid[i][j] == '0' && !visited[i][j]) {
+        visited[i][j] = true;
+        return;
+    }
+
+    //根
+    visited[i][j] = true;
+
+    //多叉
+    for (int[] direction :directions) {
+        int newX = i+direction[0];
+        int newY = j+direction[1];
+        if(newX >= 0 && newX < row && newY >= 0 && newY < col && !visited[newX][newY]) {
+            dfs(grid, newX, newY);
+        }
+    }
+}
+```
+
+
+
+- bfs
+
+```java
+class Solution {
+   //定义
+    int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}}; // 右、下两个方向
+    int count = 0;
+    boolean[][] visited;
+    int row;
+    int col;
+
+    //2. bfs方式
+    public int numIslands(char[][] grid) {
+        //判空
+        if(grid == null) {
+            return 0;
+        }
+        row = grid.length;
+        if(row == 0) {
+            return 0;
+        }
+        col = grid[0].length;
+        visited = new boolean[row][col];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if(grid[i][j] == '1' && !visited[i][j]) {
+                    bfs(grid,i,j);  //进行一次bfs，即代表一座岛屿
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    //迭代的方式
+    private void bfs(char[][] grid, int i, int j) {
+        Deque<Integer> deque = new LinkedList<>();
+        deque.addLast(i*col+j); //该编码必须在队列中唯一
+        visited[i][j] = true;
+
+        while (!deque.isEmpty()) {
+            Integer first = deque.removeFirst(); // deque.poll()
+            int curX = first/col;
+            int curY = first%col;
+
+            //多叉
+            for (int[] direction :directions) {
+                int newX = curX+direction[0];
+                int newY = curY+direction[1];
+                if(newX >= 0 && newX < row && newY >= 0 && newY < col && !visited[newX][newY] && grid[newX][newY] == '1') {
+                    deque.addLast(newX * col + newY);  // deque.offer()
+                    visited[newX][newY] = true;
+                }
+            }
+        }
+    }
+}
+```
+
+- 并查集方式
+
+思路：
+
+并查集中维护连通分量的个数，在遍历的过程中：
+
+- 相邻的陆地（只需要向右看和向下看）合并，只要发生过合并，岛屿的数量就减少 1；
+- 在遍历的过程中，同时记录空地的数量；
+- 岛屿数量 = 并查集中连通分量的个数 - 空地的个数；
+
+```java
+class Solution {
+    //1. 定义一些额外的需要的量
+    int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}}; // 右、下两个方向
+    int row;
+    int col;
+    
+    //2. 定义并查集
+     class UnionFind {
+        public int count = 0;  //记录有几个群组，连通分量的个数
+        public int[] parent;
+
+        public UnionFind(int n) {
+            count = n;
+            parent = new int[n];
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+            }
+        }
+
+        public int find(int p) {  //找到p元素所在group的代表元素
+            int target = p;
+            while (p != parent[p]) {  // 不断向上找，直到找到了p == parent[p]，即找到了代表元素
+                //parent[p] = parent[parent[p]];
+                p = parent[p];
+            }
+            //路径压缩
+            while (target != parent[target]) {
+                int temp = target;  //从底到 代表元素，
+                target = parent[target];
+                parent[temp] = p;
+            }
+            return p;
+        }
+
+        public void union(int p, int q) {
+            int rootP = find(p);
+            int rootQ = find(q);
+            if (rootP == rootQ) return;
+            parent[rootP] = rootQ;  //不相等的情况
+            count--;
+        }
+	}
+
+    //3. 并查集
+    public int numIslands(char[][] grid) {
+        //判空
+        if (grid == null) {
+            return 0;
+        }
+        row = grid.length;
+        if (row == 0) {
+            return 0;
+        }
+        col = grid[0].length;
+        UnionFind unionFind = new UnionFind(row * col);
+        int spaces = 0; //记录0出现的次数，每个0相当于一个单独的连通分量
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == '0') {
+                    spaces++;
+                } else {
+                    for (int[] direction : directions) {
+                        int newX = i + direction[0];
+                        int newY = j + direction[1];
+                        if (newX >= 0 && newX < row && newY >= 0 && newY < col && grid[newX][newY] == '1') {
+                            unionFind.union(i*col+j, newX*col+newY);
+                        }
+                    }
+                }
+            }
+        }
+        return unionFind.count-spaces; //总的连通分量-0的个数(即0所代表的连通分量)
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+#### [130. 被围绕的区域](https://leetcode-cn.com/problems/surrounded-regions/)
 
 
 
