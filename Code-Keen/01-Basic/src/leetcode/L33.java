@@ -27,7 +27,7 @@ public class L33 {
             //在左侧
             if(target > nums[0]) {
                 left = 0;
-                //right =
+
             }
 
             //在右侧
