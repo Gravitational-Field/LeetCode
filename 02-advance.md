@@ -1,3 +1,5 @@
+
+
 # 10、贪心算法
 
 > 只找当前最优，不再进行回溯，不记录曾经走过的路；可能达不到最优解，但如果可以使用贪心算法得到最优结果，则贪心算法的探索过程一定是最优的，因为其没有额外的内存消耗，且时间方面也是最优的。
@@ -1323,11 +1325,39 @@ class Solution {
 
 
 
-
-
-
-
 # 14、高级搜索
+
+- 初级搜索
+
+  ![image-20210508225209264](img/02-advance/image-20210508225209264.png)
+
+![image-20210509203650189](img/02-advance/image-20210509203650189.png)
+
+![image-20210509203704373](img/02-advance/image-20210509203704373.png)
+
+BFS一般都是使用队列来实现，不通过递归来实现 
+
+![image-20210509203717916](img/02-advance/image-20210509203717916.png)
+
+![image-20210509233503895](img/02-advance/image-20210509233503895.png)
+
+
+
+ 搜索的状态数：![image-20210508225950621](img/02-advance/image-20210508225950621.png)
+
+优化方向：剪枝（剪掉重复、非最优的枝）
+
+ 
+
+
+<<<<<<< Updated upstream
+# 14、高级搜索
+=======
+
+
+
+
+>>>>>>> Stashed changes
 
 ## 参考链接
 
@@ -1342,7 +1372,10 @@ class Solution {
 
 ## 实战题目
 
-- https://leetcode-cn.com/problems/climbing-stairs/
+#### [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+
+
+
 - https://leetcode-cn.com/problems/generate-parentheses/
 - [https://leetcode-cn.com/problems/n-queens](https://leetcode-cn.com/problems/n-queens/)
 - https://leetcode-cn.com/problems/valid-sudoku/description/
