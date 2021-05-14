@@ -1374,12 +1374,222 @@ BFS一般都是使用队列来实现，不通过递归来实现
 
 #### [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 
+<<<<<<< Updated upstream
 
 
 - https://leetcode-cn.com/problems/generate-parentheses/
 - [https://leetcode-cn.com/problems/n-queens](https://leetcode-cn.com/problems/n-queens/)
 - https://leetcode-cn.com/problems/valid-sudoku/description/
 - https://leetcode-cn.com/problems/sudoku-solver/#/description
+=======
+想法：
+
+这是一个斐波那契数列得问题，直观的看每一项（n>2）都等于前两项之和。
+
+
+
+- 直接递归：造成超时，时间复杂度太高
+
+```java
+class Solution {
+    public int climbStairs(int n) {
+        if(n == 1 || n == 2) {
+            return n;
+        }
+        return climbStairs(n-1)+climbStairs(n-2);
+    }
+}
+```
+
+![image-20210511082007610](img/image-20210511082007610.png)
+
+为什么直接递归那么耗费时间？可以画出直接递归的递归树，发现这是一颗二叉树，深度能够达到$2^n$，并且有很多重复的分支，是否可以通过记录的方式，来进行剪枝优化。
+
+考虑如何能够提升效率？
+
+两种思考角度，自顶向下和自底向上，中间冗余过程提前记录
+
+- 自顶向下：从结果，一步步回退，直到获得最终结果
+
+```java
+class Solution {
+    int[] array;  //默认内部为0
+    public int climbStairs(int n) {
+        if( n == 1 || n == 2) {
+            return n;
+        }
+        array = new int[n+1];
+        array[1] = 1;
+        array[2] = 2;
+
+        process(n);
+        return array[n];
+    }
+
+    private void process(int n) {
+        if(array[n-2] == 0) {
+            process(n-2);
+        }
+        if(array[n-1] == 0) {
+            process(n-1);
+        }
+        array[n] = array[n-1]+array[n-2];
+    }
+}
+```
+
+![image-20210511085652792](img/image-20210511085652792.png)
+
+- 自底向上
+
+```java
+class Solution {
+    int[] array; 
+    public int climbStairs(int n) {
+        if( n == 1 || n == 2) {
+            return n;
+        }
+        array = new int[n+1];
+        array[1] = 1;
+        array[2] = 2;
+
+        //迭代处理
+        for (int i = 3; i <= n; i++) {
+            array[i] = array[i-2] + array[i-1];
+        }
+
+        return array[n];
+    }
+}
+```
+
+![image-20210511091243722](img/image-20210511091243722.png)
+
+
+
+不使用数组，采用两个中间变量来进行处理
+
+```java
+class Solution {
+    public int climbStairs(int n) {
+        if( n == 1 || n == 2) {
+            return n;
+        }
+        int p = 1;
+        int q = 2;
+        int z = -1;
+
+        //迭代处理
+        for (int i = 3; i <= n; i++) {
+             z = p+q;
+             p = q;
+             q = z;
+        }
+        return q;
+    }
+}
+```
+
+![image-20210511091416306](img/image-20210511091416306.png)
+
+将p、q、z置于外部：效率有提升
+
+![image-20210511091523819](img/image-20210511091523819.png)
+
+
+
+
+
+
+
+
+
+
+
+#### [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+
+```java
+List<String> resultList = new ArrayList<>();
+int n;
+public List<String> generateParenthesis(int n) {
+    this.n = n;
+    if(n <= 0) {
+        return resultList;
+    }
+    int level = 1;
+    dfs("", 0, 0);
+
+    return resultList;
+}
+
+private void dfs(String str, int open, int close) {
+    //结束条件
+    if(str.length() == 2*n) {
+        resultList.add(str);
+        return;
+    }
+
+    //左
+    if(open < n) {
+        //放(
+        dfs(str+"(",open+1, close);
+    }
+
+    //右
+    if(open > close) {
+        //放)
+        dfs(str+")",open, close+1);
+    }
+}
+```
+
+
+
+#### [51. N 皇后](https://leetcode-cn.com/problems/n-queens/)
+
+
+
+#### [36. 有效的数独](https://leetcode-cn.com/problems/valid-sudoku/)
+
+思路：
+
+遍历数组一次，全都存储到三个不同的数组中
+
+```java
+public boolean isValidSudoku(char[][] board) {
+    int row = board.length;
+    int col = board[0].length;
+
+    boolean[][] rows = new boolean[9][9];
+    boolean[][] cols = new boolean[9][9];
+    boolean[][] boxs = new boolean[9][9];
+    for (int i = 0; i < row; i++) { //双重循环解决：遍历一遍
+        for (int j = 0; j < col; j++) {
+            if (board[i][j] == '.') {
+                continue;
+            }
+            int num = board[i][j] - '1';
+            int boxIndex = (i / 3) * 3 + j / 3;  //计算是第几个box
+            if (rows[i][num]) return false;
+            else rows[i][num] = true;
+            if (cols[j][num]) return false;
+            else cols[j][num] = true;
+            if (boxs[boxIndex][num]) return false;
+            else boxs[boxIndex][num] = true;
+        }
+    }
+    return true;
+}
+```
+
+
+
+
+
+
+
+#### [37. 解数独](https://leetcode-cn.com/problems/sudoku-solver/)
+>>>>>>> Stashed changes
 
 
 
@@ -1405,6 +1615,12 @@ BFS一般都是使用队列来实现，不通过递归来实现
 ## 参考链接
 
 - [平衡树](https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree)
+
+
+
+
+
+
 
 
 
