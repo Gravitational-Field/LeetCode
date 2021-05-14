@@ -48,17 +48,17 @@ public class L51 {
         //判断当前索引位置是否合规
         //判断列是否合法
         for (int j = 0; j < list.size(); j++) { //j代表第j个字符串
-            if(list.get(j).charAt(index) == 'Q') {
+            if(list.get(j).charAt(index) == 'Q') {  //不能在同一列上
                 return false;
             }
 
             //判断右侧合法性
-            if(row - index == j-list.get(j).indexOf('Q')) {
+            if(row - index == j-list.get(j).indexOf('Q')) { //不能在右斜线上
                 return false;
             }
 
             //判断左侧合法性
-            if(row + index == j+list.get(j).indexOf('Q')) {
+            if(row + index == j+list.get(j).indexOf('Q')) {  //不能在左侧斜线上
                 return false;
             }
         }

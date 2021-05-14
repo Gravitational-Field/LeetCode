@@ -20,7 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5133b8d4-dd44-4bc7-b375-dc477db46c4a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L22_1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L22_2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L36.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../02-advance.md" beforeDir="false" afterPath="$PROJECT_DIR$/../02-advance.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/01-Basic/src/leetcode/L51.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L51.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/01-Basic/src/leetcode/L70.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L70.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,16 +72,16 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Project-Online-School/ocProject" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.importing" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="leetcode" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="L200" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L200" />
+  <component name="RunManager" selected="Application.L36">
+    <configuration name="L22_1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="leetcode.L22_1" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -87,8 +93,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="L212" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L212" />
+    <configuration name="L22_2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="leetcode.L22_2" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -100,8 +106,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="L367" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L367" />
+    <configuration name="L36" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="leetcode.L36" />
+      <module name="Code-Keen" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="leetcode.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="L70" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="leetcode.L70" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -126,26 +145,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Renyizuhe" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="interview.Renyizuhe" />
-      <module name="Code-Keen" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="interview.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.L36" />
+        <item itemvalue="Application.L22_2" />
+        <item itemvalue="Application.L22_1" />
+        <item itemvalue="Application.L70" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Renyizuhe" />
-        <item itemvalue="Application.L200" />
-        <item itemvalue="Application.L212" />
-        <item itemvalue="Application.L367" />
       </list>
     </recent_temporary>
   </component>
@@ -188,6 +194,9 @@
       <workItem from="1620345653081" duration="22071000" />
       <workItem from="1620477673548" duration="4752000" />
       <workItem from="1620540025867" duration="2726000" />
+      <workItem from="1620617338029" duration="3220000" />
+      <workItem from="1620691914141" duration="12028000" />
+      <workItem from="1620957455431" duration="4196000" />
     </task>
     <servers />
   </component>
@@ -212,41 +221,49 @@
     </state>
     <state x="794" y="410" key="FileChooserDialogImpl/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618840050382" />
     <state x="794" y="410" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1615816975067" />
-    <state width="1877" height="332" key="GridCell.Tab.0.bottom" timestamp="1620482539764">
+    <state width="1877" height="119" key="GridCell.Tab.0.bottom" timestamp="1620961003164">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052811" />
+    <state width="1877" height="119" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620961003164" />
     <state width="1877" height="332" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
     <state width="1877" height="249" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1080.-417.1080.1880@0.0.1920.1040" timestamp="1617618259464" />
     <state width="1877" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
     <state width="1877" height="321" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
+    <state width="1877" height="195" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1620695575370" />
     <state width="1877" height="279" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617930863138" />
-    <state width="1877" height="332" key="GridCell.Tab.0.center" timestamp="1620482539764">
+    <state width="1877" height="119" key="GridCell.Tab.0.center" timestamp="1620961003164">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="279" key="GridCell.Tab.0.center/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052811" />
+    <state width="1877" height="119" key="GridCell.Tab.0.center/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620961003164" />
     <state width="1877" height="332" key="GridCell.Tab.0.center/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
     <state width="1877" height="249" key="GridCell.Tab.0.center/0.0.1920.1040/-1080.-417.1080.1880@0.0.1920.1040" timestamp="1617618259464" />
     <state width="1877" height="279" key="GridCell.Tab.0.center/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
     <state width="1877" height="321" key="GridCell.Tab.0.center/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
+    <state width="1877" height="195" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1620695575370" />
     <state width="1877" height="279" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617930863137" />
-    <state width="1877" height="332" key="GridCell.Tab.0.left" timestamp="1620482539764">
+    <state width="1877" height="119" key="GridCell.Tab.0.left" timestamp="1620961003164">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="279" key="GridCell.Tab.0.left/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052810" />
+    <state width="1877" height="119" key="GridCell.Tab.0.left/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620961003164" />
     <state width="1877" height="332" key="GridCell.Tab.0.left/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
     <state width="1877" height="249" key="GridCell.Tab.0.left/0.0.1920.1040/-1080.-417.1080.1880@0.0.1920.1040" timestamp="1617618259464" />
     <state width="1877" height="279" key="GridCell.Tab.0.left/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
     <state width="1877" height="321" key="GridCell.Tab.0.left/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
+    <state width="1877" height="195" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1620695575370" />
     <state width="1877" height="279" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617930863137" />
-    <state width="1877" height="332" key="GridCell.Tab.0.right" timestamp="1620482539764">
+    <state width="1877" height="119" key="GridCell.Tab.0.right" timestamp="1620961003164">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="279" key="GridCell.Tab.0.right/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052811" />
+    <state width="1877" height="119" key="GridCell.Tab.0.right/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620961003164" />
     <state width="1877" height="332" key="GridCell.Tab.0.right/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
     <state width="1877" height="249" key="GridCell.Tab.0.right/0.0.1920.1040/-1080.-417.1080.1880@0.0.1920.1040" timestamp="1617618259464" />
     <state width="1877" height="279" key="GridCell.Tab.0.right/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
     <state width="1877" height="321" key="GridCell.Tab.0.right/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
+    <state width="1877" height="195" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1620695575370" />
     <state width="1877" height="279" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617930863138" />
     <state width="1877" height="332" key="GridCell.Tab.1.bottom" timestamp="1620482539764">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -280,6 +297,10 @@
     <state width="1877" height="279" key="GridCell.Tab.1.right/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
     <state width="1877" height="321" key="GridCell.Tab.1.right/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
     <state width="1877" height="320" key="GridCell.Tab.1.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617633155878" />
+    <state x="320" y="187" width="998" height="708" key="SettingsEditor" timestamp="1620790559593">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="320" y="187" width="998" height="708" key="SettingsEditor/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620790559593" />
     <state x="417" y="104" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1618238160187">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
