@@ -489,19 +489,332 @@ class Solution {
 ## 参考链接
 
 - [递归代码模板](http://shimo.im/docs/DjqqGCT3xqDYwPyY/)
+
+![image-20210527100018878](img/image-20210527100018878.png)
+
 - [分治代码模板](http://shimo.im/docs/3xvghYh3JJPKwdvt/)
+
+![image-20210527095832278](img/image-20210527095832278.png)
+
 - [动态规划定义](https://en.wikipedia.org/wiki/Dynamic_programming)
 
 
 
-最长公共子序列
+- 动态规划问题的几个关键点
+
+方法一：先使用递归的思路写，里面的公共子问题；最后可以套用动态规划的模板，能够直接出来
+
+
+
+方法二：直接硬上dp，关键是要考虑下边几点
+
+1、dp数组存的是什么？
+
+2、基本状态是什么
+
+
 
 ## 参考链接
 
-- [不同路径题目](https://leetcode-cn.com/problems/unique-paths/)
-- [不同路径 2 题目](https://leetcode-cn.com/problems/unique-paths-ii/)
-- [最长公共子序列题目](https://leetcode-cn.com/problems/longest-common-subsequence/)
-- [MIT 动态规划课程最短路径算法](https://www.bilibili.com/video/av53233912?from=search&seid=2847395688604491997)
+
+
+#### [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
+
+- 组合数学方式
+
+m行n列：向下走m-1步，向右走n-1步；从（m-1+n-1）中选出m-1步向下走；即采用排列组合中的组合方式：$C_{m+n-2}^{m-1}$.
+
+排列组合公式：
+
+**排列：**  $A_{n}^{m}=n(n-1) \cdots(n-m+1)=\frac{n !}{(n-m) !}$
+
+**组合：** $C_{n}^{m}=\frac{A_{n}^{m}}{m !}=\frac{n !}{m !(n-m) !}=C_{n}^{n-m}$
+
+但要担心计算过程中超出int 和 long的范围
+
+```java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        //组合数学方式 C m+n-2   m-1
+        return (int)(factorial(m+n-2)/factorial(m-1)/factorial(n-1));
+    }
+
+    private long factorial(int i) {
+        long sum = 1;
+        for (int j = 1; j <= i; j++) {
+            sum *= j;
+        }
+        return sum;
+    }
+}
+```
+
+![image-20210527161625616](img/image-20210527161625616.png)
+
+出错原因：超出了long的范围
+
+```java
+public int uniquePaths(int m, int n) {
+    int N = n + m - 2;
+    double res = 1;
+    for (int i = 1; i < m; i++)  //巧妙
+        res = res * (N - (m - 1) + i) / i;
+    return (int) res;
+}
+
+作者：sdwwld
+链接：https://leetcode-cn.com/problems/unique-paths/solution/dong-tai-gui-hua-di-gui-gong-shi-deng-3z-9mp1/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+```
+
+$C_{n}^{m}=\frac{A_{n}^{m}}{m !}=\frac{n !}{m !(n-m) !}=C_{n}^{n-m}$  n!中一部分可以和n-m！中的可以约去，并构建一个循环，不断的求，从而避免了越界
+
+- 自顶向下：
+
+**傻递归**
+
+```java
+//递归方式：自顶向下方式
+public int uniquePaths(int m, int n) {
+    return recursion(0, 0, m, n);
+}
+
+//进行递归，计算[i,j]到[m-1,n-1]的路径条数
+private int recursion(int i, int j, int m, int n) {
+    if (i == m - 1 || j == n - 1) {
+        return 1;
+    }
+    return recursion(i + 1, j, m, n) + recursion(i, j + 1, m, n);
+}
+```
+
+![image-20210527112951703](img/image-20210527112951703.png)
+
+
+
+**递归+记忆化搜索**
+
+思想：
+
+```java
+//递归方式：自顶向下方式 + 记忆化搜索
+public int uniquePaths(int m, int n) {
+    int[][] dp= new int[m][n];  //递归不需要dp数组
+    //基础状态处理
+    //处理最后一列,列不变，行变
+    for (int i = 0; i < m; i++) {
+        dp[i][n-1] = 1;
+    }
+    //处理最后一行，行不变，列变
+    for (int i = 0; i < n; i++) {
+        dp[m-1][i] = 1;
+    }
+    //进行递归,来填充dp数组
+    recursion(0, 0, dp);
+    for (int[] array:dp) {
+        System.out.println(Arrays.toString(array));
+    }
+    return dp[0][0];
+}
+
+//进行递归，计算[i,j]到[m-1,n-1]的路径条数
+private int recursion(int i, int j, int[][] dp) {
+    //不需要进行这个结束判断
+    /*if (i == dp.length - 1 || j == dp[0].length - 1) {
+            return 1;
+        }*/
+
+    if(dp[i][j] == 0) {
+        dp[i][j] = recursion(i + 1, j, dp) + recursion(i, j + 1, dp);
+    }
+    return dp[i][j];
+}
+```
+
+
+
+
+
+自底向上：使用动态规划思路
+
+1、基础状态
+
+2、存储中间状态
+
+3、寻找状态转移方程
+
+
+
+![image-20210527102009157](img/image-20210527102009157.png)
+
+
+
+动态规划：这种方式好理解
+
+```java
+//自底向上：动态规划递推方式  空间复杂度为：O(mn)
+public int uniquePaths3(int m, int n) {
+    //从左上到右下 == 从右下走到左上
+    int[][] dp = new int[m][n];
+    //初始化状态
+    for (int i = 0; i < m; i++) dp[i][0] = 1;  //行变，列不变
+    for (int i = 0; i < n; i++) dp[0][i] = 1;  //列变，行不变
+
+    //递推：dp[i][j] = dp[i+1][j] + dp[i][j+1]
+    for (int i = 1; i < m; i++) {
+        for (int j = 1; j < n; j++) {
+            dp[i][j] = dp[i-1][j] + dp[i][j-1];
+        }
+    }
+    return dp[m-1][n-1];
+}
+```
+
+优化：空间复杂度O(n)
+
+```java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[] cur = new int[n];
+        Arrays.fill(cur,1);
+        for (int i = 1; i < m;i++){
+            for (int j = 1; j < n; j++){
+                cur[j] += cur[j-1] ;
+            }
+        }
+        return cur[n-1];
+    }
+}
+```
+
+
+
+#### [63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii/)
+
+思考：关键点在于处理障碍物节点，构建dp数组时进行限制，限制那个点的值为0
+
+```java
+class Solution {
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        //创建dp数组
+        int[][] dp = new int[m][n];
+        //构建基本状态
+        for (int i = 0; i < dp.length;i++) {
+            if(obstacleGrid[i][0]==1) {
+                break;
+            }
+            dp[i][0] = 1;
+        }
+        for (int i = 0; i < dp[0].length; i++)  {
+            if(obstacleGrid[0][i]==1) {
+                break;
+            }
+            dp[0][i] = 1;
+        }
+
+        //递推：dp[i][j] = dp[i-1][j]+dp[i][j-1]  但要排除obstacleGrid[i][j] == 1
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if(obstacleGrid[i][j] == 0) {
+                    dp[i][j] = dp[i-1][j]+dp[i][j-1];
+                }
+            }
+        }
+        
+        return dp[m-1][n-1];
+    }
+}
+```
+
+#### [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
+
+动态规划四步走:
+
+1、dp数组：存什么？要多大？每个元素代表什么？
+
+2、基本状态是什么？
+
+3、
+
+
+
+
+
+求一个最长公共子序列的问题 转换为 二维数组递推问题：如何能够定义动态规划问题的状态
+
+![image-20210528020501994](img/image-20210528020501994.png)
+
+dp方程：
+
+![image-20210528020632113](img/image-20210528020632113.png)
+
+
+
+```java
+//有时这种方式不太好理解
+public int longestCommonSubsequence1(String text1, String text2) {
+    int m = text1.length();
+    int n = text2.length();
+    int[][] dp = new int[m + 1][n + 1]; //不需要初始化，默认初始化为0
+   
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    
+    return dp[m][n];
+}
+```
+
+
+
+
+
+- 应用空格技巧的动态规划
+
+即在所需处理的字符串前增加一个空格，防止越界，也方便了dp数组的初始化。
+
+```java
+//应用空格技巧的动态规划
+public int longestCommonSubsequence(String text1, String text2) {
+    int m = text1.length();
+    int n = text2.length();
+    text1 = " "+text1;
+    text2 = " "+text2;
+    int[][] dp = new int[m+1][n+1];
+
+    //dp数组初始化
+    for (int i = 0; i < m+1; i++) dp[i][0] = 1; //行变列不变
+    for (int i = 0; i < n+1; i++) dp[0][i] = 1; //列变行不变
+
+    //进行递推
+    for (int i = 1; i < m+1; i++) {
+        for (int j = 1; j < n+1; j++) {
+            if(text1.charAt(i) == text2.charAt(j)) {
+                dp[i][j] = dp[i-1][j-1]+1;
+            } else {
+                dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+    }
+
+    return dp[m][n]-1; //最终减去空字符所引起的重复
+}
+```
+
+
+
+
+
+
 
 
 
@@ -1349,15 +1662,8 @@ BFS一般都是使用队列来实现，不通过递归来实现
 
  
 
-
-<<<<<<< Updated upstream
 # 14、高级搜索
-=======
 
-
-
-
->>>>>>> Stashed changes
 
 ## 参考链接
 
@@ -1374,14 +1680,6 @@ BFS一般都是使用队列来实现，不通过递归来实现
 
 #### [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 
-<<<<<<< Updated upstream
-
-
-- https://leetcode-cn.com/problems/generate-parentheses/
-- [https://leetcode-cn.com/problems/n-queens](https://leetcode-cn.com/problems/n-queens/)
-- https://leetcode-cn.com/problems/valid-sudoku/description/
-- https://leetcode-cn.com/problems/sudoku-solver/#/description
-=======
 想法：
 
 这是一个斐波那契数列得问题，直观的看每一项（n>2）都等于前两项之和。
@@ -1498,14 +1796,6 @@ class Solution {
 
 
 
-
-
-
-
-
-
-
-
 #### [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 
 ```java
@@ -1589,7 +1879,82 @@ public boolean isValidSudoku(char[][] board) {
 
 
 #### [37. 解数独](https://leetcode-cn.com/problems/sudoku-solver/)
->>>>>>> Stashed changes
+
+思路：采用回溯方式
+
+```java
+class Solution {
+    public void solveSudoku(char[][] board) {
+        backtrack(board, 0, 0);
+    }
+
+    boolean backtrack(char[][] board, int r, int c) {
+        int m = 9, n = 9;
+        if (c == n) {
+            // 穷举到最后一列的话就换到下一行重新开始。
+            return backtrack(board, r + 1, 0);
+        }
+        if (r == m) {
+            // 找到一个可行解，触发 base case
+            return true;
+        }
+        // 就是对每个位置进行穷举
+        for (int i = r; i < m; i++) {
+            for (int j = c; j < n; j++) {
+
+                if (board[i][j] != '.') {
+                    // 如果有预设数字，不用我们穷举
+                    return backtrack(board, i, j + 1);
+                } 
+
+                for (char ch = '1'; ch <= '9'; ch++) {
+                    // 如果遇到不合法的数字，就跳过
+                    if (!isValid(board, i, j, ch))
+                        continue;
+
+                    board[i][j] = ch;
+                    // 如果找到一个可行解，立即结束
+                    if (backtrack(board, i, j + 1)) {
+                        return true;
+                    }
+                    board[i][j] = '.';
+                }
+                // 穷举完 1~9，依然没有找到可行解，此路不通
+                return false;
+            }
+        }
+        return false;
+    }
+
+    // 判断 board[i][j] 是否可以填入 n
+    boolean isValid(char[][] board, int r, int c, char n) {
+        for (int i = 0; i < 9; i++) {
+            // 判断行是否存在重复
+            if (board[r][i] == n) return false;
+            // 判断列是否存在重复
+            if (board[i][c] == n) return false;
+            // 判断 3 x 3 方框是否存在重复
+            if (board[(r/3)*3 + i/3][(c/3)*3 + i%3] == n)  //获取3*3格中的索引
+                return false;
+        }
+        return true;
+    }
+}
+```
+
+- **tips**：9x9格分成9格3x3格时，其索引的遍历
+
+```java
+int r;  //本身行
+int c;  //本身列
+for(int i=0; i<9; i++) {
+	int row = (r/3)*3 + i/3;
+    int col = (c/3)*3 + i%3;
+	System.out.println(board[row][col]);
+}
+```
+
+
 
 
 

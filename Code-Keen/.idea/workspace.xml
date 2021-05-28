@@ -20,13 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5133b8d4-dd44-4bc7-b375-dc477db46c4a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L22_1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L22_2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L36.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L1143.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L37.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L62.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L63.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/test/TestGC.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../02-advance.md" beforeDir="false" afterPath="$PROJECT_DIR$/../02-advance.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-Basic/src/leetcode/L51.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L51.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-Basic/src/leetcode/L70.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L70.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Code-Keen/META-INF/Code-Keen.kotlin_module" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +43,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -79,9 +88,9 @@
       <recent name="leetcode" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.L36">
-    <configuration name="L22_1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L22_1" />
+  <component name="RunManager" selected="Application.L1143">
+    <configuration name="L1143" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="leetcode.L1143" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -93,8 +102,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="L22_2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L22_2" />
+    <configuration name="L37" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="leetcode.L37" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -106,8 +115,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="L36" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L36" />
+    <configuration name="L62" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="leetcode.L62" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -119,8 +128,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="L70" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L70" />
+    <configuration name="L63" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="leetcode.L63" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -132,12 +141,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="interview.Main" />
+    <configuration name="TestGC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.TestGC" />
       <module name="Code-Keen" />
+      <option name="VM_PARAMETERS" value="-XX:+PrintGCDetails" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="interview.*" />
+          <option name="PATTERN" value="test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -145,16 +155,55 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestGC.testEden" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="Code-Keen" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="test" />
+      <option name="MAIN_CLASS_NAME" value="test.TestGC" />
+      <option name="METHOD_NAME" value="testEden" />
+      <option name="TEST_OBJECT" value="method" />
+      <envs>
+        <env name="XX" value="PrintGCDetails" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.L37" />
+      <item itemvalue="Application.TestGC" />
+      <item itemvalue="JUnit.TestGC.testEden" />
+      <item itemvalue="Application.L62" />
+      <item itemvalue="Application.L63" />
+      <item itemvalue="Application.L1143" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.L36" />
-        <item itemvalue="Application.L22_2" />
-        <item itemvalue="Application.L22_1" />
-        <item itemvalue="Application.L70" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.L1143" />
+        <item itemvalue="Application.L63" />
+        <item itemvalue="Application.L62" />
+        <item itemvalue="Application.TestGC" />
+        <item itemvalue="Application.L37" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -196,12 +245,15 @@
       <workItem from="1620540025867" duration="2726000" />
       <workItem from="1620617338029" duration="3220000" />
       <workItem from="1620691914141" duration="12028000" />
-      <workItem from="1620957455431" duration="4196000" />
+      <workItem from="1620957455431" duration="7768000" />
+      <workItem from="1621512245205" duration="42000" />
+      <workItem from="1621512304159" duration="13936000" />
+      <workItem from="1622079988117" duration="25723000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -215,107 +267,19 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="794" y="410" key="FileChooserDialogImpl" timestamp="1618840050382">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="794" y="410" key="FileChooserDialogImpl/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618840050382" />
-    <state x="794" y="410" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1615816975067" />
-    <state width="1877" height="119" key="GridCell.Tab.0.bottom" timestamp="1620961003164">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052811" />
-    <state width="1877" height="119" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620961003164" />
-    <state width="1877" height="332" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
-    <state width="1877" height="249" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1080.-417.1080.1880@0.0.1920.1040" timestamp="1617618259464" />
-    <state width="1877" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
-    <state width="1877" height="321" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
-    <state width="1877" height="195" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1620695575370" />
-    <state width="1877" height="279" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617930863138" />
-    <state width="1877" height="119" key="GridCell.Tab.0.center" timestamp="1620961003164">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="279" key="GridCell.Tab.0.center/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052811" />
-    <state width="1877" height="119" key="GridCell.Tab.0.center/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620961003164" />
-    <state width="1877" height="332" key="GridCell.Tab.0.center/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
-    <state width="1877" height="249" key="GridCell.Tab.0.center/0.0.1920.1040/-1080.-417.1080.1880@0.0.1920.1040" timestamp="1617618259464" />
-    <state width="1877" height="279" key="GridCell.Tab.0.center/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
-    <state width="1877" height="321" key="GridCell.Tab.0.center/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
-    <state width="1877" height="195" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1620695575370" />
-    <state width="1877" height="279" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617930863137" />
-    <state width="1877" height="119" key="GridCell.Tab.0.left" timestamp="1620961003164">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="279" key="GridCell.Tab.0.left/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052810" />
-    <state width="1877" height="119" key="GridCell.Tab.0.left/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620961003164" />
-    <state width="1877" height="332" key="GridCell.Tab.0.left/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
-    <state width="1877" height="249" key="GridCell.Tab.0.left/0.0.1920.1040/-1080.-417.1080.1880@0.0.1920.1040" timestamp="1617618259464" />
-    <state width="1877" height="279" key="GridCell.Tab.0.left/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
-    <state width="1877" height="321" key="GridCell.Tab.0.left/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
-    <state width="1877" height="195" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1620695575370" />
-    <state width="1877" height="279" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617930863137" />
-    <state width="1877" height="119" key="GridCell.Tab.0.right" timestamp="1620961003164">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="279" key="GridCell.Tab.0.right/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052811" />
-    <state width="1877" height="119" key="GridCell.Tab.0.right/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620961003164" />
-    <state width="1877" height="332" key="GridCell.Tab.0.right/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
-    <state width="1877" height="249" key="GridCell.Tab.0.right/0.0.1920.1040/-1080.-417.1080.1880@0.0.1920.1040" timestamp="1617618259464" />
-    <state width="1877" height="279" key="GridCell.Tab.0.right/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
-    <state width="1877" height="321" key="GridCell.Tab.0.right/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
-    <state width="1877" height="195" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1620695575370" />
-    <state width="1877" height="279" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617930863138" />
-    <state width="1877" height="332" key="GridCell.Tab.1.bottom" timestamp="1620482539764">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="279" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052810" />
-    <state width="1877" height="332" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
-    <state width="1877" height="279" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
-    <state width="1877" height="321" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
-    <state width="1877" height="320" key="GridCell.Tab.1.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617633155878" />
-    <state width="1877" height="332" key="GridCell.Tab.1.center" timestamp="1620482539764">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="279" key="GridCell.Tab.1.center/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052810" />
-    <state width="1877" height="332" key="GridCell.Tab.1.center/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
-    <state width="1877" height="279" key="GridCell.Tab.1.center/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
-    <state width="1877" height="321" key="GridCell.Tab.1.center/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
-    <state width="1877" height="320" key="GridCell.Tab.1.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617633155878" />
-    <state width="1877" height="332" key="GridCell.Tab.1.left" timestamp="1620482539764">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="279" key="GridCell.Tab.1.left/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052810" />
-    <state width="1877" height="332" key="GridCell.Tab.1.left/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
-    <state width="1877" height="279" key="GridCell.Tab.1.left/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883852" />
-    <state width="1877" height="321" key="GridCell.Tab.1.left/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
-    <state width="1877" height="320" key="GridCell.Tab.1.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617633155878" />
-    <state width="1877" height="332" key="GridCell.Tab.1.right" timestamp="1620482539764">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="279" key="GridCell.Tab.1.right/0.0.1920.1040/-1018.-426.1018.1920@0.0.1920.1040" timestamp="1618888052810" />
-    <state width="1877" height="332" key="GridCell.Tab.1.right/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1620482539764" />
-    <state width="1877" height="279" key="GridCell.Tab.1.right/0.0.1920.1040/-1080.-426.1080.1880@0.0.1920.1040" timestamp="1618817883853" />
-    <state width="1877" height="321" key="GridCell.Tab.1.right/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618539638316" />
-    <state width="1877" height="320" key="GridCell.Tab.1.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1617633155878" />
-    <state x="320" y="187" width="998" height="708" key="SettingsEditor" timestamp="1620790559593">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="320" y="187" width="998" height="708" key="SettingsEditor/0.0.1920.1040/-1018.-523.1018.1920@0.0.1920.1040" timestamp="1620790559593" />
-    <state x="417" y="104" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1618238160187">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="417" y="104" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618238160187" />
-    <state x="334" y="180" key="new project wizard" timestamp="1619700685627">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="334" y="180" key="new project wizard/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1619700685627" />
-    <state x="661" y="275" key="refactoring.ChangeSignatureDialog" timestamp="1619615744707">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="661" y="275" key="refactoring.ChangeSignatureDialog/0.0.1920.1040/-1080.-407.1080.1880@0.0.1920.1040" timestamp="1619615744707" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1618235768214">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1080.-432.1080.1880@0.0.1920.1040" timestamp="1618235768214" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NegativeArraySizeException" package="java.lang" />
+          <option name="timeStamp" value="6" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Code_Keen$TestGC_testEden.ic" NAME="TestGC.testEden Coverage Results" MODIFIED="1621823471232" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>test.*</FILTER>
+    </SUITE>
   </component>
 </project>
