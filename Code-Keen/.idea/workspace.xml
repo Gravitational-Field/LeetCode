@@ -20,14 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5133b8d4-dd44-4bc7-b375-dc477db46c4a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L1143.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L37.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L62.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L63.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/test/TestGC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../02-advance.md" beforeDir="false" afterPath="$PROJECT_DIR$/../02-advance.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/test/java/Test1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/test/order/MergeSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/test/order/QuickSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/test/order/Shell.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Code-Keen/META-INF/Code-Keen.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/01-Basic/src/test/java/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/test/java/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/01-Basic/src/test/order/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/test/order/Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,22 +87,9 @@
       <recent name="leetcode" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.L1143">
+  <component name="RunManager" selected="Application.QuickSort">
     <configuration name="L1143" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="leetcode.L1143" />
-      <module name="Code-Keen" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="leetcode.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="L37" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L37" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -141,13 +127,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestGC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.TestGC" />
+    <configuration name="QuickSort" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.order.QuickSort" />
       <module name="Code-Keen" />
-      <option name="VM_PARAMETERS" value="-XX:+PrintGCDetails" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="test.order.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -155,13 +140,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration name="Test1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.java.Test1" />
+      <module name="Code-Keen" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -186,20 +186,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.L37" />
-      <item itemvalue="Application.TestGC" />
-      <item itemvalue="JUnit.TestGC.testEden" />
       <item itemvalue="Application.L62" />
       <item itemvalue="Application.L63" />
       <item itemvalue="Application.L1143" />
+      <item itemvalue="Application.Test1" />
+      <item itemvalue="JUnit.TestGC.testEden" />
+      <item itemvalue="Application.QuickSort" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.QuickSort" />
+        <item itemvalue="Application.Test1" />
         <item itemvalue="Application.L1143" />
         <item itemvalue="Application.L63" />
         <item itemvalue="Application.L62" />
-        <item itemvalue="Application.TestGC" />
-        <item itemvalue="Application.L37" />
       </list>
     </recent_temporary>
   </component>
@@ -248,7 +248,10 @@
       <workItem from="1620957455431" duration="7768000" />
       <workItem from="1621512245205" duration="42000" />
       <workItem from="1621512304159" duration="13936000" />
-      <workItem from="1622079988117" duration="25723000" />
+      <workItem from="1622079988117" duration="26379000" />
+      <workItem from="1622432404165" duration="14397000" />
+      <workItem from="1622510987178" duration="5547000" />
+      <workItem from="1622526227276" duration="2075000" />
     </task>
     <servers />
   </component>
@@ -273,6 +276,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NegativeArraySizeException" package="java.lang" />
           <option name="timeStamp" value="6" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.UnsupportedOperationException" package="java.lang" />
+          <option name="timeStamp" value="8" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
