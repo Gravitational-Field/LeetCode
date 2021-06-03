@@ -20,14 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5133b8d4-dd44-4bc7-b375-dc477db46c4a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L1143.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L37.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L62.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/leetcode/L63.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/01-Basic/src/test/TestGC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../02-advance.md" beforeDir="false" afterPath="$PROJECT_DIR$/../02-advance.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/01-Basic/src/test/order/QuickSort.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Code-Keen/META-INF/Code-Keen.kotlin_module" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,22 +82,9 @@
       <recent name="leetcode" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.L1143">
+  <component name="RunManager" selected="Application.QuickSort">
     <configuration name="L1143" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="leetcode.L1143" />
-      <module name="Code-Keen" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="leetcode.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="L37" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L37" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -141,6 +122,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="QuickSort" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.order.QuickSort" />
+      <module name="Code-Keen" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.order.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestGC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.TestGC" />
       <module name="Code-Keen" />
@@ -151,17 +145,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -186,24 +169,24 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.L37" />
       <item itemvalue="Application.TestGC" />
-      <item itemvalue="JUnit.TestGC.testEden" />
       <item itemvalue="Application.L62" />
       <item itemvalue="Application.L63" />
       <item itemvalue="Application.L1143" />
+      <item itemvalue="Application.QuickSort" />
+      <item itemvalue="JUnit.TestGC.testEden" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.QuickSort" />
         <item itemvalue="Application.L1143" />
         <item itemvalue="Application.L63" />
         <item itemvalue="Application.L62" />
         <item itemvalue="Application.TestGC" />
-        <item itemvalue="Application.L37" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -249,11 +232,13 @@
       <workItem from="1621512245205" duration="42000" />
       <workItem from="1621512304159" duration="13936000" />
       <workItem from="1622079988117" duration="25723000" />
+      <workItem from="1622201415917" duration="6179000" />
+      <workItem from="1622374466693" duration="1605000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -266,6 +251,44 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1492" height="203" key="GridCell.Tab.0.bottom" timestamp="1622299419001">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="203" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1622299419001" />
+    <state width="1492" height="203" key="GridCell.Tab.0.center" timestamp="1622299419000">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="203" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1622299419000" />
+    <state width="1492" height="203" key="GridCell.Tab.0.left" timestamp="1622299419000">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="203" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1622299419000" />
+    <state width="1492" height="203" key="GridCell.Tab.0.right" timestamp="1622299419000">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="203" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1622299419000" />
+    <state width="1492" height="203" key="GridCell.Tab.1.bottom" timestamp="1622299419001">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="203" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1622299419001" />
+    <state width="1492" height="203" key="GridCell.Tab.1.center" timestamp="1622299419001">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="203" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1622299419001" />
+    <state width="1492" height="203" key="GridCell.Tab.1.left" timestamp="1622299419001">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="203" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1622299419001" />
+    <state width="1492" height="203" key="GridCell.Tab.1.right" timestamp="1622299419001">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="203" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1622299419001" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1622201471045">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1622201471045" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
