@@ -20,8 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5133b8d4-dd44-4bc7-b375-dc477db46c4a" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
       <change afterPath="$PROJECT_DIR$/01-Basic/src/test/order/QuickSort.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/01-Basic/src/test/order/QuickSort.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-Basic/src/test/order/QuickSort.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,19 +101,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="L62" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="leetcode.L62" />
-      <module name="Code-Keen" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="leetcode.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="L63" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="leetcode.L63" />
       <module name="Code-Keen" />
@@ -124,6 +116,19 @@
     </configuration>
     <configuration name="QuickSort" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.order.QuickSort" />
+      <module name="Code-Keen" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.order.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QuickSort1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.order.QuickSort1" />
       <module name="Code-Keen" />
       <extension name="coverage">
         <pattern>
@@ -169,20 +174,35 @@
       </method>
     </configuration>
     <list>
+<<<<<<< Updated upstream
       <item itemvalue="Application.TestGC" />
       <item itemvalue="Application.L62" />
       <item itemvalue="Application.L63" />
       <item itemvalue="Application.L1143" />
       <item itemvalue="Application.QuickSort" />
+=======
+      <item itemvalue="Application.L63" />
+      <item itemvalue="Application.L1143" />
+      <item itemvalue="Application.Test1" />
+      <item itemvalue="Application.QuickSort" />
+      <item itemvalue="Application.QuickSort1" />
+>>>>>>> Stashed changes
       <item itemvalue="JUnit.TestGC.testEden" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.QuickSort" />
+<<<<<<< Updated upstream
         <item itemvalue="Application.L1143" />
         <item itemvalue="Application.L63" />
         <item itemvalue="Application.L62" />
         <item itemvalue="Application.TestGC" />
+=======
+        <item itemvalue="Application.QuickSort1" />
+        <item itemvalue="Application.Test1" />
+        <item itemvalue="Application.L1143" />
+        <item itemvalue="Application.L63" />
+>>>>>>> Stashed changes
       </list>
     </recent_temporary>
   </component>
@@ -231,9 +251,20 @@
       <workItem from="1620957455431" duration="7768000" />
       <workItem from="1621512245205" duration="42000" />
       <workItem from="1621512304159" duration="13936000" />
+<<<<<<< Updated upstream
       <workItem from="1622079988117" duration="25723000" />
       <workItem from="1622201415917" duration="6179000" />
       <workItem from="1622374466693" duration="1605000" />
+=======
+      <workItem from="1622079988117" duration="26379000" />
+      <workItem from="1622432404165" duration="14397000" />
+      <workItem from="1622510987178" duration="5547000" />
+      <workItem from="1622526227276" duration="7885000" />
+      <workItem from="1622721754809" duration="602000" />
+      <workItem from="1623018787877" duration="43000" />
+      <workItem from="1623018850254" duration="47000" />
+      <workItem from="1623072226014" duration="329000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>

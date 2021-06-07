@@ -8,7 +8,7 @@ public class QuickSort<T extends Comparable<T>> extends Sort<T> {
 
     @Override
     public void sort(T[] nums) {
-        shuffle(nums);
+        //shuffle(nums);
         sort(nums, 0, nums.length - 1);
     }
 
@@ -31,7 +31,7 @@ public class QuickSort<T extends Comparable<T>> extends Sort<T> {
         T v = nums[l];
         while (true) {
             while (less(nums[++i], v) && i != h) ;   //从左往右找第一个大于 v 的
-            while (less(v, nums[--j]) && j != l) ;   //从右往左找第一个小于v的
+            while (less(v, nums[--j]) && j != l) ;   //从右往左找第一个小于v的,一定要j能等于l
             if (i >= j)
                 break;
             swap(nums, i, j);
@@ -41,7 +41,8 @@ public class QuickSort<T extends Comparable<T>> extends Sort<T> {
     }
 
     public static void main(String[] args) {
-        Integer[] array = {5, 1, 2,7,9,8,6,3,9};
+        //Integer[] array = {5, 1, 2,7,9,8,6,3,9};
+        Integer[] array = {1, 5, 8, 9, 2, 4, 5, 6};
         QuickSort<Integer> integerQuickSort = new QuickSort<>();
         integerQuickSort.sort(array);
         System.out.println(Arrays.toString(array));
