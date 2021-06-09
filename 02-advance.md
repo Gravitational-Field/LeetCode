@@ -823,6 +823,26 @@ public int longestCommonSubsequence(String text1, String text2) {
 - https://leetcode-cn.com/problems/maximum-product-subarray/description/
 - [https://leetcode-cn.com/problems/coin-change/description/](https://leetcode.com/problems/coin-change/description/)
 
+#### [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
+
+
+#### [354. 俄罗斯套娃信封问题](https://leetcode-cn.com/problems/russian-doll-envelopes/)
+
+
+
+#### [剑指 Offer 42. 连续子数组的最大和](https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/)
+
+
+
+#### [72. 编辑距离 hard](https://leetcode-cn.com/problems/edit-distance/)
+
+
+
+#### [516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence/)
+
+
+
 
 
 ## 实战题目

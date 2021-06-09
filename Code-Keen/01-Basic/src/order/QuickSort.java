@@ -1,4 +1,4 @@
-package test.order;
+package order;
 
 import java.util.Arrays;
 import java.util.Collections;

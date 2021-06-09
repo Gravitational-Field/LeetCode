@@ -1,4 +1,4 @@
-package test.order;
+package order;
 
 public abstract class MergeSort<T extends Comparable<T>> extends Sort<T> {
 
