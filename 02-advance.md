@@ -839,9 +839,13 @@ public int longestCommonSubsequence(String text1, String text2) {
 
 
 
+#### [409. 最长回文串](https://leetcode-cn.com/problems/longest-palindrome/)
+
+
+
 #### [516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence/)
 
-
+正着读和反着读都一样的序列，必须是子序列
 
 
 
