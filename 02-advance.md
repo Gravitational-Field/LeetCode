@@ -847,6 +847,14 @@ public int longestCommonSubsequence(String text1, String text2) {
 
 正着读和反着读都一样的序列，必须是子序列
 
+- 单个序列使用二维dp数组
+
+
+
+#### [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching/)
+
+
+
 
 
 ## 实战题目

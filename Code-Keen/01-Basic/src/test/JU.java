@@ -24,6 +24,9 @@ public class JU {
         for (Integer num: list) {
             System.out.println(num);
         }
+        int[][] ints = new int[3][5];
+        System.out.println(ints.length);
+        System.out.println("abcx".length());
     }
 
     private static void find(String str, List<Integer> list) {
