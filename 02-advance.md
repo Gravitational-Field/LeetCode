@@ -634,8 +634,6 @@ private int recursion(int i, int j, int[][] dp) {
 
 
 
-
-
 自底向上：使用动态规划思路
 
 1、基础状态
@@ -841,6 +839,41 @@ public int longestCommonSubsequence(String text1, String text2) {
 
 #### [409. 最长回文串](https://leetcode-cn.com/problems/longest-palindrome/)
 
+```java
+//思路：存到hashMap中<c,count>,遍历hash表，偶数位+；奇数位不管，最后加1
+public int longestPalindrome(String s) {
+    if (s == null || s.length() == 1) {
+        return s.length();
+    }
+    //遍历，存到hashMap
+    char[] chars = s.toCharArray();
+    HashMap<Character, Integer> map = new HashMap<>();
+    for (int i = 0; i < chars.length; i++) {
+        //System.out.println(map.get(chars[i]) == null?0:map.get(chars[i]));
+        map.put(chars[i], (map.get(chars[i]) == null ? 0 : map.get(chars[i])) + 1);
+    }
+
+    //遍历map
+    Set<Character> keys = map.keySet();
+    int sum = 0;
+    int odd = 0; //是否有奇数
+    for (Character c : keys) {
+        if(map.get(c)%2 == 0) {
+            sum += map.get(c);
+        } else { //奇数
+            //sum +=  (map.get(c)/2*2);//有多少个成对的
+            sum = sum + map.get(c)-1;
+            odd = 1;
+        }
+    }
+    return sum+odd;
+}
+```
+
+
+
+
+
 
 
 #### [516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence/)
@@ -848,6 +881,14 @@ public int longestCommonSubsequence(String text1, String text2) {
 正着读和反着读都一样的序列，必须是子序列
 
 - 单个序列使用二维dp数组
+
+
+
+
+
+
+
+
 
 
 
