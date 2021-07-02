@@ -63,7 +63,7 @@ Map<Integer, Integer> map = new HashMap<>();
 只要后者比前者大，则有利润，
 
 ```java
-/最大利润：
+//最大利润：
     public int maxProfit(int[] prices) {
         if (prices == null) return 0;
         int profit = 0;
@@ -486,6 +486,40 @@ class Solution {
 
 # 12、动态规划
 
+- [动态规划定义](https://en.wikipedia.org/wiki/Dynamic_programming)
+
+动态规划四步走:
+
+1、dp数组：存什么？要多大？每个元素代表什么？是一维还是二维？是dp[n+1] 还是dp\[m][n]还是dp\[m+1][n+1]？
+
+2、基本状态是什么？dp\[i][j]代表的含义是什么？
+
+​	基本状态确定了，进行初始化；
+
+​	dp[i]有两种含义：
+
+​			1、 dp[i]为前[0,i]中最大...的和，即最后的结果为dp[i]
+
+​			2、dp[i]为以nums[i]为结尾的最...,即最终的结果还需要将dp数组进行遍历获取最大值。
+
+​			dp\[i][j]的含义是到第(i,j)位的什么值？ 这里有两种定义方式同上
+
+3、基本状态初始化后，需要确定迭代的方向：
+
+​		dp[n] : 从左往右
+
+​		dp\[m][n]:
+
+​				1、从左往右，从上至下
+
+​				2、从下至上，从左往右
+
+​		**确定遍历的原则为：已经求出来的解，在接下来的迭代中能够被使用。**
+
+4、 确定最后的返回值
+
+
+
 ## 参考链接
 
 - [递归代码模板](http://shimo.im/docs/DjqqGCT3xqDYwPyY/)
@@ -496,21 +530,7 @@ class Solution {
 
 ![image-20210527095832278](img/image-20210527095832278.png)
 
-- [动态规划定义](https://en.wikipedia.org/wiki/Dynamic_programming)
 
-
-
-- 动态规划问题的几个关键点
-
-方法一：先使用递归的思路写，里面的公共子问题；最后可以套用动态规划的模板，能够直接出来
-
-
-
-方法二：直接硬上dp，关键是要考虑下边几点
-
-1、dp数组存的是什么？
-
-2、基本状态是什么
 
 
 
@@ -562,10 +582,7 @@ public int uniquePaths(int m, int n) {
     return (int) res;
 }
 
-作者：sdwwld
 链接：https://leetcode-cn.com/problems/unique-paths/solution/dong-tai-gui-hua-di-gui-gong-shi-deng-3z-9mp1/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 ```
 
 $C_{n}^{m}=\frac{A_{n}^{m}}{m !}=\frac{n !}{m !(n-m) !}=C_{n}^{n-m}$  n!中一部分可以和n-m！中的可以约去，并构建一个循环，不断的求，从而避免了越界
@@ -729,18 +746,6 @@ class Solution {
 
 #### [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
-动态规划四步走:
-
-1、dp数组：存什么？要多大？每个元素代表什么？
-
-2、基本状态是什么？
-
-3、
-
-
-
-
-
 求一个最长公共子序列的问题 转换为 二维数组递推问题：如何能够定义动态规划问题的状态
 
 ![image-20210528020501994](img/image-20210528020501994.png)
@@ -771,8 +776,6 @@ public int longestCommonSubsequence1(String text1, String text2) {
     return dp[m][n];
 }
 ```
-
-
 
 
 
@@ -810,30 +813,303 @@ public int longestCommonSubsequence(String text1, String text2) {
 
 
 
+#### [674. 最长连续递增序列](https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/)
 
+tag:滑动窗口
 
-## 实战题目
+- 题目
 
-- https://leetcode-cn.com/problems/climbing-stairs/description/
-- https://leetcode-cn.com/problems/triangle/description/
-- https://leetcode.com/problems/triangle/discuss/38735/Python-easy-to-understand-solutions-(top-down-bottom-up)
-- https://leetcode-cn.com/problems/maximum-subarray/
-- https://leetcode-cn.com/problems/maximum-product-subarray/description/
-- [https://leetcode-cn.com/problems/coin-change/description/](https://leetcode.com/problems/coin-change/description/)
+```bash
+输入：nums = [1,3,5,4,7]
+输出：3
+解释：最长连续递增序列是 [1,3,5], 长度为3。
+尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。 
+```
+
+- 想法
+
+```java
+1、连续的递增子序列，递增序列是连续的，所以可以记录每个递增子序列的长度，然后最终结果为最长的那个保留下来。
+    怎么记录每个递增子序列的长度？  i-index+1 即为个数
+    遍历的方式，i不断的向后探索，再来一个指针记录最开始的那个index、
+    什么时候索引发生改变？
+    后者<=前者的时候，进行改变初始索引位置
+```
+
+- 解答
+
+```java
+// 通式,思路清晰
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        if(nums == null || nums.length <= 1) {
+            return nums.length;
+        }
+        
+        int count = 0;
+        int start = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if(nums[i] <= nums[i-1]) {
+                start = i;
+            }
+            count = Math.max(count, i-start+1);
+        }
+        return count;
+    }
+}
+```
+
+- 另一种解
+
+```java
+//一种笨拙的dp方式
+public int findLengthOfLCIS(int[] nums) {
+    if(nums == null || nums.length == 0) {
+        return 0;
+    }
+
+    int n = nums.length;
+    //dp[i]: 代表到达nums[i]当前这个值时，最大连续递增子序列为dp[i],最终结果还要从中找最大
+    //而不是前[0,i]位的最大连续递增子序列
+    int[] dp = new int[n];
+    dp[0] = 1;
+
+    for (int i = 1; i < n; i++) {
+        if(nums[i] > nums[i-1]) {
+            dp[i] = dp[i-1]+1;
+        } else {
+            dp[i] = 1;
+        }
+    }
+    //遍历查找最大
+    int max = Integer.MIN_VALUE;
+    for (int i = 0; i < n; i++) {
+        max = dp[i]>max?dp[i]:max;
+    }
+    return max;
+}
+```
 
 #### [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
+```
+输入：nums = [10,9,2,5,3,7,101,18]
+输出：4
+解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。
+```
+
+- 想法
+
+```
+不连续的递增子序列，无法使用滑动窗口的思路，使用dp的思路
+1、dp数组是一维还是二维？ 需要两头操作才使用二维，这里dp[n]
+2、dp[i]代表什么？ 两种定义方式：1、以nums[i]结尾的递增子序列的长度；2、[0,i]中的最长序列长度
+	两种定义方式区别：1、在遍历一遍nums后得到dp[i]后，需要重新遍历获得dp数组的最大值
+				   2、若dp[i]代表nums[0,i]的最长递增序列，则最终返回的为dp[n-1]
+                   采用1方式：dp[i] = 找左侧第一位比nums[i]小的，dp[j]+1,一直迭代到最后即可
+                   			找左侧第一位比nums[i]小的,并不一定是最长的子序列数组，因为第一位小的并不一定是最长的子序列，前边可能有有比当前这位小的，但是更长的子序列。
+                   采用第2种：前一位nums[i-1]<nums[i]时：dp[i] = dp[i-1]+1
+                   			前一位nums[i-1]>=nums[i]时：也应该为dp[i] = dp[i-1]，但dp[i]并不是只跟它的前1位有关，这种方式，只可以处理连续的递增子序列，无法处理不连续的递增子序列。
+3、确定采用dp[i]的第一种含义
+4、初始状态： dp[0] = 1
+5、最优子结构: dp[]
+```
+
+
+
+- 解答
+
+```java
+public int lengthOfLIS(int[] nums) {
+    if(nums == null || nums.length == 0) return 0;
+
+    int[] dp = new int[nums.length];
+    Arrays.fill(dp,1); //用1进行填充
+
+    //构建dp数组中的每一个值
+    for(int i=0; i<nums.length; i++) {
+        //负责填充dp[i]->dp[nums.length-1]
+        for(int j=0; j<i; j++) {//确定每一个dp[i]的值
+            if(nums[i] > nums[j]) {
+                dp[i] = Math.max(dp[i],dp[j]+1);
+            }
+        }
+    }
+
+    //获取最长子序列长度：即为dp数组的最大值
+    int res = 0;
+    for(int i = 0; i<dp.length; i++) {
+        res = Math.max(res,dp[i]);
+    }
+    return res;
+}
+```
 
 
 
 #### [354. 俄罗斯套娃信封问题](https://leetcode-cn.com/problems/russian-doll-envelopes/)
 
+tag:困难  动态规划
+
+- 题目描述
+
+```java
+给你一个二维整数数组 envelopes ，其中 envelopes[i] = [wi, hi] ，表示第 i 个信封的宽度和高度。
+当另一个信封的宽度和高度都比这个信封大的时候，这个信封就可以放进另一个信封里，如同俄罗斯套娃一样。
+请计算 最多能有多少个 信封能组成一组“俄罗斯套娃”信封（即可以把一个信封放到另一个信封里面）。
+注意：不允许旋转信封。
+
+输入：envelopes = [[5,4],[6,4],[6,7],[2,3]]
+输出：3
+解释：最多信封的个数为 3, 组合为: [2,3] => [5,4] => [6,7]。
+
+输入：envelopes = [[1,1],[1,1],[1,1]]
+输出：1
+```
+
+- 思路
+
+```
+求最大值问题，最大能套多少？使用dp方式
+可以使用先对envelopes按照第一个元素排序，排好后就按照数组第二位，求取最长子序列
+```
+
+- 解答
+
+```java
+class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        //先排序
+        Arrays.sort(envelopes, new Comparator<int[]>() { //先按第
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0]-o2[0];
+            }
+        });
+
+        int len = envelopes.length;
+
+        int[] dp = new int[len];
+        Arrays.fill(dp,1); //用1进行填充
+
+        //构建dp数组中的每一个值
+        for(int i=0; i<len; i++) {
+            //负责填充dp[i]->dp[nums.length-1]
+            for(int j=0; j<i; j++) {//确定每一个dp[i]的值
+                if (envelopes[i][0] > envelopes[j][0] && envelopes[i][1] > envelopes[j][1]) {
+                    dp[i] = Math.max(dp[i],dp[j]+1);
+                }
+            }
+        }
+
+        //获取最长子序列长度：即为dp数组的最大值
+        int res = 0;
+        for(int i = 0; i<dp.length; i++) {
+            res = Math.max(res,dp[i]);
+        }
+
+        return res;
+    }
+}
+```
+
 
 
 #### [剑指 Offer 42. 连续子数组的最大和](https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/)
 
+tag:简单  动态规划
+
+- 题目
+
+```java
+输入一个整型数组，数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。要求时间复杂度为O(n)。
+
+示例1:
+输入: nums = [-2,1,-3,4,-1,2,1,-5,4]
+输出: 6
+解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+```
+
+- 思路
+
+```java
+没法用滑动窗口，因为不确定多会收缩左侧索引
+```
+
+- 解答
+
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {
+        if(nums==null || nums.length==0) {
+            return 0;
+        }
+        int n = nums.length;
+        int[] dp = new int[n];
+        // dp[i]:代表以nums[i]为尾的最大连续子数组的和,最终遍历一遍
+        //另一种表现含义：dp[i]:第i位时的最大连续子数组的和，最终返回dp[n-1]
+        //初始状态：全都为0
+        dp[0] = nums[0];
+        //dp[i] = Math.max(dp[i-1],)
+        for (int i = 1; i < n; i++) {
+            dp[i] = Math.max(dp[i-1]+nums[i],nums[i]);
+        }
+
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            res = res>dp[i]?res:dp[i];
+        }
+        return res;
+    }
+}
+```
 
 
-#### [72. 编辑距离 hard](https://leetcode-cn.com/problems/edit-distance/)
+
+#### [72. 编辑距离 ](https://leetcode-cn.com/problems/edit-distance/)
+
+tag:动态规划 hard
+
+- 题目
+
+```java
+给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数 。
+你可以对一个单词进行如下三种操作：
+
+插入一个字符
+删除一个字符
+替换一个字符
+ 
+示例 1：
+输入：word1 = "horse", word2 = "ros"
+输出：3
+解释：
+horse -> rorse (将 'h' 替换为 'r')
+rorse -> rose (删除 'r')
+rose -> ros (删除 'e')
+示例 2：
+输入：word1 = "intention", word2 = "execution"
+输出：5
+解释：
+intention -> inention (删除 't')
+inention -> enention (将 'i' 替换为 'e')
+enention -> exention (将 'n' 替换为 'x')
+exention -> exection (将 'n' 替换为 'c')
+exection -> execution (插入 'u')
+
+```
+
+- 思路
+
+```
+两个字符串，从一个变为另一个，一般两个字符串用i、j两个指针，一步步往前走，缩小问题的规模。
+```
+
+
+
+
+
+
 
 
 
@@ -872,10 +1148,6 @@ public int longestPalindrome(String s) {
 
 
 
-
-
-
-
 #### [516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence/)
 
 正着读和反着读都一样的序列，必须是子序列
@@ -892,7 +1164,20 @@ public int longestPalindrome(String s) {
 
 
 
-#### [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching/)
+#### [10. 正则表达式匹配](
+
+
+
+## 实战题目
+
+- https://leetcode-cn.com/problems/climbing-stairs/description/
+- https://leetcode-cn.com/problems/triangle/description/
+- https://leetcode.com/problems/triangle/discuss/38735/Python-easy-to-understand-solutions-(top-down-bottom-up)
+- https://leetcode-cn.com/problems/maximum-subarray/
+- https://leetcode-cn.com/problems/maximum-product-subarray/description/
+- [https://leetcode-cn.com/problems/coin-change/description/](https://leetcode.com/problems/coin-change/description/)
+
+#### https://leetcode-cn.com/problems/regular-expression-matching/)
 
 
 

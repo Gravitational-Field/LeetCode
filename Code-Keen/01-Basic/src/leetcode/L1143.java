@@ -61,7 +61,7 @@ public class L1143 {
             }
         }
 
-        return dp[m][n]-1;
+        return dp[m][n]-1;//减去text1和text2重复的" "
     }
 
 

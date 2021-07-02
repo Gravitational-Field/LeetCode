@@ -1,5 +1,9 @@
 package test;
 
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+
 /**
  * @ClassName TestRun
  * @Description: TODO
@@ -9,27 +13,27 @@ package test;
  **/
 public class TestRun {
 
-
-        public static int aMethod(int i) throws Exception
-        {
-            try {
-                return i / 0;
-            } catch (Exception ex) {
-                throw new Exception("exception in a Method");
-            } finally {
-                System.out.printf("finally");
-            }
+    public static int aMethod(int i) throws Exception {
+        try {
+            return i / 0;
+        } catch (Exception ex) {
+            throw new Exception("exception in a Method");
+        } finally {
+            System.out.printf("finally");
         }
+    }
 
-        public static void main(String[]args)
-        {
-            try {
-                aMethod(10);
-            } catch (Exception ex) {
-                System.out.printf("exception in main");
-            }
-            System.out.printf("finished");
+    public static void main(String[] args) {
+
+
+
+        try {
+            aMethod(10);
+        } catch (Exception ex) {
+            System.out.printf("exception in main");
         }
+        System.out.printf("finished");
+    }
 
 
 }
