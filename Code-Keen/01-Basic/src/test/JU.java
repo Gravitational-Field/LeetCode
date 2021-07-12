@@ -1,8 +1,6 @@
 package test;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,5 +39,9 @@ public class JU {
                 list.add(Integer.valueOf(split[i]));
             }
         }
+
+
+
+
     }
 }
