@@ -1102,8 +1102,46 @@ exection -> execution (插入 'u')
 - 思路
 
 ```
-两个字符串，从一个变为另一个，一般两个字符串用i、j两个指针，一步步往前走，缩小问题的规模。
+两个字符串，从一个变为另一个，一般两个字符串用i、j两个指针，从后往前一步步往前走，缩小问题的规模。
 ```
+
+- 方法1：递归方式  ->  超出了时间限制
+
+```java
+//1.使用递归的方式
+public int minDistance(String word1, String word2) {
+    if (word1 == null || word1.length() == 0) return word2.length();
+    if (word2 == null || word2.length() == 0) return word1.length();
+
+    return recursion(word1, word2, word1.length() - 1, word2.length() - 1);
+}
+
+private int recursion(String s1, String s2, int i, int j) {
+    //结束状态
+    if (i < 0) return j + 1;
+    if (j < 0) return i + 1;
+
+    //子结构
+    if (s1.charAt(i) == s2.charAt(j)) {
+        return recursion(s1, s2, i - 1, j - 1);
+    } else {
+        return Math.min(Math.min(
+            recursion(s1, s2, i - 1, j) + 1, //删除
+            recursion(s1, s2, i, j - 1)+1 //添加
+        ), recursion(s1, s2, i - 1, j - 1) + 1 );//替换
+    }
+}
+```
+
+![image-20210702093405043](img/02-advance/image-20210702093405043.png)
+
+- 方法2：递归优化 -> 加dptable，记录每个过程中产生的值
+
+
+
+
+
+
 
 
 

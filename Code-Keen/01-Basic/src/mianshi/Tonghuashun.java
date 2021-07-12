@@ -1,5 +1,8 @@
 package mianshi;
 
+import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @ClassName Tonghuashun
  * @Description
@@ -24,11 +27,16 @@ public class Tonghuashun {
             } else if(num == 0 && sum == 10) {
                 return 1;
             }
-
         }
     }
 
     public static void main(String[] args) {
         System.out.println(new Tonghuashun().calc(101));
+        ReentrantLock lock = new ReentrantLock();
+        lock.lock();
+
+
+
+        lock.unlock();
     }
 }
