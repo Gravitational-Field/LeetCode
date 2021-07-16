@@ -65,3 +65,29 @@ Deque<Integer> deque = new LinnkedList<>();
 System.arraycopy(heights, 0, newHeights, 1, len);
 ```
 
+
+
+## 3、
+
+稀奇古怪用法总结
+
+```java
+// 数组填充
+Arrays.fill(array,-1);
+
+//取一维数组中三个不同位置的值
+for (int i = 0; i < nums.length-2; i++) {
+    for (int j = i+1; j < nums.length-1; j++) {
+        for (int k = j+1; k < nums.length; k++) {
+
+        }
+    }
+}
+
+//list中添加一个list
+lists.add(Arrays.asList(nums[i],nums[L],nums[R]));
+
+//set中添加一个list
+set.add(list);
+```
+

@@ -2,11 +2,13 @@
 
 [数组与字符串](https://leetcode-cn.com/leetbook/detail/array-and-string/)—>[队列和栈](https://leetcode-cn.com/leetbook/detail/queue-stack/)—>[链表](https://leetcode-cn.com/leetbook/detail/linked-list/) —> [二叉树](https://leetcode-cn.com/leetbook/detail/data-structure-binary-tree/)
 
-# 1. Array 
+# 1. Array
 
 ## 实战题目
 
 #### [11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)（最大水面积）
+
+> 步骤中使用max和min函数的典范
 
 
 ```java
@@ -28,9 +30,7 @@ class Solution { //java实现
                 j--; //确保j指针向前移
             }
             max_area = Math.max(max_area, area);
-
         }
-
         return max_area;
     }
 }
@@ -39,6 +39,8 @@ class Solution { //java实现
 
 
 #### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
+
+> 两个指针，j记录插入的位置，i进行探索,不为0的交换，为0的等后续j过来再处理
 
 ```java
 //java
@@ -217,9 +219,7 @@ class Solution3 { //66ms 39.9M
 
 
 
-
-
-#### [15. 三数之和](https://leetcode-cn.com/problems/3sum/)  (高频老题） 
+#### [15. 三数之和](https://leetcode-cn.com/problems/3sum/)  (高频老题）
 
 ```java
 //java
@@ -233,9 +233,8 @@ class Solution4 {
         }
         Arrays.sort(nums);
 
-
         //法1：暴力求解
-        /*HashSet<List<Integer>> hashSet = new HashSet<>();
+       HashSet<List<Integer>> hashSet = new HashSet<>();
         for (int i = 0; i < nums.length-2; i++) {
             for (int j = i+1; j < nums.length-1; j++) {
                 for (int k = j+1; k < nums.length; k++) {
@@ -251,7 +250,7 @@ class Solution4 {
         }
         for (List<Integer> list: hashSet) {
             lists.add(list);
-        }*/
+        }
         //法2：三指针
         for (int i = 0; i < nums.length; i++) {
             //判断首位，首位大于0，则没有满足的
@@ -287,11 +286,28 @@ class Solution4 {
 }
 ```
 
+
+
 #### [633. 平方数之和](https://leetcode-cn.com/problems/sum-of-square-numbers/)
 
+```java
 
-
-
+class Solution {//633. 平方数之和:给定一个非负整数 c ，判断是否存在两个整数 a 和 b，使得 a2 + b2 = c 
+    public boolean judgeSquareSum(int c) {
+        //定义双头指针
+        int i = 0;
+        int j = (int)Math.sqrt(c);//j=c时，c=1000000时结果为false,为什么？？？
+        while(i<=j){
+            int sum = i*i+j*j;
+            if(sum==c){return true;}else{
+                if(sum<c){i++;}else{j--;}
+            }
+        }
+        return false;
+        //时间复杂度：O（n）;空间复杂度：O(1);
+    }
+}
+```
 
 
 
@@ -307,19 +323,29 @@ class Solution4 {
 ```java
 class Solution {//画个图就出来了
     public ListNode reverseList(ListNode head) {
-        ListNode cur = null;
-        ListNode pre = head;
-        while (pre != null){
-            ListNode tmp = pre.next; //探索者
-            pre.next = cur;
-            cur = pre;
-            pre = tmp;
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;  //next进行保留探索的地址
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
-        return cur;
+        return prev;
     }
 }
 
 //递归的方式
+public ListNode reverseList(ListNode head) {
+    // 1. 递归终止条件
+    if (head == null || head.next == null) {
+        return head;
+    }
+    ListNode p = reverseList(head.next);  //处理剩余节点
+    head.next.next = head;
+    head.next = null;
+    return p;
+}
 ```
 
 
