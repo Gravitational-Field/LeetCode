@@ -73,7 +73,6 @@ public class L155 {
         return deque.peek().getValue();
     }*/
 
-
     private Stack<Integer> stack;
     private Stack<Integer> minStack;
 
