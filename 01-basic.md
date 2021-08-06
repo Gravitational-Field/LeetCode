@@ -2,11 +2,15 @@
 
 [数组与字符串](https://leetcode-cn.com/leetbook/detail/array-and-string/)—>[队列和栈](https://leetcode-cn.com/leetbook/detail/queue-stack/)—>[链表](https://leetcode-cn.com/leetbook/detail/linked-list/) —> [二叉树](https://leetcode-cn.com/leetbook/detail/data-structure-binary-tree/)
 
-# 1. Array 
+# 1. Array
 
 ## 实战题目
 
 #### [11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)（最大水面积）
+
+![image-20210717220220739](img/image-20210717220220739.png)
+
+> 步骤中使用max和min函数的典范
 
 
 ```java
@@ -28,9 +32,7 @@ class Solution { //java实现
                 j--; //确保j指针向前移
             }
             max_area = Math.max(max_area, area);
-
         }
-
         return max_area;
     }
 }
@@ -39,6 +41,8 @@ class Solution { //java实现
 
 
 #### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
+
+> 两个指针，j记录插入的位置，i进行探索,不为0的交换，为0的等后续j过来再处理
 
 ```java
 //java
@@ -217,9 +221,7 @@ class Solution3 { //66ms 39.9M
 
 
 
-
-
-#### [15. 三数之和](https://leetcode-cn.com/problems/3sum/)  (高频老题） 
+#### [15. 三数之和](https://leetcode-cn.com/problems/3sum/)  (高频老题）
 
 ```java
 //java
@@ -233,9 +235,8 @@ class Solution4 {
         }
         Arrays.sort(nums);
 
-
         //法1：暴力求解
-        /*HashSet<List<Integer>> hashSet = new HashSet<>();
+       HashSet<List<Integer>> hashSet = new HashSet<>();
         for (int i = 0; i < nums.length-2; i++) {
             for (int j = i+1; j < nums.length-1; j++) {
                 for (int k = j+1; k < nums.length; k++) {
@@ -251,7 +252,7 @@ class Solution4 {
         }
         for (List<Integer> list: hashSet) {
             lists.add(list);
-        }*/
+        }
         //法2：三指针
         for (int i = 0; i < nums.length; i++) {
             //判断首位，首位大于0，则没有满足的
@@ -287,11 +288,28 @@ class Solution4 {
 }
 ```
 
+
+
 #### [633. 平方数之和](https://leetcode-cn.com/problems/sum-of-square-numbers/)
 
+```java
 
-
-
+class Solution {//633. 平方数之和:给定一个非负整数 c ，判断是否存在两个整数 a 和 b，使得 a2 + b2 = c 
+    public boolean judgeSquareSum(int c) {
+        //定义双头指针
+        int i = 0;
+        int j = (int)Math.sqrt(c);//j=c时，c=1000000时结果为false,为什么？？？
+        while(i<=j){
+            int sum = i*i+j*j;
+            if(sum==c){return true;}else{
+                if(sum<c){i++;}else{j--;}
+            }
+        }
+        return false;
+        //时间复杂度：O（n）;空间复杂度：O(1);
+    }
+}
+```
 
 
 
@@ -303,28 +321,85 @@ class Solution4 {
 
 #### [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)
 
+- 反转法
+
+![img](img/9ce26a709147ad9ce6152d604efc1cc19a33dc5d467ed2aae5bc68463fdd2888.gif)
+
+> 这里是pre为前边的，cur为后边的，调换cur指向pre；然后向前推进
 
 ```java
-class Solution {//画个图就出来了
+class Solution {
     public ListNode reverseList(ListNode head) {
-        ListNode cur = null;
-        ListNode pre = head;
-        while (pre != null){
-            ListNode tmp = pre.next; //探索者
-            pre.next = cur;
-            cur = pre;
-            pre = tmp;
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;  //next进行保留探索的地址
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
-        return cur;
+        return prev;
     }
 }
+```
 
+
+
+- 递归法
+
+
+```java
 //递归的方式
+public ListNode reverseList(ListNode head) {
+    // 1. 递归终止条件
+    if (head == null || head.next == null) {
+        return head;
+    }
+    ListNode p = reverseList(head.next);  //处理剩余节点
+    head.next.next = head;
+    head.next = null;
+    return p;
+}
+```
+
+
+
+- 神器的双指针
+
+![img](img/8951bc3b8b7eb4da2a46063c1bb96932e7a69910c0a93d973bd8aa5517e59fc8.gif)
+
+- 头插法
+
+思路：
+
+>  pre为头节点，head始终为前置节点，将cur节点从链表中断出来，并接到头节点后，注意此处的head节点一直不需要改变，因为1节点next位置，始终指的是
+
+```java
+public ListNode reverseList(ListNode head) {
+    if(head == null) return null;
+    ListNode pre = new ListNode();
+    pre.next = head;
+    ListNode cur = head.next;
+    while(cur != null) {
+        head.next = cur.next;
+        cur.next = pre.next;
+        pre.next = cur;
+        cur = head.next;
+    }
+    return pre.next;
+
+}
 ```
 
 
 
 #### [24. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
+
+思路：
+
+> pre为头节点，记录头的位置，temp为最前边的节点，start和end为要操作的节点。
+
+![image-20210717165938602](img/image-20210717165938602.png)
 
 ```java
 class Solution {
@@ -349,6 +424,14 @@ class Solution {
 
 #### [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
+题目：判断链表是否有环
+
+![image-20210717170156927](img/image-20210717170156927.png)
+
+思路：
+
+> 存入set中进行去重
+
 ```java
 public class Solution {
     public boolean hasCycle(ListNode head) {
@@ -369,9 +452,17 @@ public class Solution {
 }
 ```
 
+问题：怎么能使用O(1)的内存解决？
+
+**快慢指针方式和数据漏洞方式**
+
 
 
 #### [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+题目：判断有环链表出现环的位置
+
+> 快慢指针，快指针和慢指针在环里第一次相遇后，快指针变为慢指针从head处走，直至相遇，相交点即为进入环的点。
 
 ```java
 class Solution2 {
@@ -396,6 +487,14 @@ class Solution2 {
 
 
 #### [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+
+题目：一个链表，k个节点为一组进行翻转。剩余节点保持原顺序。
+
+思路：
+
+```
+任务分解：
+```
 
 ```java
 class Solution21 {
@@ -446,6 +545,14 @@ class Solution21 {
 
 #### [26. 删除排序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
+tag: t双指针
+
+题目：一个有序数组，原地删除重复出现的元素，使每个元素只出现一次，返回删除后数组的新长度。
+
+不要使用额外的数组空间，你必须在**原地**修改输入数组** 并在使用 O(1) 额外空间的条件下完成。
+
+
+
 ```java
 class Solution {
     public int removeDuplicates(int[] nums) {
@@ -484,7 +591,21 @@ class Solution11 {
 }
 ```
 
+
+
 #### [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
+
+- **题目**
+
+给定一个数组，将数组中的元素向右移动 `k` 个位置，其中 `k` 是非负数。
+
+- 要求
+  - 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。
+  - 你可以使用空间复杂度为 O(1) 的 **原地** 算法解决这个问题吗？
+- 思路
+
+> 1. 构建方法，每轮向右移动一位，进行k轮
+> 2. 另外引入一个数组，将原数组的元素放到指定的位置:   newArr[(i+k)%n] = nums[i]
 
 ```java
 class Solution20 {
@@ -512,11 +633,32 @@ class Solution20 {
 }
 ```
 
+- 思路二
+
+```java
+public void rotate(int[] nums, int k) {
+    int n = nums.length;
+    int[] newArr = new int[n];
+    for (int i = 0; i < n; ++i) {
+        newArr[(i + k) % n] = nums[i];
+    }
+    System.arraycopy(newArr, 0, nums, 0, n);
+}
+```
+
 
 
 #### [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
 - 合并两个有序链表   【递归】
+
+思路：
+
+- 固有思路
+
+> 创建一个新的节点，分别对比两个链表，哪个小，加上。
+
+
 
 ```java
 //java
@@ -528,29 +670,30 @@ class Solution {
         }else if (l2 == null) {
             return l1;
         }
+        // 使用带头结点的链表解决问题
+        // 待输出链表的头部
         ListNode head = new ListNode();
-        ListNode returnHead = new ListNode();
-        head.next = l1;
-        returnHead = head;
-        ListNode tmp = null;
-        while (l2 != null && l1 != null) {
-            if (l1.val >= l2.val) {//l2插进来
-                tmp = l2.next;
-                l2.next = l1;
-                head.next = l2;
-                head = l2;
-                l2 = tmp;
-                
-            }else{ //l1.val < l2.val  l1后移一位
-                head = l1;
+
+        // 待输出链表的 last 结点
+        ListNode last = head;
+        while(l1 != null && l2 != null) {
+            if(l1.val > l2.val) {
+                last.next = l2;
+                l2 = l2.next;
+            }else{
+                last.next = l1;
                 l1 = l1.next;
             }
-        }
-        if (l1==null) {
-            head.next = l2;
+            last = last.next;
         }
 
-        return returnHead.next;
+        // l1 或 l2 可能还有剩余结点没有合并， 
+        // 由于从上面的 while 循环中退出， 那么链表 l1 和 l2 至少有一个已经遍历结束
+        if(l1 != null) last.next = l1;
+        if(l2 != null) last.next = l2;
+
+        return head.next;
+
     }
 }
 
@@ -575,6 +718,12 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 
 #### [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
 
+思路：
+
+前提是nums1具有充足的大小：即 nums.length == m+n
+
+> 1. 调用官方api，将nums2数组，复制到nums1的后边，并进行排序
+
 ```java
 // 1.调用官方api
 public void merge(int[] nums1, int m, int[] nums2, int n) {
@@ -584,8 +733,8 @@ public void merge(int[] nums1, int m, int[] nums2, int n) {
 // 2. 借助m个空间进行探索
 public static void merge2(int[] nums1, int m, int[] nums2, int n) {
     //借助m个空间
-    int[] arr = new int[m];
-    System.arraycopy(nums1,0,arr,0,m);
+    int[] arr = new int[m];  //先存储nums1中的所有元素，
+    System.arraycopy(nums1,0,arr,0,m);  //
     int i = 0; //arr
     int j = 0; //nums2
     int k = 0; //nums1
@@ -622,8 +771,8 @@ public static void merge3(int[] nums1, int m, int[] nums2, int n) {
         //将nums2剩下的补齐
         System.arraycopy(nums2,0,nums1,0,p2+1);
     }
-    if (p2<0) {
-        //p1不用管
+    if (p2<0) { //p2已经结束，p1剩下的不用管，就在那即可
+        
     }
 }
 ```
@@ -631,6 +780,12 @@ public static void merge3(int[] nums1, int m, int[] nums2, int n) {
 
 
 #### [66. 加一](https://leetcode-cn.com/problems/plus-one/)
+
+- **题目：**传入一个数组，数组每个元素为单个数字，整个数组构成的数字基础上+1；并通过数组进行返回
+
+- 思路
+
+> 主要考虑什么时候进行进位操作
 
 ```java
 //java
@@ -649,9 +804,15 @@ public int[] plusOne(int[] digits) {
 
 
 
+
+
+
+
 # 3. 栈、队列、优先队列、双端队列
 
 #### [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+
+给定一个只包括 `'('`，`')'`，`'{'`，`'}'`，`'['`，`']'` 的字符串 `s` ，判断字符串是否有效。
 
 ```java
 public static boolean isValid(String s) {
@@ -670,7 +831,7 @@ public static boolean isValid(String s) {
         }
     }
 
-    return stack.isEmpty() ;
+    return stack.isEmpty();
 }
 ```
 
@@ -684,6 +845,8 @@ public static boolean isValid(String s) {
 > 2. 利用辅助栈，保持miniStack中栈顶为最小；  PS：要注意push进miniStack的边界值，以及pop，这两一定需统一来保持数据的一致
 
 - stack中存储entry<key, value>，key为值，value为当前min
+
+> 问题在于Map.Entry是接口，无法创建实例；所以最好能找到可以直接创建实例的Entry。
 
 ```java
 class MinStack {
@@ -755,7 +918,45 @@ class MinStack {
 }
 ```
 
+> 使用可以已经实现的Entry:   AbstractMap.SimpleEntry<val,min> 分别存val和最小值
+
+```java
+import java.util.*;
+
+class MinStack {
+
+    private Deque<AbstractMap.SimpleEntry<Integer,Integer>> deque = new LinkedList();
+
+    public MinStack() {
+    }
+
+    public void push(int val) {
+        if(deque.size() == 0) {
+            deque.push(new AbstractMap.SimpleEntry<Integer,Integer>(val,val));
+        } else {
+            deque.push(new AbstractMap.SimpleEntry<Integer,Integer>(val,Math.min(deque.peek().getValue(), val)));
+        }
+    }
+
+    public void pop() {
+        deque.pop();
+    }
+
+    public int top() {
+        return deque.peek().getKey();
+    }
+
+    public int getMin() {
+        return deque.peek().getValue();
+    }
+}
+```
+
+
+
 - 辅助栈法
+
+  创建两个栈，一个栈用来存储所有内容，一个栈用来存储当前的最小值。有最小值压入，就两边一块压，有最小值pop出，一块出
 
 ```java
 class MinStack {
@@ -3343,7 +3544,11 @@ https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
 
 
 
-[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
+#### [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
+
+
+
+
 
 [159. 至多包含两个不同字符的最长子串](https://leetcode-cn.com/problems/longest-substring-with-at-most-two-distinct-characters/)
 

@@ -65,3 +65,52 @@ Deque<Integer> deque = new LinnkedList<>();
 System.arraycopy(heights, 0, newHeights, 1, len);
 ```
 
+
+
+## 3、稀奇古怪用法总结
+
+
+
+```java
+// 数组填充
+Arrays.fill(array,-1);
+
+//取一维数组中三个不同位置的值
+for (int i = 0; i < nums.length-2; i++) {
+    for (int j = i+1; j < nums.length-1; j++) {
+        for (int k = j+1; k < nums.length; k++) {
+
+        }
+    }
+}
+
+//list中添加一个list
+lists.add(Arrays.asList(nums[i],nums[L],nums[R]));
+
+//set中添加一个list
+set.add(list);
+
+//hashSet进行add，返回add是否成功
+while (hashSet.add(head)){
+    
+}
+
+//Entry的创建方法
+Map.Entry<String,Integer> entry = new AbstractMap.SimpleEntry<String, Integer>("exmpleString", 42); //可以直接进行实例化
+
+//
+
+```
+
+
+
+## 4、技巧总结
+
+### 4.1 数组和链表中
+
+```
+在数组处理中，存在一些暴力求解的方法，关键是使用好循环和判断，清楚该做什么
+在链表的习题中，需要细心，先画图，理清过程，头结点什么时候构建，head一般是第一个节点。以及考虑问题可以使用递归的方式进行求解。
+```
+
+### 4.2 栈、队列、优先队列、双端队列
