@@ -1,8 +1,6 @@
 package test.collection;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @ClassName TestMap
@@ -12,6 +10,11 @@ public class TestMap {
 
 
     public static void main(String[] args) {
+        LinkedList<Object> list = new LinkedList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        String str = "[1,2,3,4,5]";
+
         Map<String, String> map = new HashMap<>();
         map.put("1","a");
         map.put("2","b");
