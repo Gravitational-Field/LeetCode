@@ -17,11 +17,10 @@ public class L239 {
         //需要的返回数组的大小
         int[] resArray = new int[len-k+1];
         System.out.println(resArray.length);
-        int q1= 0;
         for (int i = 0; i < resArray.length; i++) {
             //每次确定一个值，放到resArray中
             //k个中遍历取最大
-            int k_max = findMax(nums, q1++, k); //
+            int k_max = findMax(nums, i, k); //
             resArray[i] = k_max;
         }
 //        Arrays.sort(nums);
@@ -31,9 +30,7 @@ public class L239 {
     private int findMax(int[] nums, int q1, int k) {
         int max = Integer.MIN_VALUE;
         for (int i = q1; i < q1+k; i++) {
-            if (nums[i] > max) {
-                max = nums[i];
-            }
+            max = Math.max(max, nums[i]);
         }
         return max;
     }

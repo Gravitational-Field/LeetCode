@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class L239_2 {
 
-    //构建单调栈
+    //构建单调队列
     public class MonotonicQueue {
         LinkedList<Integer> q = new LinkedList<>();
 

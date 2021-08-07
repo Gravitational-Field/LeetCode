@@ -15,7 +15,11 @@ public class TestString {
 
     @Test
     public void testString() {
-
+        String str = "str";
+        String str1 = "stR";
+        System.out.println(str == str1);
+        System.out.println(str.equals(str1));
+        System.out.println(str.equalsIgnoreCase(str1));
     }
 
 

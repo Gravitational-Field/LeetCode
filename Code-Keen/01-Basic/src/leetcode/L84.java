@@ -64,8 +64,11 @@ public class L84 {
 
         for (int i = 1; i < len; i++) {
             while (heights[i] < heights[stack.peekLast()]) {
-                int curHeight = heights[stack.pollLast()];
-                int curWidth = i - stack.peekLast() - 1;
+                int curIndex = stack.pollLast();
+                int rightIndex = i;
+                int leftIndex = stack.peekLast();
+                int curHeight = heights[curIndex];
+                int curWidth = rightIndex - leftIndex - 1;
                 res = Math.max(res, curHeight * curWidth);
             }
             stack.addLast(i);

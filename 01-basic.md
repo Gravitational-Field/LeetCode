@@ -841,7 +841,7 @@ public static boolean isValid(String s) {
 
 > 两种思路：
 >
-> 1. stack中存入entry<key, value>，key为值，value为当前min，始终保证stack.peek().getValue() 最小；  **PS：需要实现Entry接口**
+> 1. stack中存入entry<key, value>，key为值，value为当前min，始终保证stack.peek().getValue() 最小；  **PS：需要实现Entry接口，也可以使用AbstractMap.SimpleEntry<val,min>**
 > 2. 利用辅助栈，保持miniStack中栈顶为最小；  PS：要注意push进miniStack的边界值，以及pop，这两一定需统一来保持数据的一致
 
 - stack中存储entry<key, value>，key为值，value为当前min
@@ -1075,7 +1075,8 @@ class Solution {
 > for循环往前走，while循环向后退。
 
 ```java
-public int largestRectangleArea(int[] heights) {
+//单调栈+哨兵技巧
+public int largestRectangleArea2(int[] heights) {
     int len = heights.length;
     if (len == 0) {
         return 0;
@@ -1100,8 +1101,11 @@ public int largestRectangleArea(int[] heights) {
 
     for (int i = 1; i < len; i++) {
         while (heights[i] < heights[stack.peekLast()]) {
-            int curHeight = heights[stack.pollLast()];
-            int curWidth = i - stack.peekLast() - 1;
+            int curIndex = stack.pollLast();
+            int rightIndex = i;
+            int leftIndex = stack.peekLast();
+            int curHeight = heights[curIndex];
+            int curWidth = rightIndex - leftIndex - 1;
             res = Math.max(res, curHeight * curWidth);
         }
         stack.addLast(i);
@@ -1122,14 +1126,26 @@ public int largestRectangleArea(int[] heights) {
 | 6    | 402. 移掉K位数字              |                                           |
 | 7    | 581. 最短无序连续子数组       |                                           |
 
+
+
+
+
+
+
 #### [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
 [「单调队列」数据结构解决滑动窗口问题  题解](https://mp.weixin.qq.com/s?__biz=MzAxODQxMDM0Mw==&mid=2247488087&idx=1&sn=673aa4e8deb942b951948650928c336e&chksm=9bd7ec5faca06549ba6176540fef04f93c1c9f55b303106688b894a2029e00b8cce1a9ba57a4&scene=21#wechat_redirect)
 
+![image-20210729093136116](img/image-20210729093136116.png)
+
+思路：
+
+构造一个单调递减队列，
+
 ```java
 public class L239_2 {
 
-    //构建单调栈
+    //构建队列
     public class MonotonicQueue {
         LinkedList<Integer> q = new LinkedList<>();
 
@@ -1164,9 +1180,9 @@ public class L239_2 {
                 //填满前两个
                 mq.push(nums[i]);
             }else {
-                mq.push(nums[i]);
+                mq.push(nums[i]);  //尾插
                 list.add(mq.max());
-                mq.pop(nums[i-k+1]);
+                mq.pop(nums[i-k+1]); //头出
             }
         }
 
@@ -1185,6 +1201,39 @@ public class L239_2 {
 }
 ```
 
+- 优先级队列（模拟堆进行）
+
+```java
+public int[] maxSlidingWindow(int[] nums, int k) {
+    int n = nums.length;
+    // 1. 优先队列存放的是二元组(num,index) : 大顶堆（元素大小不同按元素大小排列，元素大小相同按下标进行排列）
+    // num :   是为了比较元素大小
+    // index : 是为了判断窗口的大小是否超出范围
+    PriorityQueue<int[]> pq = new PriorityQueue<int[]>(new Comparator<int[]>(){
+        public int compare(int[] pair1,int[] pair2){
+            return pair1[0] != pair2[0] ? pair2[0] - pair1[0]:pair2[1] - pair1[1];
+        }
+    });
+
+    // 2. 优选队列初始化 : k个元素的堆
+    for(int i = 0;i < k;i++){
+        pq.offer(new int[]{nums[i],i});
+    }
+
+    // 3. 处理堆逻辑
+    int[] res = new int[n - k + 1];         // 初始化结果数组长度 ：一共有 n - k + 1个窗口
+    res[0] = pq.peek()[0];                  // 初始化res[0] ： 拿出目前堆顶的元素
+    for(int i = k; i < n; i++){               // 向右移动滑动窗口
+        pq.offer(new int[]{nums[i],i});     // 加入大顶堆中
+        while(pq.peek()[1] <= i - k){       // 将下标不在滑动窗口中的元素都干掉
+            pq.poll();                      // 维护：堆的大小就是滑动窗口的大小
+        }
+        res[i - k + 1] = pq.peek()[0];      // 此时堆顶元素就是滑动窗口的最大值
+    }
+    return res;
+}
+```
+
 
 
 ## 课后作业
@@ -1194,6 +1243,10 @@ public class L239_2 {
 
 
 #### 分析 Queue 和 Priority Queue 的源码
+
+
+
+
 
 
 
@@ -1427,6 +1480,59 @@ public class L641 {
 ![image-20210307124431222](img/01-basic/image-20210307124431222.png)
 
 > 单调栈的方式可以继续进行探究
+
+[暴力解法、动态规划、双指针、单调栈（Java） - 接雨水 - 力扣（LeetCode） (leetcode-cn.com)](https://leetcode-cn.com/problems/trapping-rain-water/solution/bao-li-jie-fa-yi-kong-jian-huan-shi-jian-zhi-zhen-/)
+
+```java
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class Solution {
+
+    public int trap(int[] height) {
+        int len = height.length;
+        // 特判
+        if (len < 3) {
+            return 0;
+        }
+
+        int res = 0;
+
+        // 单调栈里面存的是索引
+        // 根据官方对 Stack 的使用建议，这里将 Deque 对象当做 stack 使用，注意只使用关于栈的接口
+        // 由于实现类是数组 `ArrayDeque`，因此只能在末尾添加和删除元素
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i = 0; i < len; i++) {
+            while (!stack.isEmpty() && height[stack.peek()] < height[i]) {
+                int top = stack.pop();
+
+                // 特殊情况，当栈为空的时候，跳出循环，直接增加当前下标 i 到栈里
+                if (stack.isEmpty()) {
+                    break;
+                }
+
+                int currentWidth = i - stack.peek() - 1;
+                int currentHeight = Math.min(height[i], height[stack.peek()]) - height[top];
+
+                res += currentWidth * currentHeight;
+            }
+            stack.push(i);
+        }
+        return res;
+    }
+}
+
+作者：liweiwei1419
+链接：https://leetcode-cn.com/problems/trapping-rain-water/solution/bao-li-jie-fa-yi-kong-jian-huan-shi-jian-zhi-zhen-/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+```
+
+
+
+
+
+
 
 
 

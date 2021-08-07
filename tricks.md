@@ -114,3 +114,44 @@ Map.Entry<String,Integer> entry = new AbstractMap.SimpleEntry<String, Integer>("
 ```
 
 ### 4.2 栈、队列、优先队列、双端队列
+
+一般操作时，最好想一下是否可以使用栈或者队列进行解决问题；有时可以非常方便的解决一些暴力解法需要很费力问题。
+
+**单调栈：**
+
+解决下一个最大值问题：接雨水、最大矩形面积
+
+单调递增栈：栈中的元素单调递增，当碰到小元素的情况，可以使用while循环，向前，保留当前元素来保证单增；并继续向后。
+
+单调递减栈：栈中的元素单调递减，当碰到大元素的情况，可以使用while循环，向前，保留当前元素来保证单减；并继续向后。
+
+```java
+//单调递增栈： 一般会使用如下： 优势会增加哨兵，来避免在  进行计算区域  需要做复杂的判断进行排除
+for(int i = 0; i<arr.length; i++) {
+	
+	while(!stack.isEmpty() && stack.peek()<arr[i]) {
+        //进行计算
+        
+    }
+	stack.push(arr[i]); //直至满足单调增，才push进去
+}
+```
+
+
+
+**单调队列**
+
+解决滑动窗口问题
+
+
+
+# 5、格式化输出
+
+```java
+double d1 = 3.14158;
+System.out.println(String.format("%.2f", d1));
+System.out.printf("%.2f%n", d1);
+```
+
+
+

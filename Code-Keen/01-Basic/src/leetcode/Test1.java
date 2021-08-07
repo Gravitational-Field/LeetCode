@@ -127,12 +127,36 @@ public class Test1 {
             public int compare(int[] o1, int[] o2) {
                 return o1[0]!=o2[0]?o2[0]-o1[0]:o2[1]-o1[1];
             }
+            //大的在前，小的在后
         });
         int[] o1 = {5,8};
         int[] o2 = {10,3};
         priorityQueue.add(o1);
         priorityQueue.add(o2);
-        System.out.println(priorityQueue.toArray()[0]);
+        Object[] array = priorityQueue.toArray();
+        priorityQueue.forEach(System.out::println);
+        for (int[] ints : priorityQueue) {
+            System.out.println(ints[0] +" "+ints[1]);
+        }
+
+        priorityQueue.poll();
+
+
+        //System.out.println(Arrays.stream(arr).toArray());
+        //for (Integer o : arr) {
+        //    System.out.println(o[0]);
+        //}
+
+        //PriorityQueue<int[]> ints = new PriorityQueue<>(new Comparator<int[]>() {
+        //
+        //    @Override
+        //    public int compare(int[] o1, int[] o2) {
+        //        return 0;
+        //    }
+        //});
+
+
+
 
     }
 

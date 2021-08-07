@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class L239_3 {
 
-    //构建单调栈
+    //构建单调队列
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
         // 1. 优先队列存放的是二元组(num,index) : 大顶堆（元素大小不同按元素大小排列，元素大小相同按下标进行排列）
