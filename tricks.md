@@ -63,6 +63,9 @@ Deque<Integer> deque = new LinnkedList<>();
 ```java
 //将heights中的值从0下标开始，复制到newHeights的1下标开始，复制的个数为len
 System.arraycopy(heights, 0, newHeights, 1, len);
+
+//将数组传入到list中
+ArrayList arrayList = new ArrayList(Arrays.asList(arr));
 ```
 
 
@@ -79,7 +82,7 @@ Arrays.fill(array,-1);
 for (int i = 0; i < nums.length-2; i++) {
     for (int j = i+1; j < nums.length-1; j++) {
         for (int k = j+1; k < nums.length; k++) {
-
+			
         }
     }
 }
@@ -108,9 +111,9 @@ Map.Entry<String,Integer> entry = new AbstractMap.SimpleEntry<String, Integer>("
 
 ### 4.1 数组和链表中
 
-```
+```java
 在数组处理中，存在一些暴力求解的方法，关键是使用好循环和判断，清楚该做什么
-在链表的习题中，需要细心，先画图，理清过程，头结点什么时候构建，head一般是第一个节点。以及考虑问题可以使用递归的方式进行求解。
+在链表的习题中，需要细心，先画图，理清过程，头结点什么时候构建，head一般是第一个节点，而并非是头结点。以及考虑问题可以使用递归的方式进行求解。
 ```
 
 ### 4.2 栈、队列、优先队列、双端队列

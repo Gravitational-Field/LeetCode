@@ -10,6 +10,18 @@
 
 ![image-20210717220220739](img/image-20210717220220739.png)
 
+- 思路
+
+> 1、暴力法
+>
+> 通过两重for循环，来获取最大的面积
+>
+> 2、左右双指针法
+>
+> 一次for循环，i向前推进，j从后向前；j--条件？height[i] > height[j] ；只要有i，j中的一方挪动，即可能找到更优的解。移动更小的一方。
+>
+> 或者使用while循环，left，right指针。
+>
 > 步骤中使用max和min函数的典范
 
 
@@ -539,6 +551,76 @@ class Solution21 {
 }
 ```
 
+#### [剑指 Offer II 021. 删除链表的倒数第 n 个结点](https://leetcode-cn.com/problems/SLwz0R/)
+
+题目：
+
+给定一个链表，删除链表的倒数第 `n` 个结点，并且返回链表的头结点。
+
+![image-20210807151623001](img/image-20210807151623001.png)
+
+思路：
+
+> 两轮循环：第一次计数，第二次找到被删除节点的前驱，进行删除
+>
+> 关键点：创建一个头结点，一般方法传入的head节点，是第一个节点，而不是真正的头节点，需要我们手动创建。
+
+```java
+public ListNode removeNthFromEnd(ListNode head, int n) {
+    if(head == null || n<=0) return head;
+    ListNode tmp = new ListNode();
+    // System.out.println("head.val:  "+head.val);
+    tmp.next = head;
+    int size = 0;
+    //算出有多少个节点
+    while(head != null) {
+        head = head.next;
+        size++;
+    }
+    // System.out.println("size:"+size);
+    //删除指定位置的节点
+    int preIndex = size-n;
+    head = tmp;
+    for(int i=0;i<preIndex;i++) {
+        head = head.next;
+    }
+    // System.out.println(head.val);
+
+    head.next = head.next.next;
+
+    return tmp.next;
+}
+
+
+public ListNode removeNthFromEnd(ListNode head, int n) {
+    if(head == null || n<=0) return head;
+
+    ListNode realHead = new ListNode();
+    realHead.next = head;
+
+    //计算其数量
+    int count = 0;
+    while (head != null) {
+        count++;
+        head=head.next;
+    }
+
+    int preIndex = count-n;
+    head = realHead;
+    while (preIndex != 0) { //只是这里有区别
+        preIndex--;
+        head = head.next;
+    }
+    head.next = head.next.next;
+
+    return realHead.next;
+}
+```
+
+
+
+
+
 
 
 ## 课后作业
@@ -799,6 +881,45 @@ public int[] plusOne(int[] digits) {
     digits = new int[digits.length+1];
     digits[0] = 1;
     return digits;
+}
+```
+
+
+
+#### [剑指 Offer II 022. 链表中环的入口节点](https://leetcode-cn.com/problems/c32eOV/)
+
+- 题目：判断链表中是否有环？有环则返回进入环的节点，没有环则返回null
+
+- 思路：
+
+> 第一步：先判断是否有环？使用快慢指针，快指针一次跳两步，慢指针一次跳一步；相遇，即代表有环。
+>
+> 第二步：如果无环，return null；
+>
+> 第三步：如果有环，两指针，都变为慢指针，一个继续走，一个从头走；相遇点即为环的入节点；
+
+- 代码：
+
+```java
+public ListNode detectCycle(ListNode head) {
+    if(head == null) return null;
+
+    ListNode fast=head,slow=head;
+    while(fast.next != null && fast.next.next!= null) {
+        fast = fast.next.next;
+        slow = slow.next;
+        if(fast == slow) break;
+    }
+    if(fast.next == null || fast.next.next == null) {
+        return null;
+    }
+    fast = head;
+    while (fast!=slow) {
+        fast = fast.next;
+        slow = slow.next;
+    }
+
+    return fast;
 }
 ```
 
@@ -1138,6 +1259,47 @@ public int largestRectangleArea2(int[] heights) {
 
 ![image-20210729093136116](img/image-20210729093136116.png)
 
+> 思路：
+>
+> 构造一个优先级队列，队列中的元素为二元组<num,index>，这个优先级队列中始终保持的是  num不同时，从大到小，num相同时，按index从小到大；
+>
+> 每次入队一个元素，并判断，当前对头的索引是否已经应该出队；出队则出，不出队则代表在滑动窗口中，则赋值。
+
+- 优先级队列（模拟堆进行）
+
+```java
+public int[] maxSlidingWindow(int[] nums, int k) {
+    int n = nums.length;
+    // 1. 优先队列存放的是二元组(num,index) : 大顶堆（元素大小不同按元素大小排列，元素大小相同按下标进行排列）
+    // num :   是为了比较元素大小
+    // index : 是为了判断窗口的大小是否超出范围
+    PriorityQueue<int[]> pq = new PriorityQueue<int[]>(new Comparator<int[]>(){
+        public int compare(int[] pair1,int[] pair2){
+            return pair1[0] != pair2[0] ? pair2[0] - pair1[0]:pair1[1] - pair2[1];  //大的在前边
+        }
+    });
+
+    // 2. 优选队列初始化 : k个元素的堆
+    for(int i = 0;i < k;i++){
+        pq.offer(new int[]{nums[i],i});
+    }
+
+    // 3. 处理堆逻辑
+    int[] res = new int[n - k + 1];         // 初始化结果数组长度 ：一共有 n - k + 1个窗口
+    res[0] = pq.peek()[0];                  // 初始化res[0] ： 拿出目前堆顶的元素
+    for(int i = k; i < n; i++){               // 向右移动滑动窗口
+        pq.offer(new int[]{nums[i],i});     // 加入大顶堆中
+        while(pq.peek()[1] <= i - k){       // 将下标不在滑动窗口中的元素都干掉
+            pq.poll();                      // 维护：堆的大小就是滑动窗口的大小
+        }
+        res[i - k + 1] = pq.peek()[0];      // 此时堆顶元素就是滑动窗口的最大值
+    }
+    return res;
+}
+```
+
+
+
 思路：
 
 构造一个单调递减队列，
@@ -1201,40 +1363,7 @@ public class L239_2 {
 }
 ```
 
-- 优先级队列（模拟堆进行）
-
-```java
-public int[] maxSlidingWindow(int[] nums, int k) {
-    int n = nums.length;
-    // 1. 优先队列存放的是二元组(num,index) : 大顶堆（元素大小不同按元素大小排列，元素大小相同按下标进行排列）
-    // num :   是为了比较元素大小
-    // index : 是为了判断窗口的大小是否超出范围
-    PriorityQueue<int[]> pq = new PriorityQueue<int[]>(new Comparator<int[]>(){
-        public int compare(int[] pair1,int[] pair2){
-            return pair1[0] != pair2[0] ? pair2[0] - pair1[0]:pair2[1] - pair1[1];
-        }
-    });
-
-    // 2. 优选队列初始化 : k个元素的堆
-    for(int i = 0;i < k;i++){
-        pq.offer(new int[]{nums[i],i});
-    }
-
-    // 3. 处理堆逻辑
-    int[] res = new int[n - k + 1];         // 初始化结果数组长度 ：一共有 n - k + 1个窗口
-    res[0] = pq.peek()[0];                  // 初始化res[0] ： 拿出目前堆顶的元素
-    for(int i = k; i < n; i++){               // 向右移动滑动窗口
-        pq.offer(new int[]{nums[i],i});     // 加入大顶堆中
-        while(pq.peek()[1] <= i - k){       // 将下标不在滑动窗口中的元素都干掉
-            pq.poll();                      // 维护：堆的大小就是滑动窗口的大小
-        }
-        res[i - k + 1] = pq.peek()[0];      // 此时堆顶元素就是滑动窗口的最大值
-    }
-    return res;
-}
-```
-
-
+- 
 
 ## 课后作业
 

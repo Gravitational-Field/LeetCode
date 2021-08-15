@@ -1,4 +1,4 @@
-package interview;
+package interview.pdd;
 
 import java.util.ArrayDeque;
 import java.util.LinkedList;

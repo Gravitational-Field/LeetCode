@@ -1,4 +1,4 @@
-package interview;
+package interview.duoyi;
 
 /**
  * @ClassName Duoyi

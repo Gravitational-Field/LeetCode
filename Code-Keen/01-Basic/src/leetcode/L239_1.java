@@ -30,6 +30,7 @@ public class L239_1 {
     }
 
     private int findMax(int[] nums, int q1, int k, int k_max) {
+        System.out.println("q1："+q1);
         int max = Integer.MIN_VALUE;
         if (q1>0 && q1+k<nums.length) {
             //满足要求
@@ -55,6 +56,5 @@ public class L239_1 {
         int[] nums = {1,3,-1,-3,5,3,6,7};
         int k = 3;
         System.out.println(Arrays.toString(new L239_1().maxSlidingWindow(nums, k)));
-
     }
 }
