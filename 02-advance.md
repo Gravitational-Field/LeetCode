@@ -1145,6 +1145,53 @@ private int recursion(String s1, String s2, int i, int j) {
 
 
 
+#### [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+
+题目：
+
+![image-20210819160842810](img/image-20210819160842810.png)
+
+思路：
+
+双指针方式，扩展中心法，以每个值为基，进行处理，保存最长的串。
+
+这里需要考虑奇、偶回文情况；然后选取最长的。
+
+
+
+```java
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s==null || s.length()==0||s.length()==1) {
+            return s;
+        }
+
+        char[] chars = s.toCharArray();
+        String res = "";
+        for (int i = 0; i < chars.length; i++) {
+            //以i为基的最长
+            String oddRes = getMaxLengthSubStr(s,i,i);
+            String evenRes = getMaxLengthSubStr(s,i,i+1);
+            //int len = Math.max(oddRes.length(), evenRes.length());
+            if(oddRes.length()>evenRes.length() && oddRes.length()>res.length()) {
+                res = oddRes;
+            } else if(oddRes.length()<=evenRes.length() && evenRes.length()>res.length()){
+                res = evenRes;
+            } 
+        }
+        return res;
+    }
+
+    private String getMaxLengthSubStr(String s, int l, int r) {
+        while(l>=0 && r<s.length()&& s.charAt(l) == s.charAt(r)) {
+            l--;
+            r++;
+        }
+        return s.substring(l+1, r);
+    }
+}
+```
+
 
 
 

@@ -13,5 +13,9 @@ public class Main {
             System.out.println(a + b);
         }
 
+        StringBuilder s = new StringBuilder("123");
+        //s.indexOf()
+
+
     }
 }

@@ -935,24 +935,30 @@ public ListNode detectCycle(ListNode head) {
 
 给定一个只包括 `'('`，`')'`，`'{'`，`'}'`，`'['`，`']'` 的字符串 `s` ，判断字符串是否有效。
 
+> 思路：先添加一个'!'标记在栈中，遍历字符，判断左括号入栈，出现右括号，则判断出栈的栈顶是否匹配，不匹配则为false，匹配则继续。
+
 ```java
-public static boolean isValid(String s) {
-    if (s.length()%2==1)    return false;
-
-    Stack<Character> stack = new Stack();
-    for (char c:s.toCharArray()) {
-        if (c == '(') {
-            stack.push(')');
-        } else if (c == '[') {
-            stack.push(']');
-        } else if (c == '{') {
-            stack.push('}');
-        } else if (stack.isEmpty() || c != stack.pop()) {
-            return false;
+class Solution {
+    public boolean isValid(String s) {
+        if(s.length()%2 == 1) return false;
+        
+        Deque<Character> deque =  new LinkedList<>();
+        deque.push('!'); //标记
+        for(Character c: s.toCharArray()) {
+            if(c == ')') {
+                if(deque.pop() != '(') return false;
+            } else if(c == ']') {
+                if(deque.pop() != '[') return false;
+            } else if(c == '}') {
+                if(deque.pop() != '{') return false;
+            }  else {
+                deque.push(c);
+            }
         }
+        deque.pop(); //弹出标记
+        
+        return deque.isEmpty();
     }
-
-    return stack.isEmpty();
 }
 ```
 
@@ -1137,7 +1143,7 @@ class MinStack {
 
 >以高为准，进行求解，暴力解法是依次遍历当前高，再左找、右找确定当前高所能获得的最大的宽，遍历下去即可获得最大的面积。  PS:但是容易超时。
 
-题解：[暴力解法、单调栈+哨兵技巧](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/solution/bao-li-jie-fa-zhan-by-liweiwei1419/)
+~~题解：[暴力解法、单调栈+哨兵技巧](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/solution/bao-li-jie-fa-zhan-by-liweiwei1419/)~~
 
 - 暴力解法超出了时间限制（遍历高）
 
@@ -1249,23 +1255,19 @@ public int largestRectangleArea2(int[] heights) {
 
 
 
-
-
-
-
 #### [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
 [「单调队列」数据结构解决滑动窗口问题  题解](https://mp.weixin.qq.com/s?__biz=MzAxODQxMDM0Mw==&mid=2247488087&idx=1&sn=673aa4e8deb942b951948650928c336e&chksm=9bd7ec5faca06549ba6176540fef04f93c1c9f55b303106688b894a2029e00b8cce1a9ba57a4&scene=21#wechat_redirect)
 
 ![image-20210729093136116](img/image-20210729093136116.png)
 
-> 思路：
+> 思路1：
 >
 > 构造一个优先级队列，队列中的元素为二元组<num,index>，这个优先级队列中始终保持的是  num不同时，从大到小，num相同时，按index从小到大；
 >
 > 每次入队一个元素，并判断，当前对头的索引是否已经应该出队；出队则出，不出队则代表在滑动窗口中，则赋值。
 
-- 优先级队列（模拟堆进行）
+- **优先级队列（模拟堆进行）**   推荐
 
 ```java
 public int[] maxSlidingWindow(int[] nums, int k) {
