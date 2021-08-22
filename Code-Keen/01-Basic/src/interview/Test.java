@@ -2,7 +2,7 @@ package interview;
 
 /**
  * @ClassName Test
- * @Description
+ * @Description 最大水面积
  */
 public class Test {
 
@@ -28,8 +28,6 @@ public class Test {
 
             }
         }
-
-
         return result;
     }
 
