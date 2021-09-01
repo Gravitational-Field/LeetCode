@@ -32,5 +32,10 @@ public class TestMap {
         map.forEach((key,value) -> {
             System.out.println(key+": "+value);
         });
+
+        Set<Map.Entry<String, String>> entries1 = map.entrySet();
+
+
+
     }
 }

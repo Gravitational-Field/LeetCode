@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * @ClassName L3
- * @Description
+ * @Description 无重复的最长子串
  */
 public class L3 {
 
@@ -15,8 +15,6 @@ public class L3 {
 
         int maxLength = 0;
         Set<Character> set = new HashSet<>();
-
-
 
         int rightIndex = 0;
         for (int i = 0; i < s.length(); i++) {

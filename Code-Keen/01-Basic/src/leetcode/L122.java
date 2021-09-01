@@ -10,7 +10,7 @@ package leetcode;
 public class L122 {
 
 
-    //最大利润：
+    //最大利润： 贪心思路
     public int maxProfit(int[] prices) {
         if (prices == null) return 0;
         int profit = 0;
