@@ -27,7 +27,9 @@ public class L860 {
             int curPrice = bills[i];
             int returnCount = 0;
 
+
             map.put(curPrice, map.get(curPrice)+1);
+            if(curPrice == 5) continue;
             if(curPrice == 10) {
                 if(map.get(5) == 0) {
                     return false;
@@ -49,7 +51,8 @@ public class L860 {
 
 
     public static void main(String[] args) {
-        int[] bills = {5,5,10,5,20,5,5,5,5,5,20,5,10,5,5,5,5,20,20,5};
+//        int[] bills = {5,5,10,5,20,5,5,5,5,5,20,5,10,5,5,5,5,20,20,5};
+        int[] bills = {5,5,5,10,20};
         System.out.println(new L860().lemonadeChange(bills));
 
     }

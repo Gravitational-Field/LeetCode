@@ -35,6 +35,8 @@ public class TestMap {
 
         Set<Map.Entry<String, String>> entries1 = map.entrySet();
 
+        Set<String> strings = map.keySet();
+
 
 
     }

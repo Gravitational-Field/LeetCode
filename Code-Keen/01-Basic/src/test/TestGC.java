@@ -22,9 +22,14 @@ public class TestGC {
         allocation3 = new byte[1000*1024];
         allocation4 = new byte[1000*1024];
         allocation5 = new byte[1000*1024];*/
-        byte[] allocation1, allocation2;
+        /*byte[] allocation1, allocation2;
         allocation1 = new byte[Integer.MIN_VALUE / 2];
-        allocation2 = new byte[900 * 1024];
+        allocation2 = new byte[900 * 1024];*/
         //Reference
+        ThreadLocal<Object> tl = new ThreadLocal<>();
+        tl.set("abc");
+        System.out.println(tl.get());
+        Thread.currentThread();
+
     }
 }

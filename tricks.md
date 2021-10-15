@@ -142,6 +142,53 @@ for(int i = 0; i<arr.length; i++) {
 
 
 
+### 4.3  Map操作
+
+```java
+//对map进行操作，并创建默认字符
+char ch = s.charAt(i);
+map.put(ch,map.getOrDefault(ch,0)+1);
+```
+
+
+
+### 4.4 数组转String
+
+```java
+//1. 第一种方式
+String str = Arrays.toString(arr);
+
+//2.第二种方式
+String str = String.valueOf(arr);
+```
+
+
+
+### 4.5 Collection的转换
+
+- Array 转List
+
+```java
+List<~> list = new ArrayList(arr.toList());
+```
+
+- List转Array
+
+```java
+int[] arr = list.toArray();
+```
+
+- Map转List
+
+```java
+List<~> list = new ArrayList(map.values);
+List<~> list = new ArrayList(map.keySet());
+```
+
+
+
+
+
 
 
 

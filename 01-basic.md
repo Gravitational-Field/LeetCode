@@ -248,7 +248,7 @@ class Solution4 {
         Arrays.sort(nums);
 
         //法1：暴力求解
-       HashSet<List<Integer>> hashSet = new HashSet<>();
+       /*HashSet<List<Integer>> hashSet = new HashSet<>();
         for (int i = 0; i < nums.length-2; i++) {
             for (int j = i+1; j < nums.length-1; j++) {
                 for (int k = j+1; k < nums.length; k++) {
@@ -264,14 +264,14 @@ class Solution4 {
         }
         for (List<Integer> list: hashSet) {
             lists.add(list);
-        }
+        }*/
         //法2：三指针
         for (int i = 0; i < nums.length; i++) {
             //判断首位，首位大于0，则没有满足的
             if (nums[i] > 0) {
                 break;
             }
-            //
+            //处理数组中重复的值
             if (i > 0 && nums[i] == nums[i-1]) {
                 continue;
             }
@@ -1831,18 +1831,18 @@ public int lengthOfLongestSubstring(String s) {
 
 ```java
 public int lengthOfLongestSubstring(String s) {
-        if (s.length()==0) return 0;
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-        int max = 0;
-        int left = 0;
-        for(int i = 0; i < s.length(); i ++){
-            if(map.containsKey(s.charAt(i))){
-                left = Math.max(left,map.get(s.charAt(i)) + 1);
-            }
-            map.put(s.charAt(i),i);
-            max = Math.max(max,i-left+1);
+    if (s.length()==0) return 0;
+    HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+    int max = 0;
+    int left = 0;
+    for(int i = 0; i < s.length(); i ++){
+        if(map.containsKey(s.charAt(i))){
+            left = Math.max(left,map.get(s.charAt(i)) + 1);
         }
-        return max;
+        map.put(s.charAt(i),i);
+        max = Math.max(max,i-left+1);
+    }
+    return max; 
 }
 ```
 
@@ -1967,7 +1967,7 @@ public List<Integer> preorderTraversal1(TreeNode root) {
 
 - 迭代方式
 
-> 特别注意 如果要是想输出上一层的，一定是通过栈pop出去的，但要防止重复入左或者入右，防止入左可以通过将root置0，防止入右可以通过记录先前已经访问过的右节点，来避免。
+> 特别注意 如果要是想输出上一层的，一定是通过栈pop出去的，但要防止重复入左或者入右，防止入左可以通过将root置null，防止入右可以通过记录先前已经访问过的右节点，来避免。
 
 ```java
 //迭代的方式： 左 右  根

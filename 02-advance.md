@@ -19,36 +19,38 @@
 ```java
 Map<Integer, Integer> map = new HashMap<>();
 
-    public boolean lemonadeChange(int[] bills) {
-        if(bills == null || bills.length == 0) {
-            return true;
-        }
-        map.put(5, 0);
-        map.put(10, 0);
-        map.put(20, 0);
+public boolean lemonadeChange(int[] bills) {
+    if(bills == null || bills.length == 0) {
+        return true;
+    }
+    map.put(5, 0);
+    map.put(10, 0);
+    map.put(20, 0);
 
-        //模拟付账
-        for (int i = 0; i < bills.length; i++) {
-            int curPrice = bills[i];
-            int returnCount = 0;
+    //模拟付账
+    for (int i = 0; i < bills.length; i++) {
+        int curPrice = bills[i];
+        int returnCount = 0;
 
-            map.put(curPrice, map.get(curPrice)+1);
-            if(curPrice == 10) {
-                if(map.get(5) == 0) {
-                    return false;
-                }
-                map.put(5, map.get(5)-1);
-            } else { //curPrice == 20
-                if(map.get(10) > 0 && map.get(5) > 0) { // 1.第一种能通过的情况
-                    map.put(10,map.get(10)-1);
-                    map.put(5,map.get(5)-1);
-                } else if(map.get(10) == 0 && map.get(5) >= 3) { //2. 第二种能通过的情况
-                    map.put(5,map.get(5)-3);
-                } else { // 通不过的情况
-                    return false;
-                }
+        map.put(curPrice, map.get(curPrice)+1);
+        if(curPrice == 5) continue;
+        if(curPrice == 10) {
+            if(map.get(5) == 0) {
+                return false;
+            }
+            map.put(5, map.get(5)-1);
+        } else { //curPrice == 20
+            if(map.get(10) > 0 && map.get(5) > 0) { // 1.第一种能通过的情况
+                map.put(10,map.get(10)-1);
+                map.put(5,map.get(5)-1);
+            } else if(map.get(10) == 0 && map.get(5) >= 3) { //2. 第二种能通过的情况
+                map.put(5,map.get(5)-3);
+            } else { // 通不过的情况
+                return false;
             }
         }
+    }
+    return true;
 }
 ```
 
@@ -64,15 +66,15 @@ Map<Integer, Integer> map = new HashMap<>();
 
 ```java
 //最大利润：
-    public int maxProfit(int[] prices) {
-        if (prices == null) return 0;
-        int profit = 0;
-        for (int i = 1; i < prices.length; i++) {
-            if(prices[i] > prices[i-1]) {
-                profit += prices[i] - prices[i-1];
-            }
+public int maxProfit(int[] prices) {
+    if (prices == null) return 0;
+    int profit = 0;
+    for (int i = 1; i < prices.length; i++) {
+        if(prices[i] > prices[i-1]) {
+            profit += prices[i] - prices[i-1];
         }
-        return profit;
+    }
+    return profit;
 }
 ```
 

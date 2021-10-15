@@ -1,7 +1,7 @@
 package test.thread;
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+/*import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;*/
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
